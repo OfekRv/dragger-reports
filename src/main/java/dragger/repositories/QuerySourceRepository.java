@@ -7,5 +7,4 @@ import dragger.entities.QuerySource;
 
 @Repository
 public interface QuerySourceRepository extends JpaRepository<QuerySource, Long> {
-
 }
