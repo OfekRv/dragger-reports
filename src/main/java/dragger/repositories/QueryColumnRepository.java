@@ -9,7 +9,7 @@ import dragger.entities.QueryColumn;
 
 @Repository
 public interface QueryColumnRepository extends JpaRepository<QueryColumn, Long> {
-	public Collection<QueryColumn> findQueryColumnsBySourceId(long sourceId);
+	public Collection<QueryColumn> findQueryColumnsBySourceSourceId(long sourceId);
 
-	public Collection<QueryColumn> findConnectionsById(long queryColumnId);
+	public Collection<QueryColumn> findConnectionsByColumnId(long queryColumnId);
 }

@@ -17,9 +17,9 @@ public class Operator {
 	 * 
 	 * QuerySource filmsSource = new QuerySource(1, "סרטים",
 	 * Arrays.asList(filmCodeColumn, filmKindColumn, filmTitleColumn), "films",
-	 * null, null); QuerySource actorsSource = new QuerySource(2, "שחקנים",
+	 * null, null); QuerySource actorsSource = new QuerySource(3, "שחקנים",
 	 * Arrays.asList(actorIdColumn, actorNameColumn), "actors", null, null);
-	 * QuerySource actorsInMoviesSource = new QuerySource(3, "שחקנים בסרטים",
+	 * QuerySource actorsInMoviesSource = new QuerySource(2, "שחקנים בסרטים",
 	 * Arrays.asList(filmColumn, actorColumn), "actors_in_films", null, null);
 	 * 
 	 * SourceConnection filmsToActorsInFilms = new SourceConnection(1,

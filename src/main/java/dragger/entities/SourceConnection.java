@@ -10,14 +10,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "drg_connections")
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class SourceConnection {
@@ -25,7 +32,7 @@ public class SourceConnection {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	@ManyToMany
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> edges;
 
 	/*

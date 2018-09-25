@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.StringJoiner;
 import java.util.function.Function;
 
+import javax.inject.Named;
+
 import dragger.entities.Query;
 import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
 import dragger.entities.SourceConnection;
 
+@Named
 public class RationalQueryGenerator implements QueryGenerator {
 	private static final String EQUALS = "=";
 	private static final String AND = " AND ";
