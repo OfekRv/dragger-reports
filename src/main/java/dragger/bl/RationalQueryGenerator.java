@@ -34,7 +34,6 @@ public class RationalQueryGenerator implements QueryGenerator {
 			rawQuery.add(generateRawClause(WHERE, AND, query.getConnections(), this::rawConnection));
 		}
 
-		
 		return rawQuery.toString();
 	}
 
