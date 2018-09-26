@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +30,6 @@ public class Report {
 	@Column(nullable = false, unique = true)
 	private String name;
 	@Column(nullable = false)
+	@JsonIgnore
 	private Query query;
 }

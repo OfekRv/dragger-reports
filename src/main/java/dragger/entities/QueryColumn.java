@@ -40,7 +40,7 @@ public class QueryColumn {
 	private String raw;
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")
-	@JsonBackReference("source")
+	@JsonBackReference("columns")
 	private QuerySource source;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
