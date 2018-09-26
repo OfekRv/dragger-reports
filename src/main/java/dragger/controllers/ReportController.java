@@ -24,14 +24,14 @@ public class ReportController {
 	@Autowired
 	private QueryGenerator generator;
 
-	@PostMapping("/dragger/executeReport")
+	@PostMapping("/reports/executeReport")
 	// TODO: for now its just returns the query, later it will produce a report
 	// and download
 	public String executeReport(@RequestBody Report report) {
 		return generator.generate(report.getQuery());
 	}
 
-	@GetMapping("/dragger/executeReport")
+	@GetMapping("/reports/executeReport")
 	// TODO: for now its just returns the query, later it will produce a report
 	// and download
 	public String executeReport(@RequestParam long reportId) throws Exception {
@@ -44,7 +44,7 @@ public class ReportController {
 		throw new Exception("");
 	}
 
-	@GetMapping("/reports")
+	@GetMapping("/reports/getReports")
 	public Collection<Report> getReports() {
 		return reportRepository.findAll();
 	}

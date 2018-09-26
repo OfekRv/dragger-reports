@@ -29,7 +29,10 @@ public class RationalQueryGenerator implements QueryGenerator {
 
 		rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
 		rawQuery.add(generateRawClause(FROM, SEPERATOR, query.getSources(), this::rawAndNamedSource));
-		rawQuery.add(generateRawClause(WHERE, AND, query.getConnections(), this::rawConnection));
+
+		if (!query.getConnections().isEmpty()) {
+			rawQuery.add(generateRawClause(WHERE, AND, query.getConnections(), this::rawConnection));
+		}
 
 		return rawQuery.toString();
 	}
@@ -42,7 +45,8 @@ public class RationalQueryGenerator implements QueryGenerator {
 	}
 
 	private String rawAndNamedColumn(QueryColumn col) {
-		return col.getRaw() + AS + QUOT_MARKS + col.getName() + QUOT_MARKS;
+		return QUOT_MARKS + col.getSource().getName() + QUOT_MARKS + DOT + col.getRaw() + AS + QUOT_MARKS
+				+ col.getName() + QUOT_MARKS;
 	}
 
 	private String rawAndNamedSource(QuerySource source) {
