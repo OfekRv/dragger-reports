@@ -41,7 +41,7 @@ public class ReportController {
 			return generator.generate(requestedReport.get().getQuery());
 		}
 
-		throw new Exception();
+		throw new Exception("");
 	}
 
 	@GetMapping("/reports")
