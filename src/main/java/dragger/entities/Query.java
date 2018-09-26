@@ -19,10 +19,10 @@ import lombok.Setter;
 @Setter
 public class Query {
 	@ManyToMany
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> columns;
 	@ManyToMany
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "sourceId")
 	private Collection<QuerySource> sources;
 	@ManyToMany
 	@JoinColumn(name = "id")
