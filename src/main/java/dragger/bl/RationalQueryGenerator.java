@@ -58,12 +58,5 @@ public class RationalQueryGenerator implements QueryGenerator {
 				+ connection.getFirstEdge().getRaw() + EQUALS + QUOT_MARKS
 				+ connection.getSecondEdge().getSource().getName() + QUOT_MARKS + DOT
 				+ connection.getSecondEdge().getRaw();
-
-		/*
-		 * return QUOT_MARKS + connection.getFirstEdgeSource().getName() +
-		 * QUOT_MARKS + DOT + connection.getFirstEdge().getRaw() + EQUALS +
-		 * QUOT_MARKS + connection.getSecondEdgeSource().getName() + QUOT_MARKS
-		 * + DOT + connection.getSecondEdge().getRaw();
-		 */
 	}
 }
