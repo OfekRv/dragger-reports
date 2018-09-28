@@ -1,12 +1,10 @@
 package dragger.bl;
 
-import java.util.Collection;
-import java.util.Map;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 @Named
 public class RationalQueryExecuter implements QueryExecutor {
@@ -14,7 +12,7 @@ public class RationalQueryExecuter implements QueryExecutor {
 	JdbcTemplate executer;
 
 	@Override
-	public Collection<Map<String, Object>> executeQuery(String query) {
-		return executer.queryForList(query);
+	public SqlRowSet executeQuery(String query) {
+		return executer.queryForRowSet(query);
 	}
 }

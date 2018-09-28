@@ -1,8 +1,7 @@
 package dragger.bl;
 
-import java.util.Collection;
-import java.util.Map;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public interface QueryExecutor {
-	public Collection<Map<String, Object>> executeQuery(String query);
+	public SqlRowSet executeQuery(String query);
 }
