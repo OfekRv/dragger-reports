@@ -1,6 +1,7 @@
 package dragger.entities;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,17 +31,16 @@ public class SourceConnection {
 	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> edges;
 
-	/*
-	 * private QuerySource firstEdgeSource; private QuerySource
-	 * secondEdgeSource;
-	 */
+	// TODO: delete it and wirk on rationalquerygenerator
 	public QueryColumn getFirstEdge() {
-		// TODO Auto-generated method stub
-		return null;
+		return edges.stream().findFirst().get();
 	}
 
+	// TODO: delete it and wirk on rationalquerygenerator
 	public QueryColumn getSecondEdge() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterator<QueryColumn> i = edges.iterator();
+		i.next();
+		return i.next();
+
 	}
 }
