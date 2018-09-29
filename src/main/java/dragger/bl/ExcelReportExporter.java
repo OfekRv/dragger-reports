@@ -27,7 +27,8 @@ import dragger.entities.Report;
 @Named
 public class ExcelReportExporter implements ReportExporter {
 	private static final String SUFFIX = ".xls";
-	private static final int HEADER_ROW = 1;
+	private static final int TITLE_ROW = 0;
+	private static final int HEADER_ROW = 2;
 	private static final int RESULTS_FIRST_ROW = HEADER_ROW + 1;
 	private static final int FIRST_COLUMN_INDEX = 0;
 
@@ -38,19 +39,31 @@ public class ExcelReportExporter implements ReportExporter {
 
 	@Override
 	public File export(Report reportToExport) throws IOException {
-		String reportName = reportToExport.getName() + LocalDate.now() + SUFFIX;
+		String reportName = generateReportName(reportToExport);
 		SqlRowSet results = executor.executeQuery(generator.generate(reportToExport.getQuery()));
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
 
 		try (Workbook workbook = new HSSFWorkbook();) {
 			Sheet sheet = workbook.createSheet(reportName);
+			createTitle(reportToExport, workbook, sheet);
 			createHeaderRowFromMetadata(resultsMetaData, workbook, sheet);
 			int excelRowIndex = createDataTableFromResultset(results, resultsMetaData, workbook, sheet);
 			setTableAutoFilter(resultsMetaData, sheet, excelRowIndex);
 			saveExcelFile(reportName, workbook);
+			autoSizeColumns(resultsMetaData, sheet);
 		}
 
 		return new File(reportName);
+	}
+
+	private String generateReportName(Report reportToExport) {
+		return reportToExport.getName() + LocalDate.now() + SUFFIX;
+	}
+
+	private void autoSizeColumns(SqlRowSetMetaData resultsMetaData, Sheet sheet) {
+		for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
+			sheet.autoSizeColumn(i);
+		}
 	}
 
 	private void saveExcelFile(String reportName, Workbook workbook) throws IOException, FileNotFoundException {
@@ -90,10 +103,20 @@ public class ExcelReportExporter implements ReportExporter {
 		}
 	}
 
+	private void createTitle(Report report, Workbook workbook, Sheet sheet) {
+		Row titleRow = sheet.createRow(TITLE_ROW);
+		CellStyle headerStyle = createTitleCellStyle(workbook);
+		CreateCell(report.getName(), headerStyle, titleRow, TITLE_ROW);
+	}
+
 	private void CreateCell(String data, CellStyle DataStyle, Row row, int cellIndex) {
 		Cell cell = row.createCell(cellIndex);
 		cell.setCellValue(data);
 		cell.setCellStyle(DataStyle);
+	}
+
+	private CellStyle createTitleCellStyle(Workbook workbook) {
+		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.WHITE.getIndex(), FillPatternType.NO_FILL);
 	}
 
 	private CellStyle createHeaderCellStyle(Workbook workbook) {
