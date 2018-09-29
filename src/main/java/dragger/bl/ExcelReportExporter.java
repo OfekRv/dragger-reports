@@ -28,7 +28,7 @@ import dragger.entities.Report;
 public class ExcelReportExporter implements ReportExporter {
 	private static final String SUFFIX = ".xls";
 	private static final int TITLE_ROW = 0;
-	private static final int HEADER_ROW = 2;
+	private static final int HEADER_ROW = 3;
 	private static final int RESULTS_FIRST_ROW = HEADER_ROW + 1;
 	private static final int FIRST_COLUMN_INDEX = 0;
 
@@ -105,8 +105,9 @@ public class ExcelReportExporter implements ReportExporter {
 
 	private void createTitle(Report report, Workbook workbook, Sheet sheet) {
 		Row titleRow = sheet.createRow(TITLE_ROW);
-		CellStyle headerStyle = createTitleCellStyle(workbook);
-		CreateCell(report.getName(), headerStyle, titleRow, TITLE_ROW);
+		CellStyle titleStyle = createTitleCellStyle(workbook);
+		CreateCell(report.getName(), titleStyle, titleRow, FIRST_COLUMN_INDEX);
+		CreateCell(LocalDate.now().toString(), titleStyle, sheet.createRow(TITLE_ROW + 1), FIRST_COLUMN_INDEX);
 	}
 
 	private void CreateCell(String data, CellStyle DataStyle, Row row, int cellIndex) {
