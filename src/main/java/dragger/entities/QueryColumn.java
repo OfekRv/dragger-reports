@@ -34,14 +34,18 @@ public class QueryColumn {
 	@SequenceGenerator(name = "column_seq", sequenceName = "column_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "column_seq")
 	private long columnId;
+	
 	@Column(nullable = false)
 	private String name;
+	
 	@Column(nullable = false)
 	private String raw;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")
 	@JsonBackReference("columns")
 	private QuerySource source;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Collection<SourceConnection> connections;
 }

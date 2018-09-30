@@ -37,13 +37,6 @@ public class RationalQueryGenerator implements QueryGenerator {
 		return rawQuery.toString();
 	}
 
-	private <T> String generateRawClause(String clauseTypeRaw, String delimiter, Collection<T> clauseItems,
-			Function<T, String> generateFunc) {
-		StringJoiner raw = new StringJoiner(delimiter);
-		clauseItems.stream().forEach(item -> raw.add(generateFunc.apply(item)));
-		return clauseTypeRaw + raw.toString();
-	}
-
 	private String rawAndNamedColumn(QueryColumn col) {
 		return QUOT_MARKS + col.getSource().getName() + QUOT_MARKS + DOT + col.getRaw() + AS + QUOT_MARKS
 				+ col.getName() + QUOT_MARKS;
@@ -54,9 +47,19 @@ public class RationalQueryGenerator implements QueryGenerator {
 	}
 
 	private String rawConnection(SourceConnection connection) {
-		return QUOT_MARKS + connection.getFirstEdge().getSource().getName() + QUOT_MARKS + DOT
-				+ connection.getFirstEdge().getRaw() + EQUALS + QUOT_MARKS
-				+ connection.getSecondEdge().getSource().getName() + QUOT_MARKS + DOT
-				+ connection.getSecondEdge().getRaw();
+		StringJoiner raw = new StringJoiner(EQUALS);
+		connection.getEdges().stream().forEach(edge -> rawAndNamedEdge(edge, raw));
+		return raw.toString();
+	}
+
+	private StringJoiner rawAndNamedEdge(QueryColumn edge, StringJoiner raw) {
+		return raw.add(QUOT_MARKS + edge.getSource().getName() + QUOT_MARKS + DOT + edge.getRaw());
+	}
+
+	private <T> String generateRawClause(String clauseTypeRaw, String delimiter, Collection<T> clauseItems,
+			Function<T, String> generateFunc) {
+		StringJoiner raw = new StringJoiner(delimiter);
+		clauseItems.stream().forEach(item -> raw.add(generateFunc.apply(item)));
+		return clauseTypeRaw + raw.toString();
 	}
 }

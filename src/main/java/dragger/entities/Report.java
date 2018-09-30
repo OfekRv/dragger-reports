@@ -27,8 +27,10 @@ public class Report {
 	@SequenceGenerator(name = "report_seq", sequenceName = "report_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "report_seq")
 	private long id;
+	
 	@Column(nullable = false, unique = true)
 	private String name;
+	
 	@Column(nullable = false)
 	@JsonIgnore
 	private Query query;

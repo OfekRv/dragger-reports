@@ -21,9 +21,11 @@ public class Query {
 	@ManyToMany
 	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> columns;
+	
 	@ManyToMany
 	@JoinColumn(name = "sourceId")
 	private Collection<QuerySource> sources;
+	
 	@ManyToMany
 	@JoinColumn(name = "id")
 	private Collection<SourceConnection> connections;

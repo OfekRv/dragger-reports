@@ -32,11 +32,14 @@ public class QuerySource {
 	@SequenceGenerator(name = "source_seq", sequenceName = "source_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "source_seq")
 	private long sourceId;
+	
 	@Column(nullable = false, unique = true)
 	private String name;
+	
 	@OneToMany(fetch = FetchType.LAZY)
 	@JsonManagedReference("columns")
 	private Collection<QueryColumn> columns;
+	
 	@Column(nullable = false)
 	private String fromClauseRaw;
 }
