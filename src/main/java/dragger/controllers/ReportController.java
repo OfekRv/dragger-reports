@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import dragger.bl.QueryGenerator;
-import dragger.bl.ReportExporter;
+import dragger.bl.exporter.ReportExporter;
+import dragger.bl.generator.QueryGenerator;
 import dragger.entities.Report;
+import dragger.exceptions.DraggerException;
 import dragger.repositories.ReportRepository;
 
 @RestController
@@ -43,18 +44,17 @@ public class ReportController {
 			return generator.generate(requestedReport.get().getQuery());
 		}
 
-		throw new Exception("");
+		throw new DraggerException("Report id:" + reportId + " not found");
 	}
 
 	@GetMapping("/reports/generateReport")
-	// TODO: for now its just returns the query, later it will produce a report
-	// and download
 	public ResponseEntity<Resource> generateReport(@RequestParam long reportId) throws Exception {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 
 		if (!requestedReport.isPresent()) {
-			throw new Exception("");
+			throw new DraggerException("Report id:" + reportId + " not found");
 		}
+		
 		File reportFile = exporter.export(requestedReport.get());
 		InputStreamResource resource = new InputStreamResource(new FileInputStream(reportFile));
 

@@ -1,4 +1,4 @@
-package dragger.bl;
+package dragger.bl.executor;
 
 import javax.inject.Inject;
 import javax.inject.Named;

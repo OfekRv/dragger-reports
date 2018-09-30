@@ -1,4 +1,4 @@
-package dragger.bl;
+package dragger.bl.generator;
 
 import dragger.entities.Query;
 

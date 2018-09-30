@@ -1,4 +1,4 @@
-package dragger.bl;
+package dragger.bl.generator;
 
 import java.util.Collection;
 import java.util.StringJoiner;

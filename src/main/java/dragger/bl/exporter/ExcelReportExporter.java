@@ -1,4 +1,4 @@
-package dragger.bl;
+package dragger.bl.exporter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +22,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 
+import dragger.bl.executor.QueryExecutor;
+import dragger.bl.generator.QueryGenerator;
 import dragger.entities.Report;
+import dragger.exceptions.DraggerExportException;
 
 @Named
 public class ExcelReportExporter implements ReportExporter {
@@ -40,7 +43,7 @@ public class ExcelReportExporter implements ReportExporter {
 	QueryExecutor executor;
 
 	@Override
-	public File export(Report reportToExport) throws IOException {
+	public File export(Report reportToExport) throws DraggerExportException {
 		String reportName = generateReportName(reportToExport);
 		SqlRowSet results = executor.executeQuery(generator.generate(reportToExport.getQuery()));
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
@@ -54,6 +57,8 @@ public class ExcelReportExporter implements ReportExporter {
 			saveExcelFile(reportName, workbook);
 			autoSizeColumns(resultsMetaData, sheet);
 
+		} catch (IOException e) {
+			throw new DraggerExportException("Could not create export file", e);
 		}
 
 		return new File(reportName);

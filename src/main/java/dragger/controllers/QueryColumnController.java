@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.entities.QueryColumn;
+import dragger.entities.SourceConnection;
 import dragger.repositories.QueryColumnRepository;
+import dragger.repositories.SourceConnectionReposiroty;
 
 @RestController
 public class QueryColumnController {
 	@Autowired
 	QueryColumnRepository columnRepository;
+
+	@Autowired
+	SourceConnectionReposiroty connectionsRepository;
 
 	@GetMapping("/columns/getColumns")
 	public Collection<QueryColumn> getColumns() {
@@ -31,6 +36,11 @@ public class QueryColumnController {
 	@GetMapping("/columns/{queryColumnId}/getConnections")
 	public Collection<QueryColumn> getColumnConnections(@PathVariable long queryColumnId) {
 		return columnRepository.findConnectionsByColumnId(queryColumnId);
+	}
+
+	@GetMapping("/columns/createConnection")
+	public SourceConnection createConnection(@RequestBody SourceConnection connection) {
+		return connectionsRepository.save(connection);
 	}
 
 	@PostMapping("/columns/createColumn")
