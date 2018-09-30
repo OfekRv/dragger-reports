@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,6 +18,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 
@@ -28,7 +28,7 @@ import dragger.entities.Report;
 public class ExcelReportExporter implements ReportExporter {
 	private static final char UNDER_LINE = '_';
 	private static final char SPACE = ' ';
-	private static final String SUFFIX = ".xls";
+	private static final String SUFFIX = ".xlsx";
 	private static final int TITLE_ROW = 0;
 	private static final int HEADER_ROW = 3;
 	private static final int RESULTS_FIRST_ROW = HEADER_ROW + 1;
@@ -45,7 +45,7 @@ public class ExcelReportExporter implements ReportExporter {
 		SqlRowSet results = executor.executeQuery(generator.generate(reportToExport.getQuery()));
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
 
-		try (Workbook workbook = new HSSFWorkbook();) {
+		try (Workbook workbook = new XSSFWorkbook();) {
 			Sheet sheet = workbook.createSheet(reportName);
 			createTitle(reportToExport, workbook, sheet);
 			createHeaderRowFromMetadata(resultsMetaData, workbook, sheet);
@@ -53,6 +53,7 @@ public class ExcelReportExporter implements ReportExporter {
 			setTableAutoFilter(resultsMetaData, sheet, excelRowIndex);
 			saveExcelFile(reportName, workbook);
 			autoSizeColumns(resultsMetaData, sheet);
+
 		}
 
 		return new File(reportName);
