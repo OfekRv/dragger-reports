@@ -43,6 +43,5 @@ public class QueryColumn {
 	@JsonBackReference("columns")
 	private QuerySource source;
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
 	private Collection<SourceConnection> connections;
 }
