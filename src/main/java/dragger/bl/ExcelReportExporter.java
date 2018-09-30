@@ -26,6 +26,8 @@ import dragger.entities.Report;
 
 @Named
 public class ExcelReportExporter implements ReportExporter {
+	private static final char UNDER_LINE = '_';
+	private static final char SPACE = ' ';
 	private static final String SUFFIX = ".xls";
 	private static final int TITLE_ROW = 0;
 	private static final int HEADER_ROW = 3;
@@ -57,7 +59,7 @@ public class ExcelReportExporter implements ReportExporter {
 	}
 
 	private String generateReportName(Report reportToExport) {
-		return reportToExport.getName() + LocalDate.now() + SUFFIX;
+		return reportToExport.getName().replace(SPACE, UNDER_LINE) + UNDER_LINE + LocalDate.now() + SUFFIX;
 	}
 
 	private void autoSizeColumns(SqlRowSetMetaData resultsMetaData, Sheet sheet) {
