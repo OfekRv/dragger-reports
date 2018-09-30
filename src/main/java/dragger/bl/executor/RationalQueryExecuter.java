@@ -16,15 +16,16 @@ public class RationalQueryExecuter implements QueryExecutor {
 	JdbcTemplate executer;
 
 	public RationalQueryExecuter() throws DraggerExportException {
+	
+	}
+
+	@Override
+	public SqlRowSet executeQuery(String query) throws DraggerExportException {
 		try {
 			executer.getDataSource().getConnection().setReadOnly(true);
 		} catch (SQLException e) {
 			throw new DraggerExportException("Could not set connection to read only", e);
 		}
-	}
-
-	@Override
-	public SqlRowSet executeQuery(String query) {
 		return executer.queryForRowSet(query);
 	}
 }
