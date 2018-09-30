@@ -35,7 +35,6 @@ public class QuerySource {
 	@Column(nullable = false, unique = true)
 	private String name;
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "columnId")
 	@JsonManagedReference("columns")
 	private Collection<QueryColumn> columns;
 	@Column(nullable = false)
