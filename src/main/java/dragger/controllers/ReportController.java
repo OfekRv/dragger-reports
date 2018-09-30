@@ -2,6 +2,7 @@ package dragger.controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -21,11 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import dragger.bl.exporter.ReportExporter;
 import dragger.bl.generator.QueryGenerator;
 import dragger.entities.Report;
+import dragger.exceptions.DraggerControllerException;
+import dragger.exceptions.DraggerControllerReportNotFoundException;
 import dragger.exceptions.DraggerException;
 import dragger.repositories.ReportRepository;
 
 @RestController
 public class ReportController {
+	private static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
+
 	@Autowired
 	private ReportRepository reportRepository;
 
@@ -48,19 +53,19 @@ public class ReportController {
 	}
 
 	@GetMapping("/reports/generateReport")
-	public ResponseEntity<Resource> generateReport(@RequestParam long reportId) throws Exception {
+	public ResponseEntity<Resource> generateReport(@RequestParam long reportId) throws DraggerException {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 
 		if (!requestedReport.isPresent()) {
-			throw new DraggerException("Report id:" + reportId + " not found");
+			throw new DraggerControllerReportNotFoundException("Report id:" + reportId + " not found");
 		}
-		
+
 		File reportFile = exporter.export(requestedReport.get());
-		InputStreamResource resource = new InputStreamResource(new FileInputStream(reportFile));
+		InputStreamResource resource = createFileResource(reportFile);
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + reportFile.getName() + "\"")
-				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType("application/octet-stream"))
+				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
 				.body(resource);
 	}
 
@@ -82,5 +87,15 @@ public class ReportController {
 	@DeleteMapping("/reports/deleteReport")
 	public void deleteReport(@RequestParam Report report) {
 		reportRepository.delete(report);
+	}
+
+	private InputStreamResource createFileResource(File reportFile) throws DraggerControllerException {
+		InputStreamResource resource;
+		try {
+			resource = new InputStreamResource(new FileInputStream(reportFile));
+		} catch (IOException e) {
+			throw new DraggerControllerException("Could not create file resource", e);
+		}
+		return resource;
 	}
 }
