@@ -48,7 +48,7 @@ public class QueryColumnController {
 		return columnRepository.save(column);
 	}
 
-	@DeleteMapping("/columns/deleteReport")
+	@DeleteMapping("/columns/deleteColumn")
 	public void deleteColumn(@RequestBody QueryColumn column) {
 		columnRepository.delete(column);
 	}

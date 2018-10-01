@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -80,12 +81,12 @@ public class ReportController {
 	}
 
 	@PostMapping("/reports/createReport")
-	public Report createReport(@RequestParam Report report) {
+	public Report createReport(@RequestBody Report report) {
 		return reportRepository.save(report);
 	}
 
 	@DeleteMapping("/reports/deleteReport")
-	public void deleteReport(@RequestParam Report report) {
+	public void deleteReport(@RequestBody Report report) {
 		reportRepository.delete(report);
 	}
 
