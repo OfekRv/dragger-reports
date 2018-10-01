@@ -54,8 +54,8 @@ public class ExcelReportExporter implements ReportExporter {
 			createHeaderRowFromMetadata(resultsMetaData, workbook, sheet);
 			int excelRowIndex = createDataTableFromResultset(results, resultsMetaData, workbook, sheet);
 			setTableAutoFilter(resultsMetaData, sheet, excelRowIndex);
-			saveExcelFile(reportName, workbook);
 			autoSizeColumns(resultsMetaData, sheet);
+			saveExcelFile(reportName, workbook);
 
 		} catch (IOException e) {
 			throw new DraggerExportException("Could not create export file", e);
@@ -102,6 +102,13 @@ public class ExcelReportExporter implements ReportExporter {
 		return excelRowIndex;
 	}
 
+	private void createTitle(Report report, Workbook workbook, Sheet sheet) {
+		Row titleRow = sheet.createRow(TITLE_ROW);
+		CellStyle titleStyle = createTitleCellStyle(workbook);
+		CreateCell(report.getName(), titleStyle, titleRow, FIRST_COLUMN_INDEX);
+		CreateCell(LocalDate.now().toString(), titleStyle, sheet.createRow(TITLE_ROW + 1), FIRST_COLUMN_INDEX);
+	}
+
 	private void createHeaderRowFromMetadata(SqlRowSetMetaData resultsMetaData, Workbook workbook, Sheet sheet) {
 		Row headerRow = sheet.createRow(HEADER_ROW);
 		CellStyle headerStyle = createHeaderCellStyle(workbook);
@@ -109,13 +116,6 @@ public class ExcelReportExporter implements ReportExporter {
 		for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
 			CreateCell(resultsMetaData.getColumnNames()[i], headerStyle, headerRow, i);
 		}
-	}
-
-	private void createTitle(Report report, Workbook workbook, Sheet sheet) {
-		Row titleRow = sheet.createRow(TITLE_ROW);
-		CellStyle titleStyle = createTitleCellStyle(workbook);
-		CreateCell(report.getName(), titleStyle, titleRow, FIRST_COLUMN_INDEX);
-		CreateCell(LocalDate.now().toString(), titleStyle, sheet.createRow(TITLE_ROW + 1), FIRST_COLUMN_INDEX);
 	}
 
 	private void CreateCell(String data, CellStyle DataStyle, Row row, int cellIndex) {
