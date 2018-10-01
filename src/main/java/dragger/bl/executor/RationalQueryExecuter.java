@@ -15,10 +15,6 @@ public class RationalQueryExecuter implements QueryExecutor {
 	@Inject
 	JdbcTemplate executer;
 
-	public RationalQueryExecuter() throws DraggerExportException {
-	
-	}
-
 	@Override
 	public SqlRowSet executeQuery(String query) throws DraggerExportException {
 		try {
