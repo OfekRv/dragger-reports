@@ -18,10 +18,10 @@ import dragger.repositories.SourceConnectionReposiroty;
 @RestController
 public class QueryColumnController {
 	@Autowired
-	QueryColumnRepository columnRepository;
+	private QueryColumnRepository columnRepository;
 
 	@Autowired
-	SourceConnectionReposiroty connectionsRepository;
+	private SourceConnectionReposiroty connectionsRepository;
 
 	@GetMapping("/columns/getColumns")
 	public Collection<QueryColumn> getColumns() {

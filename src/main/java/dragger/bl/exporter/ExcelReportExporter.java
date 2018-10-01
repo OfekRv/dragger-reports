@@ -38,9 +38,9 @@ public class ExcelReportExporter implements ReportExporter {
 	private static final int FIRST_COLUMN_INDEX = 0;
 
 	@Inject
-	QueryGenerator generator;
+	private QueryGenerator generator;
 	@Inject
-	QueryExecutor executor;
+	private QueryExecutor executor;
 
 	@Override
 	public File export(Report reportToExport) throws DraggerExportException {

@@ -16,7 +16,7 @@ import dragger.repositories.QuerySourceRepository;
 @RestController
 public class QuerySourceController {
 	@Autowired
-	QuerySourceRepository sourcesRepository;
+	private QuerySourceRepository sourcesRepository;
 
 	@GetMapping("/sources/getSources")
 	public Collection<QuerySource> getSources() {

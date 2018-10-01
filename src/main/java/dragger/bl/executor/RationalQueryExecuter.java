@@ -13,7 +13,7 @@ import dragger.exceptions.DraggerExportException;
 @Named
 public class RationalQueryExecuter implements QueryExecutor {
 	@Inject
-	JdbcTemplate executer;
+	private JdbcTemplate executer;
 
 	@Override
 	public SqlRowSet executeQuery(String query) throws DraggerExportException {
