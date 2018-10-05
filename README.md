@@ -1,3 +1,5 @@
+<img src="https://ci.appveyor.com/api/projects/status/github/OfekRv/DraggerReports?branch=master&svg=true">
+
 # Dragger Reports
 Drag n' Drop reports application for rational Dbs
 
