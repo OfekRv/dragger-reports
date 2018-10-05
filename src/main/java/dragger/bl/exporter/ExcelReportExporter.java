@@ -80,8 +80,8 @@ public class ExcelReportExporter implements ReportExporter {
 		}
 	}
 
-	private void setTableAutoFilter(SqlRowSetMetaData resultsMetaData, Sheet sheet, int excelRowIndex) {
-		sheet.setAutoFilter(new CellRangeAddress(HEADER_ROW, excelRowIndex, FIRST_COLUMN_INDEX,
+	private void setTableAutoFilter(SqlRowSetMetaData resultsMetaData, Sheet sheet, int lastDataRowIndex) {
+		sheet.setAutoFilter(new CellRangeAddress(HEADER_ROW, lastDataRowIndex, FIRST_COLUMN_INDEX,
 				resultsMetaData.getColumnCount() - 1));
 	}
 

@@ -32,6 +32,6 @@ public class Report {
 	private String name;
 
 	@Column(nullable = false)
-	@JsonIgnore
+	//@JsonIgnore
 	private Query query;
 }
