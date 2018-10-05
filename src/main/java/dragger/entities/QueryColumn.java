@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +41,7 @@ public class QueryColumn {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")
-	//@JsonBackReference("columns")
+
 	private QuerySource source;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

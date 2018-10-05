@@ -7,5 +7,4 @@ import dragger.entities.SourceConnection;
 
 @Repository
 public interface SourceConnectionReposiroty extends JpaRepository<SourceConnection, Long> {
-
 }
