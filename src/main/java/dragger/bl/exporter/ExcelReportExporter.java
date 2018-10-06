@@ -4,10 +4,9 @@ import static dragger.utils.ExcelFileUtil.CreateCell;
 import static dragger.utils.ExcelFileUtil.createDataCellStyle;
 import static dragger.utils.ExcelFileUtil.createHeaderCellStyle;
 import static dragger.utils.ExcelFileUtil.createTitleCellStyle;
+import static dragger.utils.ExcelFileUtil.saveExcelFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -72,12 +71,6 @@ public class ExcelReportExporter implements ReportExporter {
 	private void autoSizeColumns(SqlRowSetMetaData resultsMetaData, Sheet sheet) {
 		for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
 			sheet.autoSizeColumn(i);
-		}
-	}
-
-	private void saveExcelFile(String reportName, Workbook workbook) throws IOException, FileNotFoundException {
-		try (FileOutputStream fileOut = new FileOutputStream(reportName);) {
-			workbook.write(fileOut);
 		}
 	}
 

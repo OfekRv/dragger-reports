@@ -1,5 +1,9 @@
 package dragger.utils;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -9,6 +13,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelFileUtil {
+	public static void saveExcelFile(String fileName, Workbook workbook) throws IOException, FileNotFoundException {
+		try (FileOutputStream fileOut = new FileOutputStream(fileName);) {
+			workbook.write(fileOut);
+		}
+	}
+
 	public static void CreateCell(String data, CellStyle DataStyle, Row row, int cellIndex) {
 		Cell cell = row.createCell(cellIndex);
 		cell.setCellValue(data);
