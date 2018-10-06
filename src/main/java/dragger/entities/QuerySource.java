@@ -34,7 +34,6 @@ public class QuerySource {
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY)
-	//@JsonManagedReference("columns")
 	private Collection<QueryColumn> columns;
 
 	@Column(nullable = false)

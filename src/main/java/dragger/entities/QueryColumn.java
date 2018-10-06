@@ -41,7 +41,6 @@ public class QueryColumn {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")
-
 	private QuerySource source;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
