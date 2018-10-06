@@ -12,7 +12,7 @@ public class ExcelFileUtil {
 	public static void CreateCell(String data, CellStyle DataStyle, Row row, int cellIndex) {
 		Cell cell = row.createCell(cellIndex);
 		cell.setCellValue(data);
-		cel l.setCellStyle(DataStyle);
+		cell.setCellStyle(DataStyle);
 	}
 
 	public static CellStyle createTitleCellStyle(Workbook workbook) {
