@@ -8,7 +8,7 @@ We noticed that every reports application isn't really designed to let the custo
 Dragger Reports provides the customer abillity to build report without understanding Sql, in his own native language!
 
 
-How it should look:
+## How it should look:
 
 Build page, from here you build a brand **_New_** *Report* using *sources* and *columns*.
 
@@ -23,6 +23,10 @@ Then, **_Drag_** your *column* into the *columns box* and the *source* will fill
 <img src="https://image.ibb.co/dfW6gz/Drag_Drop.png">
 
 
-Demo:
+**Demo:**
+
 we currently have an online demo of the rest api application:
+
 http://dragger-reports-dragger.193b.starter-ca-central-1.openshiftapps.com/api
+
+http://dragger-reports-dragger.193b.starter-ca-central-1.openshiftapps.com/swagger-ui.html#/report-controller
