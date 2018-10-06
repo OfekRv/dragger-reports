@@ -9,15 +9,15 @@ Dragger Reports provides the customer abillity to build report without understan
 
 Mockup Pages:
 
-https://imgur.com/VqNZBP7
+<img src="https://imgur.com/VqNZBP7">
 *Master page* contains the header of all pages.
 
-https://imgur.com/eRq16uC
+<img src="https://imgur.com/eRq16uC">
 Build page, from here you build a brand **_New_** *Report* using *sources* and *columns*.
 
 
-https://imgur.com/ElbHBS5
+<img src="https://imgur.com/ElbHBS5">
 After that you need to **Hover** the mouse over *Sources* to see the *Column* **Each** source contains.
 
-(https://imgur.com/2fCmsnx
+<img src="https://imgur.com/2fCmsnx">
 Then, **_Drag_** your *column* into the *columns box* and the *source* will fill **automatically**.
