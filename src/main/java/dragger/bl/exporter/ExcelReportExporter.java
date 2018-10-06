@@ -1,5 +1,10 @@
 package dragger.bl.exporter;
 
+import static dragger.utils.ExcelFileUtil.CreateCell;
+import static dragger.utils.ExcelFileUtil.createDataCellStyle;
+import static dragger.utils.ExcelFileUtil.createHeaderCellStyle;
+import static dragger.utils.ExcelFileUtil.createTitleCellStyle;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,11 +14,7 @@ import java.time.LocalDate;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -116,36 +117,5 @@ public class ExcelReportExporter implements ReportExporter {
 		for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
 			CreateCell(resultsMetaData.getColumnNames()[i], headerStyle, headerRow, i);
 		}
-	}
-
-	private void CreateCell(String data, CellStyle DataStyle, Row row, int cellIndex) {
-		Cell cell = row.createCell(cellIndex);
-		cell.setCellValue(data);
-		cell.setCellStyle(DataStyle);
-	}
-
-	private CellStyle createTitleCellStyle(Workbook workbook) {
-		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.WHITE.getIndex(), FillPatternType.NO_FILL);
-	}
-
-	private CellStyle createHeaderCellStyle(Workbook workbook) {
-		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.LIGHT_BLUE.getIndex(),
-				FillPatternType.SOLID_FOREGROUND);
-	}
-
-	private CellStyle createDataCellStyle(Workbook workbook) {
-		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.LIGHT_CORNFLOWER_BLUE.getIndex(),
-				FillPatternType.SOLID_FOREGROUND);
-	}
-
-	private CellStyle createCellStyle(Workbook workbook, short foregroundColor, FillPatternType pattern) {
-		CellStyle style = workbook.createCellStyle();
-		style.setFillForegroundColor(foregroundColor);
-		style.setFillPattern(pattern);
-		style.setBorderBottom(BorderStyle.MEDIUM);
-		style.setBorderTop(BorderStyle.MEDIUM);
-		style.setBorderRight(BorderStyle.MEDIUM);
-		style.setBorderLeft(BorderStyle.MEDIUM);
-		return style;
 	}
 }
