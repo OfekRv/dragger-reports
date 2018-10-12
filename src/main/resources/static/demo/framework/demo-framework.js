@@ -1,28 +1,11 @@
-angular.module("demo", ["ngRoute", "dndLists"])
+angular.module("dragger", ["ngRoute", "dndLists"])
     .config(function($routeProvider) {
         $routeProvider
             .when('/simple', {
                 templateUrl: 'demo/simple/simple-frame.html',
-                controller: 'SimpleDemoController'
+                controller: 'buildReportController'
             })
-            .when('/nested', {
-                templateUrl: 'demo/nested/nested-frame.html',
-                controller: 'NestedListsDemoController'
-            })
-            .when('/types', {
-                templateUrl: 'demo/types/types-frame.html',
-                controller: 'TypesDemoController'
-            })
-            .when('/advanced', {
-                templateUrl: 'demo/advanced/advanced-frame.html',
-                controller: 'AdvancedDemoController'
-            })
-            .when('/multi', {
-                templateUrl: 'demo/multi/multi-frame.html',
-                controller: 'MultiDemoController'
-            })
-            .otherwise({redirectTo: '/nested'});
-    })
+        })
 
     .directive('navigation', function($rootScope, $location) {
         return {
@@ -31,12 +14,7 @@ angular.module("demo", ["ngRoute", "dndLists"])
                       '</li>',
             link: function (scope, element, attr) {
                 scope.options = [
-                    {label: "Nested Containers", href: "#/nested"},
-                    {label: "Simple Demo", href: "#/simple"},
-                    {label: "Item Types", href: "#/types"},
-                    {label: "Advanced Demo", href: "#/advanced"},
-                    {label: "Multiselection", href: "#/multi"},
-                    {label: "Github", href: "https://github.com/marceljuenemann/angular-drag-and-drop-lists"}
+                    {label: "Simple Demo", href: "#/simple"}
                 ];
 
                 scope.isActive = function(option) {
