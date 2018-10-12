@@ -3,6 +3,8 @@ package dragger.utils;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -14,6 +16,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelFileUtil {
 	public static void saveExcelFile(String fileName, Workbook workbook) throws IOException, FileNotFoundException {
+		Files.createDirectories(Paths.get(fileName).getParent());
+
 		try (FileOutputStream fileOut = new FileOutputStream(fileName);) {
 			workbook.write(fileOut);
 		}

@@ -32,6 +32,7 @@ public class ExcelReportExporter implements ReportExporter {
 	private static final char UNDER_LINE = '_';
 	private static final char SPACE = ' ';
 	private static final String SUFFIX = ".xlsx";
+	private static final String PARENT_DIRECTORIES = "/reports/";
 	private static final int TITLE_ROW = 0;
 	private static final int HEADER_ROW = 3;
 	private static final int RESULTS_FIRST_ROW = HEADER_ROW + 1;
@@ -45,6 +46,7 @@ public class ExcelReportExporter implements ReportExporter {
 	@Override
 	public File export(Report reportToExport) throws DraggerExportException {
 		String reportName = generateReportName(reportToExport);
+		String reportFilePath = PARENT_DIRECTORIES + reportName;
 		SqlRowSet results = executor.executeQuery(generator.generate(reportToExport.getQuery()));
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
 
@@ -55,13 +57,13 @@ public class ExcelReportExporter implements ReportExporter {
 			int excelRowIndex = createDataTableFromResultset(results, resultsMetaData, workbook, sheet);
 			setTableAutoFilter(resultsMetaData, sheet, excelRowIndex);
 			autoSizeColumns(resultsMetaData, sheet);
-			saveExcelFile(reportName, workbook);
+			saveExcelFile(reportFilePath, workbook);
 
 		} catch (IOException e) {
 			throw new DraggerExportException("Could not create export file", e);
 		}
 
-		return new File(reportName);
+		return new File(reportFilePath);
 	}
 
 	private String generateReportName(Report reportToExport) {
