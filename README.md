@@ -23,7 +23,9 @@ Then, **_Drag_** your *column* into the *columns box* and the *source* will fill
 <img src="https://image.ibb.co/dfW6gz/Drag_Drop.png">
 
 
+
 **Demo:**
 
 we currently have an online demo of the application:
+
 http://dragger-reports-dragger.193b.starter-ca-central-1.openshiftapps.com/
