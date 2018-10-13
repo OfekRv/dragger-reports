@@ -12,9 +12,9 @@
 			<div class="panel panel-info">
 				<div class="panel-heading" ng-controller="generateReportController">
 					<select ng-model="selected" ng-change="changeReport()">
-						<option ng-repeat="report in reports">{{report.name}}</option>
+						<option ng-repeat="report in reports" value="{{report.id}}">{{report.name}}</option>
 					</select> <a id="download"
-						ng-href="/api/reports/generateReport?reportId={{selected.id}}">generate</a>
+						ng-href="/api/reports/generateReport?reportId={{selected}}">generate</a>
 				</div>
 			</div>
 		</div>
