@@ -36,7 +36,7 @@ public class ReportController {
 	@Autowired
 	private ReportExporter exporter;
 
-	@GetMapping("/reports/getRawQuery")
+	@GetMapping("/api/reports/getRawQuery")
 	// practically, for debug and stuff
 	public String executeReport(@RequestParam long reportId) throws Exception {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
@@ -48,7 +48,7 @@ public class ReportController {
 		throw new DraggerException("Report id:" + reportId + " not found");
 	}
 
-	@GetMapping("/reports/generateReport")
+	@GetMapping("api/reports/generateReport")
 	public ResponseEntity<Resource> generateReport(@RequestParam long reportId) throws DraggerException {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 

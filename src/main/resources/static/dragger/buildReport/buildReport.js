@@ -19,10 +19,4 @@ angular.module("dragger").controller(
 									$scope.models.lists.Columns.push(column);
 								});
 					});
-
-			// Model to JSON for demo purpose
-			$scope.$watch('models', function(model) {
-				$scope.modelAsJson = angular.toJson(model, true);
-			}, true);
-
 		});
