@@ -14,12 +14,9 @@ angular.module("dragger").controller(
 				url : '/api/queryColumns'
 			}).then(
 					function successCallback(response) {
-						// $scope.models.lists.Columns = response.data;
 						angular.forEach(response.data._embedded.queryColumns,
 								function(column) {
-									$scope.models.lists.Columns.push({
-										data : column
-									});
+									$scope.models.lists.Columns.push(column);
 								});
 					});
 

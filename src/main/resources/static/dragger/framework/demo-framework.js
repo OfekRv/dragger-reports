@@ -1,8 +1,8 @@
 angular.module("dragger", ["ngRoute", "dndLists"])
     .config(function($routeProvider) {
         $routeProvider
-            .when('/simple', {
-                templateUrl: 'demo/simple/simple-frame.html',
+            .when('/buildReport', {
+                templateUrl: 'dragger/buildReport/buildReport-frame.html',
                 controller: 'buildReportController'
             })
         })
@@ -14,7 +14,7 @@ angular.module("dragger", ["ngRoute", "dndLists"])
                       '</li>',
             link: function (scope, element, attr) {
                 scope.options = [
-                    {label: "Simple Demo", href: "#/simple"}
+                    {label: "Build report", href: "#/buildReport"}
                 ];
 
                 scope.isActive = function(option) {
