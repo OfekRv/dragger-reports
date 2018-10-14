@@ -1,12 +1,12 @@
 angular.module("dragger").controller("createSourceController",
 		function($scope, $http) {
-			function createSource(name, from) {
+			$scope.createSource = function() {
 				return $http({
 					method : 'POST',
 					url : 'api/querySources',
 					data : {
-						name : name,
-						fromClauseRaw : from
+						name : $scope.source.name,
+						fromClauseRaw : $scope.source.from
 					}
 				});
 			}
