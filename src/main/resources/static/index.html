@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dragger Reports</title>
+<meta charset="UTF-8">
+<title>Dragger Reports</title>
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-    <script src="angular-drag-and-drop-lists.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+<script src="angular-drag-and-drop-lists.js"></script>
 
-    <link rel="stylesheet" href="dragger/framework/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="dragger/framework/vendor/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="dragger/framework/vendor/prism.css">
-    <link rel="stylesheet" href="dragger/framework/dragger-framework.css">
-    <link rel="stylesheet" type="text/css" href="dragger/buildReport/buildReport.css" />
+<link rel="stylesheet" href="dragger/framework/vendor/bootstrap.min.css">
+<link rel="stylesheet"
+	href="dragger/framework/vendor/bootstrap-theme.min.css">
+<link rel="stylesheet" href="dragger/framework/vendor/prism.css">
+<link rel="stylesheet" href="dragger/framework/dragger-framework.css">
+<link rel="stylesheet" type="text/css"
+	href="dragger/buildReport/buildReport.css" />
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
-    <script src="dragger/framework/vendor/prism.js"></script>
-    <script src="dragger/framework/dragger-framework.js"></script>
-    <script src="dragger/buildReport/buildReport.js"></script>
-    <script src="dragger/generateReport/generateReport.js"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
+<script src="dragger/framework/vendor/prism.js"></script>
+<script src="dragger/framework/dragger-framework.js"></script>
+<script src="dragger/buildReport/buildReport.js"></script>
+<script src="dragger/generateReport/generateReport.js"></script>
+<script src="dragger/createSource/createSource.js"></script>
 
 </head>
 <body ng-app="dragger">
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Dragger Reports</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav" navigation></ul>
-            </div>
-        </div>
-    </div>
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Dragger Reports</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav" navigation></ul>
+			</div>
+		</div>
+	</div>
 
-    <div class="container">
-        <div ng-view></div>
-    </div>
-    
+	<div class="container">
+		<div ng-view></div>
+	</div>
+
 </body>

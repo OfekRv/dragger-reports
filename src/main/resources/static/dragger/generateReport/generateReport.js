@@ -14,5 +14,5 @@ angular.module("dragger").controller(
 								function(report) {
 									$scope.reports.push(report);
 								});
-					});
+					});  
 		});

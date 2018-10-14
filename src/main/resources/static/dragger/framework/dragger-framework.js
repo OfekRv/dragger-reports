@@ -15,6 +15,12 @@ angular
 										templateUrl : 'dragger/generateReport/generateReport-frame.html',
 										controller : 'generateReportController'
 									})
+							.when(
+									'/createSource',
+									{
+										templateUrl : 'dragger/createSource/createSource-frame.html',
+										controller : 'createSourceController'
+									})
 				})
 
 		.directive(
@@ -31,6 +37,9 @@ angular
 							}, {
 								label : "Build Report",
 								href : "#/buildReport"
+							}, {
+								label : "Create Source",
+								href : "#/createSource"
 							} ];
 
 							scope.isActive = function(option) {

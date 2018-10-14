@@ -1,0 +1,33 @@
+<h1>Create Source</h1>
+
+<div class="alert alert-success">
+	<strong>Instructions:</strong> create query source to use in the
+	reports
+</div>
+
+<div class="simpleDemo row">
+
+	<div class="col-md-8">
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading" ng-controller="createSourceController">
+					<table>
+						<tr>
+							<td>Name:</td>
+							<td><input type="text" id="name" ng-model="source.name" /></td>
+						</tr>
+						<tr>
+							<td>From clause:</td>
+							<td><input type="text" id="from" ng-model="source.from" /></td>
+						</tr>
+						<tr>
+							<td><button type="button"
+									ng-click="createSource(source.name, source.from)"
+									class="btn btn-danger custom-width">Create</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
