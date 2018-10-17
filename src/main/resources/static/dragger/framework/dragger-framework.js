@@ -21,6 +21,13 @@ angular
 										templateUrl : 'dragger/createSource/createSource-frame.html',
 										controller : 'createSourceController'
 									})
+
+							.when(
+									'/defineColumns',
+									{
+										templateUrl : 'dragger/defineColumns/defineColumns-frame.html',
+										controller : 'defineColumnsController'
+									})
 				})
 
 		.directive(
@@ -40,6 +47,9 @@ angular
 							}, {
 								label : "Create Source",
 								href : "#/createSource"
+							}, {
+								label : "Define Columns",
+								href : "#/defineColumns"
 							} ];
 
 							scope.isActive = function(option) {
