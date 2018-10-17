@@ -23,10 +23,9 @@ Then, **_Drag_** your *column* into the *columns box* and the *source* will fill
 <img src="https://image.ibb.co/dfW6gz/Drag_Drop.png">
 
 
+
 **Demo:**
 
-we currently have an online demo of the rest api application:
+we currently have an online demo of the application:
 
-http://dragger-reports-dragger.193b.starter-ca-central-1.openshiftapps.com/api
-
-http://dragger-reports-dragger.193b.starter-ca-central-1.openshiftapps.com/swagger-ui.html#/report-controller
+http://dragger-reports-dragger.193b.starter-ca-central-1.openshiftapps.com/
