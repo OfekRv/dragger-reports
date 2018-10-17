@@ -3,7 +3,7 @@ angular
 		.config(
 				function($routeProvider) {
 					$routeProvider
-							.when(
+							.when( 
 									'/buildReport',
 									{
 										templateUrl : 'dragger/buildReport/buildReport-frame.html',
