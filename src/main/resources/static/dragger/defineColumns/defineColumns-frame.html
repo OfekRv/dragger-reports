@@ -1,4 +1,4 @@
-<h1>Create Source</h1>
+<h1>Define Column</h1>
 
 <div class="alert alert-success">
 	<strong>Instructions:</strong> define columns to query source to use in
@@ -15,7 +15,8 @@
 						<tr>
 							<td>Source:</td>
 							<td><select ng-model="selected">
-									<option ng-repeat="source in sources" value="{{source._links.self.href}}">{{source.name}}</option>
+									<option ng-repeat="source in sources"
+										value="{{source._links.self.href}}">{{source.name}}</option>
 							</select></td>
 						</tr>
 						<tr>

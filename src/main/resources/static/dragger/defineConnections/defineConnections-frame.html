@@ -1,0 +1,57 @@
+<h1>Define Connection</h1>
+
+<div class="alert alert-success">
+	<strong>Instructions:</strong> define connections to combine sources in
+	reports
+</div>
+
+<div class="simpleDemo row">
+
+	<div class="col-md-8">
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading"
+					ng-controller="defineConnectionsController">
+					<table>
+						<tr>
+							<td>First source:</td>
+							<td><select ng-model="firstSourceSelected"
+								ng-change="updateFirstSourceColumns()">
+									<option ng-repeat="source in sources"
+										value="{{source._links.columns.href}}">{{source.name}}</option>
+							</select></td>
+
+							<td>Second source:</td>
+							<td><select ng-model="secondSourceSelected"
+								ng-change="updateSecondSourceColumns()">
+									<option ng-repeat="
+								source in
+								sources"
+										value="{{source._links.columns.href}}">{{source.name}}
+									</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td>First edge:</td>
+							<td><select ng-model="firstEdgeSelected">
+									<option ng-repeat="column in firstSourceColumns"
+										value="{{column._links.self.href}}">{{column.name}}</option>
+							</select></td>
+
+							<td>Second edge:</td>
+							<td><select ng-model="secondEdgeSelected">
+									<option ng-repeat="column in secondSourceColumns"
+										value="{{column._links.self.href}}">{{column.name}}</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><button type="button"
+									ng-click="defineConnection(firstEdgeSelected, secondEdgeSelected)"
+									class="btn btn-danger custom-width">Create</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

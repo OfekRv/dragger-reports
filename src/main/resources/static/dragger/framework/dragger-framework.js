@@ -3,7 +3,7 @@ angular
 		.config(
 				function($routeProvider) {
 					$routeProvider
-							.when( 
+							.when(
 									'/buildReport',
 									{
 										templateUrl : 'dragger/buildReport/buildReport-frame.html',
@@ -28,6 +28,12 @@ angular
 										templateUrl : 'dragger/defineColumns/defineColumns-frame.html',
 										controller : 'defineColumnsController'
 									})
+							.when(
+									'/defineConnections',
+									{
+										templateUrl : 'dragger/defineConnections/defineConnections-frame.html',
+										controller : 'defineConnectionsController'
+									})
 				})
 
 		.directive(
@@ -50,6 +56,9 @@ angular
 							}, {
 								label : "Define Columns",
 								href : "#/defineColumns"
+							}, {
+								label : "Define Connections",
+								href : "#/defineConnections"
 							} ];
 
 							scope.isActive = function(option) {
