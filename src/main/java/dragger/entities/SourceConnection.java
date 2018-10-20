@@ -2,11 +2,14 @@ package dragger.entities;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -26,8 +29,9 @@ public class SourceConnection {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
-	
-	@ManyToMany
-	@JoinColumn(name = "columnId")
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinTable(name = "edges", joinColumns = @JoinColumn(name = "connection_id", referencedColumnName = "id"),
+									 inverseJoinColumns = @JoinColumn(name = "query_column_id", referencedColumnName = "columnId"))
 	private Collection<QueryColumn> edges;
 }

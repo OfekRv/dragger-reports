@@ -32,17 +32,17 @@ public class QueryColumn {
 	@SequenceGenerator(name = "column_seq", sequenceName = "column_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "column_seq")
 	private long columnId;
-	
+
 	@Column(nullable = false)
 	private String name;
-	
+
 	@Column(nullable = false)
 	private String raw;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, optional = false)
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")
 	private QuerySource source;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
+
+	@ManyToMany(mappedBy = "edges", fetch = FetchType.EAGER)
 	private Collection<SourceConnection> connections;
 }
