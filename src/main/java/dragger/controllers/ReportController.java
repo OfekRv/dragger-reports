@@ -41,10 +41,9 @@ public class ReportController {
 	@Autowired
 	private ReportExporter exporter;
 
-	@PostMapping("api/reports/findConnections")
-	public Collection<SourceConnection> generateReport(@RequestBody Collection<QuerySource> sources)
-			throws DraggerException {
-		return generator.findConnectionsBetweenSources(sources);
+	@PostMapping("api/reports/isAllSourcesConnected")
+	public boolean isAllSourcesConnected(@RequestBody Collection<QuerySource> sources) {
+		return generator.isAllSourcesConnected(sources);
 	}
 
 	@GetMapping("/api/reports/getRawQuery")

@@ -8,29 +8,31 @@ import java.util.Map;
 import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
 import dragger.entities.SourceConnection;
-import dragger.exceptions.DraggerConnectionException;
 
 public interface ConnectionFinder {
-	public default Collection<SourceConnection> findConnectionsBetweenSources(Collection<QuerySource> sources)
-			throws DraggerConnectionException {
+	public default Collection<SourceConnection> findConnectionsBetweenSources(Collection<QuerySource> sources) {
 		Collection<SourceConnection> connections = new ArrayList<>();
-		Collection<QuerySource> needToBeFoundSources = new ArrayList<>(sources);
 
 		for (QuerySource source : sources) {
 			for (Map.Entry<QuerySource, SourceConnection> connectoinEntry : getAllSourcesConnectedToSource(source)
 					.entrySet()) {
-				if (needToBeFoundSources.contains(connectoinEntry.getKey())) {
-					needToBeFoundSources.remove(connectoinEntry.getKey());
+				if (sources.contains(connectoinEntry.getKey())) {
 					connections.add(connectoinEntry.getValue());
 				}
 			}
 		}
-
-		if (needToBeFoundSources.size() > 0) {
-			throw new DraggerConnectionException("Could not find connection for source: " + needToBeFoundSources);
-		}
+		// if we want exception when two sources used without connection
+		/*
+		 * if (needToBeFoundSources.size() > 0) { throw new
+		 * DraggerConnectionException("Could not find connection for source: " +
+		 * needToBeFoundSources); }
+		 */
 
 		return connections;
+	}
+
+	public default boolean isAllSourcesConnected(Collection<QuerySource> sources) {
+		return findConnectionsBetweenSources(sources).size() == sources.size();
 	}
 
 	public default Map<QuerySource, SourceConnection> getAllSourcesConnectedToSource(QuerySource source) {
