@@ -10,50 +10,28 @@ angular
 								value, key) {
 							columns.push(value._links.self.href);
 						});
-						
-						var sources = [];
-						angular.forEach($scope.models.lists.Report, function(
-								value, key) {
-							$http(
-									{
-										method : 'GET',
-										url : value._links.source.href
-									})
-									.then(
-											function successCallback(
-													response) {
-												sources.push(response.data._links.self.href);
-											});
-						});
-						
-
-						var connections = [];
-						if (sources.length > 1)
-						{
-							angular.forEach(sources, function(
-									value, key) {
-								$http(
-										{
-											method : 'GET',
-											url : value
-										})
-										.then(
-												function successCallback(
-														response) {
-													sources.push(response.data._links.self.href);
-												});
-							});
-						}
-
+						/*
+						 * var sources = [];
+						 * angular.forEach($scope.models.lists.Report, function(
+						 * value, key) { $http( { method : 'GET', url :
+						 * value._links.source.href }) .then( function
+						 * successCallback( response) {
+						 * sources.push(response.data._links.self.href); }); });
+						 * 
+						 * var connections = []; if (sources.length > 1) {
+						 * $http( { method : 'POST', url :
+						 * '/api/reports/findConnections', data: sources })
+						 * .then( function successCallback( response) {
+						 * connections = response.data; });
+						 *  }
+						 */
 						return $http({
 							method : 'POST',
 							url : 'api/reports',
 							data : {
 								name : $scope.report.name,
 								query : {
-									columns,
-									sources,
-									connections
+									columns
 								}
 							}
 						});

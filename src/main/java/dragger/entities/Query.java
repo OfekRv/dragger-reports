@@ -1,5 +1,6 @@
 package dragger.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Embeddable;
@@ -21,12 +22,14 @@ public class Query {
 	@ManyToMany
 	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> columns;
-	
-	@ManyToMany
-	@JoinColumn(name = "sourceId")
-	private Collection<QuerySource> sources;
-	
-	@ManyToMany
-	@JoinColumn(name = "id")
-	private Collection<SourceConnection> connections;
+
+	public Collection<QuerySource> getSources() {
+		Collection<QuerySource> sources = new ArrayList<>();
+		columns.forEach(column -> {
+			if (!sources.contains(column.getSource())) {
+				sources.add(column.getSource());
+			}
+		});
+		return sources;
+	}
 }

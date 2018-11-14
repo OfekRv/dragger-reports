@@ -25,6 +25,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
 import dragger.entities.Report;
+import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
 
 @Named
@@ -47,7 +48,12 @@ public class ExcelReportExporter implements ReportExporter {
 	public File export(Report reportToExport) throws DraggerExportException {
 		String reportName = generateReportName(reportToExport);
 		String reportFilePath = PARENT_DIRECTORIES + reportName;
-		SqlRowSet results = executor.executeQuery(generator.generate(reportToExport.getQuery()));
+		SqlRowSet results;
+		try {
+			results = executor.executeQuery(generator.generate(reportToExport.getQuery()));
+		} catch (DraggerException e) {
+			throw new DraggerExportException("Could not generate the query", e);
+		}
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
 
 		try (Workbook workbook = new XSSFWorkbook();) {

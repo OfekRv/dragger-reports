@@ -10,6 +10,8 @@ import dragger.entities.Query;
 import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
 import dragger.entities.SourceConnection;
+import dragger.exceptions.DraggerConnectionException;
+import dragger.exceptions.DraggerException;
 
 @Named
 public class RationalQueryGenerator implements QueryGenerator {
@@ -24,14 +26,19 @@ public class RationalQueryGenerator implements QueryGenerator {
 	private static final String NEW_LINE = " \n";
 	private static final String SEPERATOR = ", ";
 
-	public String generate(Query query) {
+	public String generate(Query query) throws DraggerException {
 		StringJoiner rawQuery = new StringJoiner(NEW_LINE);
 
 		rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
 		rawQuery.add(generateRawClause(FROM, SEPERATOR, query.getSources(), this::rawAndNamedSource));
 
-		if (!query.getConnections().isEmpty()) {
-			rawQuery.add(generateRawClause(WHERE, AND, query.getConnections(), this::rawConnection));
+		if (query.getSources().size() > 1) {
+			try {
+				rawQuery.add(generateRawClause(WHERE, AND, findConnectionsBetweenSources(query.getSources()),
+						this::rawConnection));
+			} catch (DraggerConnectionException e) {
+				throw new DraggerException("Could not generate Query", e);
+			}
 		}
 
 		return rawQuery.toString();

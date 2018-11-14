@@ -3,6 +3,7 @@ package dragger.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ReportExporter;
 import dragger.bl.generator.QueryGenerator;
+import dragger.entities.QuerySource;
 import dragger.entities.Report;
+import dragger.entities.SourceConnection;
 import dragger.exceptions.DraggerControllerException;
 import dragger.exceptions.DraggerControllerReportNotFoundException;
 import dragger.exceptions.DraggerException;
@@ -35,6 +40,12 @@ public class ReportController {
 
 	@Autowired
 	private ReportExporter exporter;
+
+	@PostMapping("api/reports/findConnections")
+	public Collection<SourceConnection> generateReport(@RequestBody Collection<QuerySource> sources)
+			throws DraggerException {
+		return generator.findConnectionsBetweenSources(sources);
+	}
 
 	@GetMapping("/api/reports/getRawQuery")
 	// practically, for debug and stuff
