@@ -32,7 +32,7 @@ public interface ConnectionFinder {
 	}
 
 	public default boolean isAllSourcesConnected(Collection<QuerySource> sources) {
-		return findConnectionsBetweenSources(sources).size() == sources.size();
+		return findConnectionsBetweenSources(sources).size() == sources.size() || sources.size() <= 1;
 	}
 
 	public default Map<QuerySource, SourceConnection> getAllSourcesConnectedToSource(QuerySource source) {
