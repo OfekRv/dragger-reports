@@ -48,12 +48,14 @@ angular
 								method : 'POST',
 								url : 'api/queries/isQueryLinked',
 								data : columns
-							});
-							
-							if (!isLinked)
-							{
-								alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
-							}
+							}).then(
+									function successCallback(
+											response) {
+										if (!response.data)
+										{
+											alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
+										}
+									});
 						}
 					});
 
