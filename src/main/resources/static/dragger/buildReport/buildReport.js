@@ -35,7 +35,7 @@ angular
 						});
 					}
 					
-					$scope.$watchCollection('models.lists.Report', function(newReports, oldReports) {
+					 $scope.$watchCollection('models.lists.Report', function(newReports, oldReports) {
 						var columns = [];
 						angular.forEach($scope.models.lists.Report, function(
 								value, key) {
@@ -44,11 +44,16 @@ angular
 						
 						if (columns.length > 1)
 						{
-							return $http({
+							var isLinked = $http({
 								method : 'POST',
 								url : 'api/queries/isQueryLinked',
 								data : columns
 							});
+							
+							if (!isLinked)
+							{
+								alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
+							}
 						}
 					});
 
@@ -90,5 +95,4 @@ angular
 																			});
 														});
 									});
-
 				});
