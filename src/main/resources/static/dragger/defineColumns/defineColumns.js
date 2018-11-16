@@ -25,6 +25,11 @@ angular.module("dragger").controller(
 						raw : raw,
 						source : source
 					}
+				}).then(function successCallback(response) {
+					alert("Column defined!");
+				}, function errorCallback(response) {
+					alert("Failed defining the column :(");
 				});
+				;
 			}
 		});

@@ -3,24 +3,30 @@ package dragger.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ReportExporter;
 import dragger.bl.generator.QueryGenerator;
+import dragger.entities.QueryColumn;
+import dragger.entities.QuerySource;
 import dragger.entities.Report;
 import dragger.exceptions.DraggerControllerException;
 import dragger.exceptions.DraggerControllerReportNotFoundException;
 import dragger.exceptions.DraggerException;
+import dragger.repositories.QueryColumnRepository;
 import dragger.repositories.ReportRepository;
 
 @RestController
@@ -31,10 +37,18 @@ public class ReportController {
 	private ReportRepository reportRepository;
 
 	@Autowired
+	private QueryColumnRepository columnRepository;
+
+	@Autowired
 	private QueryGenerator generator;
 
 	@Autowired
 	private ReportExporter exporter;
+
+	@PostMapping("api/queries/isQueryLinked")
+	public boolean isAllSourcesConnected(@RequestBody Collection<Long> columns) throws DraggerException {
+		return generator.isAllSourcesConnected(getSources(getColumnFromIds(columns)));
+	}
 
 	@GetMapping("/api/reports/getRawQuery")
 	// practically, for debug and stuff
@@ -49,7 +63,8 @@ public class ReportController {
 	}
 
 	@GetMapping("api/reports/generateReport")
-	public ResponseEntity<Resource> generateReport(@RequestParam long reportId) throws DraggerException {
+	public ResponseEntity<org.springframework.core.io.Resource> generateReport(@RequestParam long reportId)
+			throws DraggerException {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 
 		if (!requestedReport.isPresent()) {
@@ -73,5 +88,34 @@ public class ReportController {
 			throw new DraggerControllerException("Could not create file resource", e);
 		}
 		return resource;
+	}
+
+	private Collection<QuerySource> getSources(Collection<QueryColumn> columns) {
+		Collection<QuerySource> sources = new ArrayList<>();
+		columns.forEach(column -> {
+			if (!sources.contains(column.getSource())) {
+				sources.add(column.getSource());
+			}
+		});
+		return sources;
+	}
+
+	private Collection<QueryColumn> getColumnFromIds(Collection<Long> columnsResources) throws DraggerException {
+		Collection<QueryColumn> columns = new ArrayList<>();
+		
+		for (Long columnId : columnsResources) {
+			columns.add(findColumnById(columnId));
+		}
+		return columns;
+	}
+
+	private QueryColumn findColumnById(long columnId) throws DraggerException {
+		Optional<QueryColumn> requestedColumn = columnRepository.findById(columnId);
+
+		if (requestedColumn.isPresent()) {
+			return requestedColumn.get();
+		}
+
+		throw new DraggerException("Column id:" + columnId + " not found");
 	}
 }
