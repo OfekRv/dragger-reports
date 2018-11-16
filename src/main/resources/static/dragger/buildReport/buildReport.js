@@ -4,7 +4,6 @@ angular
 				"buildReportController",
 				function($scope, $http) {
 					$scope.createReport = function() {
-
 						var columns = [];
 						angular.forEach($scope.models.lists.Report, function(
 								value, key) {
@@ -22,8 +21,7 @@ angular
 						 * $http( { method : 'POST', url :
 						 * '/api/reports/findConnections', data: sources })
 						 * .then( function successCallback( response) {
-						 * connections = response.data; });
-						 *  }
+						 * connections = response.data; }); }
 						 */
 						return $http({
 							method : 'POST',
@@ -36,6 +34,23 @@ angular
 							}
 						});
 					}
+					
+					$scope.$watchCollection('models.lists.Report', function(newReports, oldReports) {
+						var columns = [];
+						angular.forEach($scope.models.lists.Report, function(
+								value, key) {
+							columns.push(value.columnId);
+						});
+						
+						if (columns.length > 1)
+						{
+							return $http({
+								method : 'POST',
+								url : 'api/queries/isQueryLinked',
+								data : columns
+							});
+						}
+					});
 
 					$scope.models = {
 						selected : null,
