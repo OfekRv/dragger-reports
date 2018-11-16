@@ -69,6 +69,11 @@ angular
 							data : {
 								edges : [ firstEdge, secondEdge ]
 							}
+						}).then(function successCallback(response) {
+							alert("Connection defined!");
+						}, function errorCallback(response) {
+							alert("Failed defining the connection :(");
 						});
+						;
 					}
 				});

@@ -8,6 +8,10 @@ angular.module("dragger").controller("createSourceController",
 						name : $scope.source.name,
 						fromClauseRaw : $scope.source.from
 					}
+				}).then(function successCallback(response) {
+					alert("source created!");
+				}, function errorCallback(response) {
+					alert("Failed source the report  :(");
 				});
 			}
 		});

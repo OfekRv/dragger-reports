@@ -32,7 +32,12 @@ angular
 									columns
 								}
 							}
-						});
+						}).then(
+								function successCallback(response) {
+									alert("Report created!");									
+								}, function errorCallback(response) {
+									alert("Failed creating the report  :(");
+								});
 					}
 					
 					 $scope.$watchCollection('models.lists.Report', function(newReports, oldReports) {
