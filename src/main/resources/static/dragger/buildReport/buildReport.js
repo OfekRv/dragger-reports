@@ -1,120 +1,127 @@
 angular
-		.module("dragger")
-		.controller(
-				"buildReportController",
-				function($scope, $http) {
-					$scope.createReport = function() {
-						var columns = [];
-						angular.forEach($scope.models.lists.Report, function(
-								value, key) {
-							columns.push(value._links.self.href);
-						});
-						/*
-						 * var sources = [];
-						 * angular.forEach($scope.models.lists.Report, function(
-						 * value, key) { $http( { method : 'GET', url :
-						 * value._links.source.href }) .then( function
-						 * successCallback( response) {
-						 * sources.push(response.data._links.self.href); }); });
-						 * 
-						 * var connections = []; if (sources.length > 1) {
-						 * $http( { method : 'POST', url :
-						 * '/api/reports/findConnections', data: sources })
-						 * .then( function successCallback( response) {
-						 * connections = response.data; }); }
-						 */
-						return $http({
-							method : 'POST',
-							url : 'api/reports',
-							data : {
-								name : $scope.report.name,
-								query : {
-								}
-							}
-						}).then(
-								function successCallback(response) {
-									alert("Report created!");									
-								}, function errorCallback(response) {
-									alert("Failed creating the report  :(");
-								});
-					}
-					
-					 $scope.$watchCollection('models.lists.Report', function(newReports, oldReports) {
-						var columns = [];
-						angular.forEach($scope.models.lists.Report, function(
-								value, key) {
-							columns.push(value.columnId);
-						});
-						
-						if (columns.length > 1)
-						{
-							var isLinked = $http({
-								method : 'POST',
-								url : 'api/queries/isQueryLinked',
-								data : columns
-							}).then(
-									function successCallback(
-											response) {
-										if (!response.data)
-										{
-											alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
-										}
-									});
-						}
-					});
+    .module("dragger")
+    .controller(
+        "buildReportController",
+        function ($scope, $http) {
+            $scope.createReport = function () {
+                var columns = [];
+                angular.forEach($scope.models.lists.Report, function (value, key) {
+                    columns.push(value._links.self.href);
+                });
+                /*
+                 * var sources = [];
+                 * angular.forEach($scope.models.lists.Report, function(
+                 * value, key) { $http( { method : 'GET', url :
+                 * value._links.source.href }) .then( function
+                 * successCallback( response) {
+                 * sources.push(response.data._links.self.href); }); });
+                 *
+                 * var connections = []; if (sources.length > 1) {
+                 * $http( { method : 'POST', url :
+                 * '/api/reports/findConnections', data: sources })
+                 * .then( function successCallback( response) {
+                 * connections = response.data; }); }
+                 */
+                return $http({
+                    method: 'POST',
+                    url: 'api/reports',
+                    data: {
+                        name: $scope.report.name,
+                        query: {}
+                    }
+                }).then(
+                    function successCallback(response) {
+                        alert("Report created!");
+                    }, function errorCallback(response) {
+                        alert("Failed creating the report  :(");
+                    });
 
-					$scope.models = {
-						selected : null,
-						lists : {
-                            "Resource 1" : {allowedTypes:["Resource 1"], columns: [{name : "hello", type: "Resource 1"}]},
-                            "Resource 2" : {allowedTypes:["Resource 2"], columns: [{name : "bibi", type: "Resource 2"}]},
-                            "Resource 3" : {allowedTypes:["Resource 3"], columns: [{name : "hihi", type: "Resource 3"}]},
-                            "Resource 4" : {allowedTypes:["Resource 4"], columns: [{name : "adios", type: "Resource 4"},{name : "bella", type: "Resource 4"},{name : "ciao", type: "Resource 4"}]},
-							"Columns": [{name : "hello"}]
-						}
-					};
 
-					$http({
-						method : 'GET',
-						url : '/api/querySources'
-					})
-							.then(
-									function successCallback(response) {
-										angular
-												.forEach(
-														response.data._embedded.querySources,
-														function(source) {
-                                                            $scope.models.lists[source.name] = {};
-															$scope.models.lists[source.name].columns = [];
-                                                            $scope.models.lists[source.name].allowedTypes = [];
-                                                            $scope.models.lists[source.name].allowedTypes.push(source.name);
+            }
 
-															$http(
-																	{
-																		method : 'GET',
-																		url : source._links.columns.href
-																	})
-																	.then(
-																			function successCallback(
-																					response) {
-																				angular
-																						.forEach(
-																								response.data._embedded.queryColumns,
-																								function(
-																										column) {
-                                                                                                    $scope.models.lists[source.name].columns
-																											.push(column);
-																								});
-																			});
-														});
-									});
-                    //
-                    // function getRandomColor() {
-                    //     var letters = '0123456789ABCDEF'.split('');
-                    //     var color = '#';
-                    //     for (var i = 0; i < 6; i++ ) {
-                    //         color += letters[Math.round(Math.random() * 15)];
-                    //     }
-                    //     return color;
-                    // }
-				});
+            $scope.dropCallback = function (index, item) {
+                $scope.models.lists[item.type].columns.push(item);
+                $scope.models.lists['Columns'] = $scope.models.lists['Columns'].filter(
+                    function(column)
+                    {
+                        return !(column.name === item.name && column.type === item.type);
+                    }
+                )
+                // angular.forEach($scope.models.lists.Columns, function(column)
+                // {
+                //     if(item.name === column.name)
+                //         return false;
+                // })
+                // return true;
+            };
+
+            $scope.$watchCollection('models.lists.Report', function (newReports, oldReports) {
+                var columns = [];
+                angular.forEach($scope.models.lists.Report, function (value, key) {
+                    columns.push(value.columnId);
+                });
+
+                if (columns.length > 1) {
+                    var isLinked = $http({
+                        method: 'POST',
+                        url: 'api/queries/isQueryLinked',
+                        data: columns
+                    }).then(
+                        function successCallback(response) {
+                            if (!response.data) {
+                                alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
+                            }
+                        });
+                }
+            });
+
+            $scope.models = {
+                selected: null,
+                lists: {
+                    "Resource 1": {allowedTypes: ["Resource 1"], columns: [{name: "hello", type: "Resource 1"}]},
+                    "Resource 2": {allowedTypes: ["Resource 2"], columns: [{name: "bibi", type: "Resource 2"}]},
+                    "Resource 3": {allowedTypes: ["Resource 3"], columns: [{name: "hihi", type: "Resource 3"}]},
+                    "Resource 4": {
+                        allowedTypes: ["Resource 4"],
+                        columns: [{name: "adios", type: "Resource 4"}, {
+                            name: "bella",
+                            type: "Resource 4"
+                        }, {name: "ciao", type: "Resource 4"}]
+                    },
+                    "Columns": []
+                }
+            };
+
+            $http({
+                method: 'GET',
+                url: '/api/querySources'
+            })
+                .then(
+                    function successCallback(response) {
+                        angular
+                            .forEach(
+                                response.data._embedded.querySources,
+                                function (source) {
+                                    $scope.models.lists[source.name] = {};
+                                    $scope.models.lists[source.name].columns = [];
+                                    $scope.models.lists[source.name].allowedTypes = [];
+                                    $scope.models.lists[source.name].allowedTypes.push(source.name);
+
+                                    $http(
+                                        {
+                                            method: 'GET',
+                                            url: source._links.columns.href
+                                        })
+                                        .then(
+                                            function successCallback(response) {
+                                                angular
+                                                    .forEach(
+                                                        response.data._embedded.queryColumns,
+                                                        function (column) {
+                                                            $scope.models.lists[source.name].columns
+                                                                .push(column);
+                                                        });
+                                            });
+                                });
+                    });
+        });

@@ -10,8 +10,10 @@ dnd-allowed-types="list.allowedTypes"
     <li ng-repeat="column in list.columns"
         dnd-draggable="column"
         dnd-effect-allowed="move"
+        dnd-moved="list.columns.splice($index, 1)"
         dnd-selected="models.selected = column"
         dnd-type="column.type"
+        dnd-dragover="'dropCallback($index, column)'"
         ng-class="{'selected': models.selected === column}">
         {{column.name}}
     </li>

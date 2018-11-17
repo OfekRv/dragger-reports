@@ -5,11 +5,16 @@
          transfer the object that was assigned to it. If an element was
          dragged away, you have to remove it from the original list
          yourself using the dnd-moved attribute -->
-    <li class="box" ng-repeat="column in models.lists['Columns']"
+    <li ng-repeat="column in models.lists['Columns']"
         dnd-draggable="column"
         dnd-effect-allowed="move"
-        dnd-moved="list['Columns'].splice($index, 1)"
+        dnd-drop = "$scope.dropCallback($index, column)"
+        dnd-moved="models.lists['Columns'].splice($index, 1)"
         dnd-horizontal-list="true">
         {{column.name}}
+
+        <button type="button" class="btn btn-default btn-sm" ng-click="dropCallback($index, column)">
+            Remove
+        </button>
     </li>
 </ul>

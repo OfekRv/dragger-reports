@@ -1,6 +1,6 @@
 <div class="simpleDemo row">
 
-    <div class="col-md-5">
+    <div class="col-md-3">
     <div ng-repeat="(listName, list) in models.lists" class="row" ng-if="!listName.includes('Columns')">
         <div class="panel panel-info source-heading">
             <div class="panel-heading">
@@ -12,7 +12,7 @@
     </div>
     </div>
 
-        <div class="col-md-7">
+        <div class="col-md-9">
         <div class="panel panel-info">
             <div class="panel-body"
                  ng-include="'dragger/buildReport/columns.html'"></div>
