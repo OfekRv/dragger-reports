@@ -29,7 +29,6 @@ angular
 							data : {
 								name : $scope.report.name,
 								query : {
-									columns
 								}
 							}
 						}).then(
@@ -67,7 +66,11 @@ angular
 					$scope.models = {
 						selected : null,
 						lists : {
-							"Report" : []
+                            "Resource 1" : {allowedTypes:["Resource 1"], columns: [{name : "hello", type: "Resource 1"}]},
+                            "Resource 2" : {allowedTypes:["Resource 2"], columns: [{name : "bibi", type: "Resource 2"}]},
+                            "Resource 3" : {allowedTypes:["Resource 3"], columns: [{name : "hihi", type: "Resource 3"}]},
+                            "Resource 4" : {allowedTypes:["Resource 4"], columns: [{name : "adios", type: "Resource 4"},{name : "bella", type: "Resource 4"},{name : "ciao", type: "Resource 4"}]},
+							"Columns": [{name : "hello"}]
 						}
 					};
 
@@ -81,7 +84,10 @@ angular
 												.forEach(
 														response.data._embedded.querySources,
 														function(source) {
-															$scope.models.lists[source.name] = [];
+                                                            $scope.models.lists[source.name] = {};
+															$scope.models.lists[source.name].columns = [];
+                                                            $scope.models.lists[source.name].allowedTypes = [];
+                                                            $scope.models.lists[source.name].allowedTypes.push(source.name);
 
 															$http(
 																	{
@@ -96,10 +102,19 @@ angular
 																								response.data._embedded.queryColumns,
 																								function(
 																										column) {
-																									$scope.models.lists[source.name]
+                                                                                                    $scope.models.lists[source.name].columns
 																											.push(column);
 																								});
 																			});
 														});
 									});
+                    //
+                    // function getRandomColor() {
+                    //     var letters = '0123456789ABCDEF'.split('');
+                    //     var color = '#';
+                    //     for (var i = 0; i < 6; i++ ) {
+                    //         color += letters[Math.round(Math.random() * 15)];
+                    //     }
+                    //     return color;
+                    // }
 				});
