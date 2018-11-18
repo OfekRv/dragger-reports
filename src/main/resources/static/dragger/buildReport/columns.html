@@ -11,7 +11,7 @@
         dnd-drop = "$scope.dropCallback($index, column)"
         dnd-moved="models.lists['Columns'].splice($index, 1)"
         dnd-horizontal-list="true">
-        {{column.name}}
+        {{column.data.name}}
 
         <button type="button" class="btn btn-default btn-sm" ng-click="dropCallback($index, column)">
             Remove
