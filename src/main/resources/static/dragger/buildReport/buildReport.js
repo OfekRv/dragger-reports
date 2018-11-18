@@ -78,16 +78,6 @@ angular
             $scope.models = {
                 selected: null,
                 lists: {
-                    "Resource 1": {allowedTypes: ["Resource 1"], columns: [{name: "hello", type: "Resource 1"}]},
-                    "Resource 2": {allowedTypes: ["Resource 2"], columns: [{name: "bibi", type: "Resource 2"}]},
-                    "Resource 3": {allowedTypes: ["Resource 3"], columns: [{name: "hihi", type: "Resource 3"}]},
-                    "Resource 4": {
-                        allowedTypes: ["Resource 4"],
-                        columns: [{name: "adios", type: "Resource 4"}, {
-                            name: "bella",
-                            type: "Resource 4"
-                        }, {name: "ciao", type: "Resource 4"}]
-                    },
                     "Columns": []
                 }
             };
@@ -118,8 +108,9 @@ angular
                                                     .forEach(
                                                         response.data._embedded.queryColumns,
                                                         function (column) {
+                                                            var columnItem = {data:column, type:source.name};
                                                             $scope.models.lists[source.name].columns
-                                                                .push(column);
+                                                                .push(columnItem);
                                                         });
                                             });
                                 });

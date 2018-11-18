@@ -15,6 +15,6 @@ dnd-allowed-types="list.allowedTypes"
         dnd-type="column.type"
         dnd-dragover="'dropCallback($index, column)'"
         ng-class="{'selected': models.selected === column}">
-        {{column.name}}
+        {{column.data.name}}
     </li>
 </ul>
