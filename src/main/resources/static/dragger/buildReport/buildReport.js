@@ -44,15 +44,9 @@ angular
                 $scope.models.lists['Columns'] = $scope.models.lists['Columns'].filter(
                     function(column)
                     {
-                        return !(column.name === item.name && column.type === item.type);
+                        return !(column.data.name === item.data.name && column.data.type === item.data.type);
                     }
                 )
-                // angular.forEach($scope.models.lists.Columns, function(column)
-                // {
-                //     if(item.name === column.name)
-                //         return false;
-                // })
-                // return true;
             };
 
             $scope.$watchCollection('models.lists.Report', function (newReports, oldReports) {
