@@ -8,7 +8,6 @@
     <li ng-repeat="column in models.lists['Columns']"
         dnd-draggable="column"
         dnd-effect-allowed="move"
-        dnd-drop = "$scope.dropCallback($index, column)"
         dnd-moved="models.lists['Columns'].splice($index, 1)"
         dnd-horizontal-list="true">
         {{column.data.name}}

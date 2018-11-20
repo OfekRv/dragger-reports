@@ -72,6 +72,7 @@ angular
             $scope.models = {
                 selected: null,
                 lists: {
+                    "Report":[],
                     "Columns": []
                 }
             };
