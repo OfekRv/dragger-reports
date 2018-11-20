@@ -6,7 +6,7 @@ angular
             $scope.createReport = function () {
                 var columns = [];
                 angular.forEach($scope.models.lists.Report, function (value, key) {
-                    columns.push(value._links.self.href);
+                    columns.push(value.data._links.self.href);
                 });
                 /*
                  * var sources = [];
@@ -41,7 +41,7 @@ angular
 
             $scope.dropCallback = function (index, item) {
                 $scope.models.lists[item.type].columns.push(item);
-                $scope.models.lists['Columns'] = $scope.models.lists['Columns'].filter(
+                $scope.models.lists['Report'] = $scope.models.lists['Report'].filter(
                     function(column)
                     {
                         return !(column.data.name === item.data.name && column.data.type === item.data.type);
@@ -72,8 +72,7 @@ angular
             $scope.models = {
                 selected: null,
                 lists: {
-                    "Report":[],
-                    "Columns": []
+                    "Report":[]
                 }
             };
 
