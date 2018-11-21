@@ -45,3 +45,20 @@
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+.source-heading
+{
+    margin-bottom: 0;
+    background-image: linear-gradient(to bottom,#ffffff 0,#ffffff 100%);
+    -webkit-animation:random;
+    animation: random;
+    text-align: center;
+}
+
+@keyframes  random {
+    15% { background-image: linear-gradient(to bottom,red 0,red 100%); }
+    30% { background-image: linear-gradient(to bottom,yellow 0,yellow 100%); }
+    45% { background-image: linear-gradient(to bottom,green 0,green 100%); }
+    60% { background-image: linear-gradient(to bottom,dodgerblue 0,dodgerblue 100%); }
+    75% { background-image: linear-gradient(to bottom,purple 0,purple 100%); }
+}

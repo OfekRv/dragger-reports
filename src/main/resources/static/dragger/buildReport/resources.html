@@ -1,0 +1,17 @@
+<!-- The dnd-list directive allows to drop elements into it.
+     The dropped data will be added to the referenced list -->
+<ul dnd-list="list"
+dnd-allowed-types="list.allowedTypes"
+    dnd-external-sources="true">
+    <!-- The dnd-draggable directive makes an element draggable and will
+         transfer the object that was assigned to it. If an element was
+         dragged away, you have to remove it from the original list
+         yourself using the dnd-moved attribute -->
+    <li ng-repeat="column in list.columns"
+        dnd-draggable="column"
+        dnd-effect-allowed="move"
+        dnd-moved="list.columns.splice($index, 1)"
+        dnd-type="column.type">
+        {{column.data.name}}
+    </li>
+</ul>
