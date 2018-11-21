@@ -52,7 +52,7 @@ angular
             $scope.$watchCollection('models.lists.Report', function (newReports, oldReports) {
                 var columns = [];
                 angular.forEach($scope.models.lists.Report, function (value, key) {
-                    columns.push(value.columnId);
+                    columns.push(value.data.columnId);
                 });
 
                 if (columns.length > 1) {
