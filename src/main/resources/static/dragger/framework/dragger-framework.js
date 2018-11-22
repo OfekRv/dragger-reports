@@ -38,28 +38,46 @@ angular
 
 		.directive(
 				'navigation',
-				function($rootScope, $location) {
+				function($rootScope, $location, $http) {
 					return {
 						template : '<li ng-repeat="option in options" ng-class="{active: isActive(option)}">'
 								+ '    <a ng-href="{{option.href}}">{{option.label}}</a>'
 								+ '</li>',
 						link : function(scope, element, attr) {
-							scope.options = [ {
-								label : "Generate Report",
-								href : "#/generateReport"
-							}, {
-								label : "Build Report",
-								href : "#/buildReport"
-							}, {
-								label : "Create Source",
-								href : "#/createSource"
-							}, {
-								label : "Define Columns",
-								href : "#/defineColumns"
-							}, {
-								label : "Define Connections",
-								href : "#/defineConnections"
-							} ];
+
+							$http({
+								method : 'GET',
+								url : 'api/isDeveloperMode',
+							}).then(function successCallback(response) {
+								var isDevMode = response.data
+
+								if (isDevMode) {
+									scope.options = [ {
+										label : "Generate Report",
+										href : "#/generateReport"
+									}, {
+										label : "Build Report",
+										href : "#/buildReport"
+									}, {
+										label : "Create Source",
+										href : "#/createSource"
+									}, {
+										label : "Define Columns",
+										href : "#/defineColumns"
+									}, {
+										label : "Define Connections",
+										href : "#/defineConnections"
+									} ];
+								} else {
+									scope.options = [ {
+										label : "Generate Report",
+										href : "#/generateReport"
+									}, {
+										label : "Build Report",
+										href : "#/buildReport"
+									} ];
+								}
+							});
 
 							scope.isActive = function(option) {
 								return option.href.indexOf(scope.location) === 1;
