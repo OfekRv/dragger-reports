@@ -7,12 +7,13 @@ angular.module("dragger").controller(
 
 			$http({
 				method : 'GET',
-				url : '/api/reports'
+				// 100 is a realistic number of report that we wont reach
+				url : '/api/reports?size=100'
 			}).then(
 					function successCallback(response) {
 						angular.forEach(response.data._embedded.reports,
 								function(report) {
 									$scope.reports.push(report);
 								});
-					});  
+					});
 		});
