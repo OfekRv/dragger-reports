@@ -46,7 +46,7 @@ angular
 														});
 
 										if (columns.length > 1) {
-											var isLinked = $http(
+											$http(
 													{
 														method : 'POST',
 														url : 'api/queries/isQueryLinked',
@@ -55,7 +55,8 @@ angular
 													.then(
 															function successCallback(
 																	response) {
-																if (!response.data) {
+																var isLinked = response.data;
+																if (isLinked == "false") {
 																	alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
 																}
 															});
