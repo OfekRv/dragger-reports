@@ -34,6 +34,9 @@ angular
 										templateUrl : 'dragger/defineConnections/defineConnections-frame.html',
 										controller : 'defineConnectionsController'
 									})
+							.otherwise({
+								redirectTo : '/generateReport'
+							})
 				})
 
 		.directive(
