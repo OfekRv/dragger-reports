@@ -8,8 +8,9 @@ We noticed that every reports application isn't really designed to let the custo
 Dragger Reports provides the customer abillity to build report without understanding Sql, in his own native language
 
 
-**Demo:**
-
-we currently have an online demo of the application:
+**Try yourself:**
 
 https://dragger-reports.herokuapp.com
+
+developer mode: https://dragger-reports-developer.herokuapp.com
+
