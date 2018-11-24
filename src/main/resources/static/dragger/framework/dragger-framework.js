@@ -51,7 +51,7 @@ angular
 							}).then(function successCallback(response) {
 								var isDevMode = response.data
 
-								if (isDevMode) {
+								if (isDevMode != "false") {
 									scope.options = [ {
 										label : "Generate Report",
 										href : "#/generateReport"
