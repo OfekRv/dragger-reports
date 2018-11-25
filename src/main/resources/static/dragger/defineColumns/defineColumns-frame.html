@@ -1,40 +1,36 @@
-<h1>Define Column</h1>
-
-<div class="alert alert-success">
-	<strong>Instructions:</strong> define columns to query source to use in
-	the reports
-</div>
-
-<div class="simpleDemo row">
-
-	<div class="col-md-8">
-		<div class="row">
-			<div class="panel panel-info">
-				<div class="panel-heading" ng-controller="defineColumnsController">
-					<table>
-						<tr>
-							<td>Source:</td>
-							<td><select ng-model="selected">
-									<option ng-repeat="source in sources"
-										value="{{source._links.self.href}}">{{source.name}}</option>
-							</select></td>
-						</tr>
-						<tr>
-							<td>Name:</td>
-							<td><input type="text" id="name" ng-model="column.name" /></td>
-						</tr>
-						<tr>
-							<td>Raw:</td>
-							<td><input type="text" id="raw" ng-model="column.raw" /></td>
-						</tr>
-						<tr>
-							<td><button type="button"
-									ng-click="defineColumn(column.name, column.raw, selected)"
-									class="btn btn-primary custom-width">Create</button></td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="dragger-form">
+    <div id="signup">
+        <form class="form-define-columns" method="post" name="register" novalidate>
+            <div class="signup-screen">
+                <div class="select">
+                    <select class="select-text" ng-model="selected">
+                        <option ng-repeat="source in sources"
+                                value="{{source._links.self.href}}">{{source.name}}
+                        </option>
+                    </select>
+                    <span class="select-highlight"></span>
+                    <span class="select-bar"></span>
+                    <label class="select-label">Choose Report</label>
+                </div>
+                <div class="group">
+                    <input type="text" id="name" ng-model="column.name" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Name</label>
+                </div>
+                <div class="group">
+                    <input type="text" id="raw" ng-model="column.raw" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Raw</label>
+                </div>
+                <div class="space-top text-center">
+                    <button ng-disabled="form-define-columns.$invalid"
+                            ng-click="defineColumn(column.name, column.raw, selected)"
+                            class="waves-effect waves-light btn done">Define columns
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

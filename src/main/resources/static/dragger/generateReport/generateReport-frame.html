@@ -1,22 +1,20 @@
-<h1>Generate Report</h1>
-
-<div class="alert alert-success">
-	<strong>Instructions:</strong> choose report and then generate it to
-	your computer
-</div>
-
-<div class="simpleDemo row">
-
-	<div class="col-md-8">
-		<div class="row">
-			<div class="panel panel-info">
-				<div class="panel-heading" ng-controller="generateReportController">
-					<select ng-model="selected" ng-change="changeReport()">
-						<option ng-repeat="report in reports" value="{{report.id}}">{{report.name}}</option>
-					</select> <a id="download"
-						ng-href="/api/reports/generateReport?reportId={{selected}}">generate</a>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="dragger-form">
+    <div id="signup">
+        <div class="signup-screen">
+            <form class="form-generate-report" method="post" name="register" novalidate>
+                    <div class="select">
+                        <select class="select-text" ng-model="selected" ng-change="changeReport()" required>
+                            <option ng-repeat="report in reports" value="{{report.id}}">{{report.name}}</option>
+                        </select>
+                        <span class="select-highlight"></span>
+                        <span class="select-bar"></span>
+                        <label class="select-label">Choose Report</label>
+                    </div>
+                    <div class="space-top text-center">
+                        <button ng-disabled="form-generate-report.$invalid" ng-click="generateReport(selected)" class="waves-effect waves-light btn done">Generate
+                        </button>
+                    </div>
+            </form>
+        </div>
+    </div>
 </div>

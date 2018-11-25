@@ -1,33 +1,26 @@
-<h1>Create Source</h1>
-
-<div class="alert alert-success">
-	<strong>Instructions:</strong> create query source to use in the
-	reports
-</div>
-
-<div class="simpleDemo row">
-
-	<div class="col-md-8">
-		<div class="row">
-			<div class="panel panel-info">
-				<div class="panel-heading" ng-controller="createSourceController">
-					<table>
-						<tr>
-							<td>Name:</td>
-							<td><input type="text" id="name" ng-model="source.name" /></td>
-						</tr>
-						<tr>
-							<td>From clause:</td>
-							<td><input type="text" id="from" ng-model="source.from" /></td>
-						</tr>
-						<tr>
-							<td><button type="button"
-									ng-click="createSource(source.name, source.from)"
-									class="btn btn-primary custom-width">Create</button></td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="dragger-form">
+    <div id="signup">
+        <form class="form-create-source" method="post" name="register" novalidate>
+            <div class="signup-screen">
+                <div class="group">
+                    <input type="text" id="name" ng-model="source.name" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Name</label>
+                </div>
+                <div class="group">
+                    <input type="text" id="from" ng-model="source.from" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>From clause</label>
+                </div>
+                <div class="space-top text-center">
+                    <button ng-disabled="form-create-source.$invalid"
+                            ng-click="createSource(source.name, source.from)"
+                            class="waves-effect waves-light btn done">Create
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
