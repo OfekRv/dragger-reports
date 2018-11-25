@@ -1,47 +1,199 @@
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.simpleDemo ul[dnd-list] {
-    min-height: 42px;
-    padding-left: 0px;
+.text-center{
+    text-align: center;
 }
 
-/**
- * The dndDraggingSource class will be applied to
- * the source element of a drag operation. It makes
- * sense to hide it to give the user the feeling
- * that he's actually moving it.
- */
-.simpleDemo ul[dnd-list] .dndDraggingSource {
-    display: none;
+.space-bot{
+    margin-bottom: 35px;
 }
 
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-.simpleDemo ul[dnd-list] .dndPlaceholder {
-    background-color: #ddd;
+.space-top{
+    margin-top: 35px;
+}
+
+/* Title */
+
+h1 {
+    color: white;
+    font-family: 'Roboto';
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 25px;
+    text-align: center;
+}
+
+/* Sign Up */
+
+.dragger-form {
+    max-width: 400px;
+    max-height: 100px;
+    margin-top: 10px;
+    position: absolute;
+    margin: auto;
+    right: 0;
+    left: 0;
+}
+
+.alert-danger{
+    text-align: center;
+}
+
+.signup-screen {
+    padding: 20px;
+    padding-bottom: 40px;
+    border-radius: 5px;
+    background-color: #e3d9db;
+    box-shadow: 0 1px 6px rgba(0,0,0,.3);
+    color: #0859c1;
+}
+
+.btn{
+    border-radius: 3px;
+}
+
+.done{
+    background-color: #0859c1;
+    color: black;
+    text-decoration-style: solid;
+}
+
+.done:hover{
+    background-color: #0867ff;
+    transition: all 0.3s ease 0.2s
+}
+
+.input-group {
+    width:100%;
+}
+
+.input-group .ng-invalid {
+    border: 2px solid #e74c3c;
+    border-radius: 3px;
+}
+
+.help-block {
+    font-size: 12px;
+    color: white
+}
+
+
+
+
+
+
+/*.wrap {*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*top: 40%;*/
+    /*width: 350px;*/
+    /*left: 0;*/
+    /*margin: 0 auto;*/
+/*}*/
+
+/* select starting stylings ------------------------------*/
+.select {
+    font-family:
+            'Roboto','Helvetica','Arial',sans-serif;
+    position: relative;
+    width: 350px;
+    background-color: #E3D9DB;
+}
+
+.select-text {
+    position: relative;
+    font-family: inherit;
+    width: 350px;
+    padding: 10px 10px 10px 0;
+    font-size: 18px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.12);
+}
+
+/* Remove focus */
+.select-text:focus {
+    outline: none;
+    border-bottom: 1px solid rgba(0,0,0, 0);
+}
+
+/* Use custom arrow */
+.select .select-text {
+    appearance: none;
+    -webkit-appearance:none
+}
+
+.select:after {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+    /* Styling the down arrow */
+    width: 0;
+    height: 0;
+    padding: 0;
+    content: '';
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(0, 0, 0, 0.12);
+    pointer-events: none;
+    color: #2F80ED;
+}
+
+
+/* LABEL ======================================= */
+.select-label {
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 10px;
+    transition: 0.2s ease all;
+}
+
+/* active state */
+.select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
+    color: #2F80ED;
+    top: -20px;
+    transition: 0.2s ease all;
+    font-size: 14px;
+}
+
+/* BOTTOM BARS ================================= */
+.select-bar {
+    position: relative;
     display: block;
-    min-height: 42px;
+    width: 350px;
 }
 
-.simpleDemo ul[dnd-list] li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
+.select-bar:before, .select-bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #2F80ED;
+    transition: 0.2s ease all;
 }
 
-/**
- * Show selected elements in green
- */
-.simpleDemo ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    color: #3c763d;
+.select-bar:before {
+    left: 50%;
+}
+
+.select-bar:after {
+    right: 50%;
+}
+
+/* active state */
+.select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
+    width: 50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.select-highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
 }

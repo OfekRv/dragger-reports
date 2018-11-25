@@ -1,21 +1,21 @@
 <div class="simpleDemo row">
 
     <div class="col-md-3">
-        <div ng-repeat="(listName, list) in models.lists" class="row" ng-if="!listName.includes('Report')">
-            <div class="panel panel-info source-heading">
-                <div class="panel-heading">
-                    <h3 class="panel-title">{{listName}}</h3>
+        <div class="row">
+            <div ng-repeat="(listName, list) in models.lists" class="row" ng-if="!listName.includes('Report')">
+                <div class="panel panel-info source-heading">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{listName}}</h3>
+                    </div>
+                    <div class="panel-body"
+                         ng-include="'dragger/buildReport/resources.html'"></div>
                 </div>
-                <div class="panel-body"
-                     ng-include="'dragger/buildReport/resources.html'"></div>
             </div>
         </div>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-2">
     </div>
-    <div class="col-md-8">
-        <div class="row">
-        </div>
+    <div class="col-md-7">
         <div class="row">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -24,14 +24,19 @@
                 <div class="panel-body"
                      ng-include="'dragger/buildReport/report.html'"></div>
             </div>
-        </div>
-        <div class="col-md-8"></div>
-        <div class="col-md-4">
-            Report name:
-            <input type="text" id="from" ng-model="report.name"/>
-            <button type="button" ng-click="createReport()"
-                    class="btn btn-primary custom-width">Create
-            </button>
+            <div class="row">
+                <form class="form-build-report" method="post" name="register" novalidate>
+                    <div class="group">
+                        <input type="text" ng-model="report.name" required>
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Desired report name</label>
+                    </div>
+                    <button ng-disabled="form-build-report.$invalid" type="button" ng-click="createReport()"
+                            class="btn btn-primary custom-width">Build
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

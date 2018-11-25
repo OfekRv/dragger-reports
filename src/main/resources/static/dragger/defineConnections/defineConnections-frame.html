@@ -1,57 +1,69 @@
-<h1>Define Connection</h1>
-
-<div class="alert alert-success">
-	<strong>Instructions:</strong> define connections to combine sources in
-	reports
+<div class="wide-dragger-form">
+    <div id="signup">
+        <form class="form-define-columns" method="post" name="register" novalidate>
+            <div class="signup-screen">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="select">
+                            <select class="select-text" ng-model="firstSourceSelected"
+                                    ng-change="updateFirstSourceColumns()">
+                                <option ng-repeat="source in sources"
+                                        value="{{source._links.columns.href}}">{{source.name}}
+                                </option>
+                            </select>
+                            <span class="select-highlight"></span>
+                            <span class="select-bar"></span>
+                            <label class="select-label">First source</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="select">
+                            <select class="select-text" ng-model="secondSourceSelected"
+                                    ng-change="updateSecondSourceColumns()">
+                                <option ng-repeat="source in sources"
+                                        value="{{source._links.columns.href}}">{{source.name}}
+                                </option>
+                            </select>
+                            <span class="select-highlight"></span>
+                            <span class="select-bar"></span>
+                            <label class="select-label">Second source</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="select">
+                            <select class="select-text" ng-model="firstEdgeSelected">
+                                <option ng-repeat="column in firstSourceColumns"
+                                        value="{{column._links.self.href}}">{{column.name}}
+                                </option>
+                            </select>
+                            <span class="select-highlight"></span>
+                            <span class="select-bar"></span>
+                            <label class="select-label">First edge</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="select">
+                            <select class="select-text" ng-model="secondEdgeSelected">
+                                <option ng-repeat="column in secondSourceColumns"
+                                        value="{{column._links.self.href}}">{{column.name}}
+                                </option>
+                            </select>
+                            <span class="select-highlight"></span>
+                            <span class="select-bar"></span>
+                            <label class="select-label">Second edge</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-top text-center">
+                    <button ng-disabled="form-define-columns.$invalid"
+                            ng-click="defineConnection(firstEdgeSelected, secondEdgeSelected)"
+                            class="waves-effect waves-light btn done">Define connections
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-
-<div class="simpleDemo row">
-
-	<div class="col-md-8">
-		<div class="row">
-			<div class="panel panel-info">
-				<div class="panel-heading"
-					ng-controller="defineConnectionsController">
-					<table>
-						<tr>
-							<td>First source:</td>
-							<td><select ng-model="firstSourceSelected"
-								ng-change="updateFirstSourceColumns()">
-									<option ng-repeat="source in sources"
-										value="{{source._links.columns.href}}">{{source.name}}</option>
-							</select></td>
-
-							<td>Second source:</td>
-							<td><select ng-model="secondSourceSelected"
-								ng-change="updateSecondSourceColumns()">
-									<option ng-repeat="
-								source in
-								sources"
-										value="{{source._links.columns.href}}">{{source.name}}
-									</option>
-							</select></td>
-						</tr>
-						<tr>
-							<td>First edge:</td>
-							<td><select ng-model="firstEdgeSelected">
-									<option ng-repeat="column in firstSourceColumns"
-										value="{{column._links.self.href}}">{{column.name}}</option>
-							</select></td>
-
-							<td>Second edge:</td>
-							<td><select ng-model="secondEdgeSelected">
-									<option ng-repeat="column in secondSourceColumns"
-										value="{{column._links.self.href}}">{{column.name}}</option>
-							</select></td>
-						</tr>
-						<tr>
-							<td><button type="button"
-									ng-click="defineConnection(firstEdgeSelected, secondEdgeSelected)"
-									class="btn btn-primary custom-width">Create</button></td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
