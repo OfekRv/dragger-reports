@@ -74,7 +74,8 @@ body {
 {
     text-shadow: none;
     text-decoration-style: solid;
-    color: black;
+    color: white;
+    font-size: large;
 }
 
 .navbar-default
@@ -98,9 +99,15 @@ body {
     background-image: linear-gradient(to bottom, #d7dae2 0, #d7dae2 100%);
 }
 
+.navbar-brand
+{
+padding-top: 10px;
+}
+
 .dragger-logo
 {
-    background-image: url("../../dragger_logo.png");
-    background-position-y: -80px;
-    width:100%;
+    background-image: url(../../dragger_logo.png);
+    background-position-y: -85px;
+    width: 200px;
+    height: 40px;
 }

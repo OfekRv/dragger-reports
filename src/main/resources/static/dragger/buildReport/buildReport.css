@@ -46,25 +46,48 @@
     color: #3c763d;
 }
 
-.source-heading
-{
-    margin-bottom: 0;
-    -webkit-animation:random;
-    animation: random;
-    text-align: center;
-    margin-bottom: 5px;
-}
-
 .panel-info>.panel-heading
 {
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
+    background-image: linear-gradient(to bottom, #d9edf7 0, #d9edf7 100%);
 }
 
 .panel-title
 {
     background-image: inherit;
     color: black;
+    font-weight: bold;
     text-decoration-style: solid;
+    font-size: medium;
+}
+
+panel-heading
+{
+    background-image: linear-gradient(to bottom, #d9edf7  0, #d9edf7 100%);
+}
+
+.panel-info>.panel-heading>.source-heading
+{
+    margin-bottom: 0;
+    -webkit-animation:random;
+    animation: random;
+    text-align: center;
+    margin-bottom: 5px;
+    background-image: linear-gradient(to bottom, #d9edf7 0, #d9edf7 100%);
+}
+
+.panel-info>.panel-heading>.report-title
+{
+    background-image: inherit;
+    color: black;
+    font-weight: bold;
+    text-decoration-style: solid;
+    font-size: medium;
+    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
+}
+
+#reportTitle
+{
+    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
 .text-center{
@@ -110,24 +133,9 @@ h1 {
     padding: 20px;
     padding-bottom: 40px;
     border-radius: 5px;
-    background-color: #e3d9db;
+    background-color: white;
     box-shadow: 0 1px 6px rgba(0,0,0,.3);
     color: #0859c1;
-}
-
-.btn{
-    border-radius: 3px;
-}
-
-.done{
-    background-color: #0859c1;
-    color: black;
-    text-decoration-style: solid;
-}
-
-.done:hover{
-    background-color: #0867ff;
-    transition: all 0.3s ease 0.2s
 }
 
 .input-group {
@@ -178,14 +186,14 @@ textarea {
     resize: none;
 }
 input, textarea {
-    background: none;
+    background: white;
     color: #c6c6c6;
-    font-size: 18px;
+    font-size: 25px;
     padding: 10px 10px 10px 5px;
     display: block;
-    width: 320px;
+    width: 100%;
     border: none;
-    border-radius: 0;
+    border-radius: 4px;
     border-bottom: 1px solid #c6c6c6;
 }
 input:focus, textarea:focus {
@@ -197,7 +205,7 @@ input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid
     color: #2196f3;
 }
 input:focus ~ .bar:before, textarea:focus ~ .bar:before {
-    width: 320px;
+    width: 100%;
 }
 input[type="password"] {
     letter-spacing: 0.3em;
@@ -215,7 +223,7 @@ label {
 .bar {
     position: relative;
     display: block;
-    width: 320px;
+    width: 100%;
 }
 .bar:before {
     content: '';
@@ -228,8 +236,8 @@ label {
     left: 0%;
 }
 .btn {
-    background: #fff;
-    color: #959595;
+    background-color: #0869f7;
+    color: black;
     border: none;
     padding: 10px 20px;
     border-radius: 3px;
@@ -241,7 +249,8 @@ label {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .btn:hover {
-    color: #8b8b8b;
+    color: #202020;
+    background-color: #0859C1;
     box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
 .btn.btn-link {
@@ -270,4 +279,87 @@ label {
 .btn-box {
     text-align: center;
     margin: 50px 0;
+}
+
+.remove-report-icon
+{
+    width: 19px;
+}
+
+.remove-column-button {
+    background-color: #b86463;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.remove-column-button:hover {
+    background-color: #b84443;
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+}
+
+.build-report-name
+{
+    font-size: 30px;
+    border-radius: 3px;
+    width: 100%;
+    background-color: #afafb1;
+}
+
+.padding-report-name
+{
+    padding-bottom: 40px;
+}
+
+.build-report-name-label
+{
+    color: #2196f3;
+    font-size: 30px;
+}
+
+.report-area
+{
+    height:500px;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+
+/*--------------------SCROLLBAR---------------------*/
+
+#style-8::-webkit-scrollbar
+{
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-8::-webkit-scrollbar-track {
+    border: 1px solid black;
+    background-color: #F5F5F5;
+}
+
+#style-8::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}
+
+.scrollbar {
+    margin-left: 22px;
+    float: left;
+    height: 300px;
+    width: 65px;
+    background: #F5F5F5;
+    overflow-y: scroll;
+    margin-bottom: 25px;
+}
+
+.force-overflow {
+    min-height: 450px;
 }
