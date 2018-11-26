@@ -1,6 +1,6 @@
 <!-- The dnd-list directive allows to drop elements into it.
      The dropped data will be added to the referenced list -->
-<ul dnd-list="models.lists['Report']">
+<ul class="report-area" dnd-list="models.lists['Report']">
     <!-- The dnd-draggable directive makes an element draggable and will
          transfer the object that was assigned to it. If an element was
          dragged away, you have to remove it from the original list
@@ -10,10 +10,15 @@
         dnd-effect-allowed="move"
         dnd-moved="models.lists['Report'].splice($index, 1)"
         dnd-horizontal-list="true">
-        {{column.data.name}}
-
-        <button type="button" class="btn btn-default btn-sm" ng-click="dropCallback($index, column)">
-            Remove
-        </button>
+        <div class="row">
+            <div class="col-md-10">
+                {{column.data.name}}
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="remove-column-button" ng-click="dropCallback($index, column)">
+                    <img class="remove-report-icon" src="dragger/buildReport/trash_icon.png">
+                </button>
+            </div>
+        </div>
     </li>
 </ul>

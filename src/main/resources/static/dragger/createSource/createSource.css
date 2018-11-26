@@ -41,24 +41,9 @@ h1 {
     padding: 20px;
     padding-bottom: 40px;
     border-radius: 5px;
-    background-color: #e3d9db;
+    background-color: white;
     box-shadow: 0 1px 6px rgba(0,0,0,.3);
     color: #0859c1;
-}
-
-.btn{
-    border-radius: 3px;
-}
-
-.done{
-    background-color: #0859c1;
-    color: black;
-    text-decoration-style: solid;
-}
-
-.done:hover{
-    background-color: #0867ff;
-    transition: all 0.3s ease 0.2s
 }
 
 .input-group {
@@ -128,7 +113,7 @@ input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid
     color: #2196f3;
 }
 input:focus ~ .bar:before, textarea:focus ~ .bar:before {
-    width: 320px;
+    width: 100%;
 }
 input[type="password"] {
     letter-spacing: 0.3em;
@@ -146,7 +131,7 @@ label {
 .bar {
     position: relative;
     display: block;
-    width: 320px;
+    width: 100%;
 }
 .bar:before {
     content: '';
@@ -159,8 +144,8 @@ label {
     left: 0%;
 }
 .btn {
-    background: #fff;
-    color: #959595;
+    background-color: #0869f7;
+    color: black;
     border: none;
     padding: 10px 20px;
     border-radius: 3px;
@@ -172,7 +157,8 @@ label {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .btn:hover {
-    color: #8b8b8b;
+    color: #202020;
+    background-color: #0859C1;
     box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
 .btn.btn-link {
