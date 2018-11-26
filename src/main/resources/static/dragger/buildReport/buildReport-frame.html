@@ -2,16 +2,6 @@
     <div class="simpleDemo row">
         <div class="col-md-3">
             <div class="row">
-                <div id="signup">
-                    <div class="padding-report-name">
-                        <input type="text" ng-model="report.name" class="build-report-name" required>
-                        <span class="highlight"></span>
-                        <span class="bar"></span>
-                        <label class="build-report-name-label">Desired report name</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div ng-repeat="(listName, list) in models.lists" class="row" ng-if="!listName.includes('Report')">
                     <div class="panel panel-info">
                         <div class="panel-heading source-heading">
@@ -38,10 +28,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-10"></div>
-                <div class="col-md-2">
+                <div class="col-md-5 column-padding-removal">
+                    <div id="signup">
+                        <div class="padding-report-name">
+                            <input type="text" ng-model="report.name" class="build-report-name" required>
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label class="build-report-name-label">Desired report name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5"></div>
+                <div class="col-md-2 column-padding-removal">
                     <button ng-disabled="form-build-report.$invalid" type="button" ng-click="createReport()"
-                            class="btn done">Build
+                            class="btn done build-button">Build
                     </button>
                 </div>
             </div>

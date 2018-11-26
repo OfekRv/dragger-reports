@@ -48,7 +48,7 @@
 
 .panel-info>.panel-heading
 {
-    background-image: linear-gradient(to bottom, #d9edf7 0, #d9edf7 100%);
+    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
 .panel-title
@@ -62,7 +62,7 @@
 
 panel-heading
 {
-    background-image: linear-gradient(to bottom, #d9edf7  0, #d9edf7 100%);
+    background-image: linear-gradient(to bottom, #086df5  0, #086df5 100%);
 }
 
 .panel-info>.panel-heading>.source-heading
@@ -72,7 +72,7 @@ panel-heading
     animation: random;
     text-align: center;
     margin-bottom: 5px;
-    background-image: linear-gradient(to bottom, #d9edf7 0, #d9edf7 100%);
+    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
 .panel-info>.panel-heading>.report-title
@@ -82,11 +82,6 @@ panel-heading
     font-weight: bold;
     text-decoration-style: solid;
     font-size: medium;
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
-}
-
-#reportTitle
-{
     background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
@@ -210,13 +205,13 @@ input:focus ~ .bar:before, textarea:focus ~ .bar:before {
 input[type="password"] {
     letter-spacing: 0.3em;
 }
+
 label {
     color: #c6c6c6;
     font-size: 16px;
     font-weight: normal;
     position: absolute;
     pointer-events: none;
-    left: 5px;
     top: 10px;
     transition: 300ms ease all;
 }
@@ -237,7 +232,7 @@ label {
 }
 .btn {
     background-color: #0869f7;
-    color: black;
+    color: #e0dfdf;
     border: none;
     padding: 10px 20px;
     border-radius: 3px;
@@ -249,7 +244,7 @@ label {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .btn:hover {
-    color: #202020;
+    color: white;
     background-color: #0859C1;
     box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
@@ -303,12 +298,18 @@ label {
     box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
 
+.column-padding-removal
+{
+    padding-left:0px;
+}
+
 .build-report-name
 {
-    font-size: 30px;
+    font-size: 20px;
     border-radius: 3px;
     width: 100%;
-    background-color: #afafb1;
+    background-color: white;
+    color:black;
 }
 
 .padding-report-name
@@ -318,8 +319,9 @@ label {
 
 .build-report-name-label
 {
-    color: #2196f3;
-    font-size: 30px;
+     top: -14px;
+     font-size: 12px;
+     color: #2196f3;
 }
 
 .report-area
@@ -362,4 +364,10 @@ label {
 
 .force-overflow {
     min-height: 450px;
+}
+
+.build-button
+{
+    font-size: 20px;
+    width:100px;
 }
