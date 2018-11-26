@@ -33,7 +33,8 @@ angular
 									{
 										templateUrl : 'dragger/defineConnections/defineConnections-frame.html',
 										controller : 'defineConnectionsController'
-									}).otherwise({
+									})
+							.otherwise({
 								redirectTo : '/generateReport'
 							})
 				})
@@ -53,7 +54,7 @@ angular
 							}).then(function successCallback(response) {
 								var isDevMode = response.data
 
-								if (isDevMode) {
+								if (isDevMode != "false") {
 									scope.options = [ {
 										label : "Generate Report",
 										href : "#/generateReport"
