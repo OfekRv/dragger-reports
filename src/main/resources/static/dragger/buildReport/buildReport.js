@@ -28,7 +28,7 @@ angular
 						$scope.models.lists[item.type].columns.push(item);
 						$scope.models.lists['Report'] = $scope.models.lists['Report']
 								.filter(function(column) {
-									return !(column.data.name === item.data.name && column.data.type === item.data.type);
+									return !(column.data.name === item.data.name && column.type === item.type);
 								})
 					};
 
