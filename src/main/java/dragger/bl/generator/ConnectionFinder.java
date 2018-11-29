@@ -3,6 +3,7 @@ package dragger.bl.generator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import dragger.entities.QueryColumn;
@@ -14,13 +15,24 @@ public interface ConnectionFinder {
 	public default Collection<SourceConnection> findConnectionsBetweenSources(Collection<QuerySource> sources)
 			throws DraggerConnectionException {
 		Collection<SourceConnection> connections = new ArrayList<>();
+		Collection<QuerySource> visited = new ArrayList<>();
 		Collection<QuerySource> needToBeFoundSources = new ArrayList<>(sources);
-		for (QuerySource source : sources) {
-			for (Map.Entry<QuerySource, SourceConnection> connectoinEntry : getAllSourcesConnectedToSource(source)
+		needToBeFoundSources.remove(sources.stream().findFirst().get());
+		LinkedList<QuerySource> toVisit = new LinkedList<>();
+		toVisit.add(sources.stream().findFirst().get());
+
+		while (!toVisit.isEmpty()) {
+			QuerySource source = toVisit.removeFirst();
+			visited.add(source);
+
+			for (Map.Entry<QuerySource, SourceConnection> neighour : getAllSourcesConnectedToSource(source)
 					.entrySet()) {
-				if (sources.contains(connectoinEntry.getKey())) {
-					connections.add(connectoinEntry.getValue());
-					needToBeFoundSources.remove(source);
+				if (!visited.contains(neighour.getKey())) {
+					if (sources.contains(neighour.getKey()) && !connections.contains(neighour.getValue())) {
+						connections.add(neighour.getValue());
+						needToBeFoundSources.remove(neighour.getKey());
+					}
+					toVisit.addLast(neighour.getKey());
 				}
 			}
 		}
