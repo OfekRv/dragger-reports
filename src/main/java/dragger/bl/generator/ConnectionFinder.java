@@ -29,8 +29,10 @@ public interface ConnectionFinder {
 
 			for (Map.Entry<QuerySource, SourceConnection> neighour : getAllSourcesConnectedToSource(source.getKey())
 					.entrySet()) {
-				Collection<SourceConnection> deepConnections = findDeepConnectionsBetweenRootAndSourceNeighbour(source, neighour);
 				if (!visited.contains(neighour.getKey())) {
+					Collection<SourceConnection> deepConnections = findDeepConnectionsBetweenRootAndSourceNeighbour(
+							source, neighour);
+
 					if (sources.contains(neighour.getKey()) && !connections.contains(neighour.getValue())) {
 						connections.addAll(deepConnections);
 						needToBeFoundSources.remove(neighour.getKey());
