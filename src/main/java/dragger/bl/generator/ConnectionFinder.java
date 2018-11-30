@@ -1,5 +1,6 @@
 package dragger.bl.generator;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,21 +19,25 @@ public interface ConnectionFinder {
 		Collection<QuerySource> visited = new ArrayList<>();
 		Collection<QuerySource> needToBeFoundSources = new ArrayList<>(sources);
 		needToBeFoundSources.remove(sources.stream().findFirst().get());
-		LinkedList<QuerySource> toVisit = new LinkedList<>();
-		toVisit.add(sources.stream().findFirst().get());
+		LinkedList<Map.Entry<QuerySource, Collection<SourceConnection>>> toVisit = new LinkedList<>();
+		toVisit.add(new AbstractMap.SimpleEntry<QuerySource, Collection<SourceConnection>>(
+				sources.stream().findFirst().get(), null));
 
 		while (!toVisit.isEmpty()) {
-			QuerySource source = toVisit.removeFirst();
-			visited.add(source);
+			Map.Entry<QuerySource, Collection<SourceConnection>> source = toVisit.removeFirst();
+			visited.add(source.getKey());
 
-			for (Map.Entry<QuerySource, SourceConnection> neighour : getAllSourcesConnectedToSource(source)
+			for (Map.Entry<QuerySource, SourceConnection> neighour : getAllSourcesConnectedToSource(source.getKey())
 					.entrySet()) {
+				Collection<SourceConnection> deepConnections = findDeepConnectionsBetweenRootAndSourceNeighbour(source, neighour);
 				if (!visited.contains(neighour.getKey())) {
 					if (sources.contains(neighour.getKey()) && !connections.contains(neighour.getValue())) {
-						connections.add(neighour.getValue());
+						connections.addAll(deepConnections);
 						needToBeFoundSources.remove(neighour.getKey());
 					}
-					toVisit.addLast(neighour.getKey());
+
+					toVisit.addLast(new AbstractMap.SimpleEntry<QuerySource, Collection<SourceConnection>>(
+							neighour.getKey(), deepConnections));
 				}
 			}
 		}
@@ -43,6 +48,17 @@ public interface ConnectionFinder {
 		}
 
 		return connections;
+	}
+
+	public default Collection<SourceConnection> findDeepConnectionsBetweenRootAndSourceNeighbour(
+			Map.Entry<QuerySource, Collection<SourceConnection>> source,
+			Map.Entry<QuerySource, SourceConnection> neighour) {
+		Collection<SourceConnection> deepConnections = new ArrayList<>();
+		if (source.getValue() != null) {
+			deepConnections.addAll(source.getValue());
+		}
+		deepConnections.add(neighour.getValue());
+		return deepConnections;
 	}
 
 	public default boolean isAllSourcesConnected(Collection<QuerySource> sources) {
