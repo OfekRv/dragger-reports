@@ -1,8 +1,10 @@
 package dragger.bl.generator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringJoiner;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.inject.Named;
 
@@ -30,13 +32,17 @@ public class RationalQueryGenerator implements QueryGenerator {
 		StringJoiner rawQuery = new StringJoiner(NEW_LINE);
 
 		rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
-		rawQuery.add(generateRawClause(FROM, SEPERATOR, query.getSources(), this::rawAndNamedSource));
 
-		if (query.getSources().size() > 1) {
-			rawQuery.add(generateRawClause(WHERE, AND, findConnectionsBetweenSources(query.getSources()),
-					this::rawConnection));
+		Collection<QuerySource> sources = query.getSources();
+		if (sources.size() > 1) {
+			Collection<SourceConnection> connections = findConnectionsBetweenSources(sources);
+			sources.addAll(extractSourcesFromConnections(connections));
+			sources = sources.stream().distinct().collect(Collectors.toList());
+			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
+			rawQuery.add(generateRawClause(WHERE, AND, connections, this::rawConnection));
+		} else {
+			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
 		}
-
 		return rawQuery.toString();
 	}
 
@@ -67,5 +73,15 @@ public class RationalQueryGenerator implements QueryGenerator {
 			return clauseTypeRaw + raw.toString();
 		}
 		return EMPTY_STRING;
+	}
+
+	private Collection<QuerySource> extractSourcesFromConnections(Collection<SourceConnection> connections) {
+		Collection<QuerySource> sources = new ArrayList<>();
+		for (SourceConnection connection : connections) {
+			for (QueryColumn column : connection.getEdges()) {
+				sources.add(column.getSource());
+			}
+		}
+		return sources;
 	}
 }
