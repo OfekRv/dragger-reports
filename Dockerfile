@@ -1,2 +1,2 @@
 
-FROM dockerfile/java:oracle-java8
+FROM dockerfile/openjdk:8-jre
