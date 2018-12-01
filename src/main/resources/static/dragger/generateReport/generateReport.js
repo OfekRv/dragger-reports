@@ -15,14 +15,4 @@ angular.module("dragger").controller(
 									$scope.reports.push(report);
 								});
 					});
-
-            $scope.generateReport = function(reportId)
-            {
-                $http({
-                    method : 'GET',
-                    url : '/api/reports/generateReport?reportId=' + reportId
-                }).then(
-                    function successCallback(response) {
-                    });
-            };
 		});

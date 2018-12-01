@@ -215,3 +215,8 @@ option {
     pointer-events: none;
     opacity: 0.5;
 }
+
+.download-disabled
+{
+    pointer-events: none;
+}

@@ -11,7 +11,10 @@
                         <label class="select-label">Choose Report</label>
                     </div>
                     <div class="space-top text-center">
-                        <button ng-disabled="form-generate-report.$invalid" ng-click="generateReport(selected)" class="waves-effect waves-light btn done">Generate
+                        <button ng-disabled="form-generate-report.$invalid || selected === null" class="waves-effect waves-light btn done">
+                            <a href = "/api/reports/generateReport?reportId={{selected}}"
+                               ng-class="{'download-disabled': selected == null || selected == ''}"
+                               style="text-decoration:none;color:black">Generate</a>
                         </button>
                     </div>
             </form>
