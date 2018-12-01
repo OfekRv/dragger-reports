@@ -1,5 +1,3 @@
-<img src="https://ci.appveyor.com/api/projects/status/github/OfekRv/DraggerReports?branch=master&svg=true">
-
 # Dragger Reports
 Let the customer get whichever information he wants
 
