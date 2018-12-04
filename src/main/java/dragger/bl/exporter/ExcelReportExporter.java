@@ -34,6 +34,7 @@ public class ExcelReportExporter implements ReportExporter {
 	private static final char SPACE = ' ';
 	private static final String SUFFIX = ".xlsx";
 	private static final String PARENT_DIRECTORIES = "reports/";
+	private static final String EMPTY = "";
 	private static final int TITLE_ROW = 0;
 	private static final int HEADER_ROW = 3;
 	private static final int RESULTS_FIRST_ROW = HEADER_ROW + 1;
@@ -96,7 +97,14 @@ public class ExcelReportExporter implements ReportExporter {
 			Row row = sheet.createRow(excelRowIndex);
 
 			for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
-				CreateCell(results.getObject(resultsMetaData.getColumnNames()[i]).toString(), DataStyle, row, i);
+
+				Object data = results.getObject(resultsMetaData.getColumnNames()[i]);
+
+				if (data == null) {
+					data = EMPTY;
+				}
+
+				CreateCell(data.toString(), DataStyle, row, i);
 			}
 
 			excelRowIndex++;
