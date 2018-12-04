@@ -41,10 +41,11 @@ public class ExcelReportExporter implements ReportExporter {
 	private static final int TITLE_ROW = 0;
 	private static final int HEADER_ROW = 3;
 	private static final int FILTERS_ROW = 3;
+	private static final int AFTER_FILTERS_INCREMENT = 1;
 	private static final int FIRST_COLUMN_INDEX = 0;
-	private static final int COLUMN_NAME_COLUMN_INDEX = 0;
+	private static final int COLUMN_NAME_COLUMN_INDEX = 2;
 	private static final int FILTER_NAME_COLUMN_INDEX = 1;
-	private static final int VALUE_COLUMN_INDEX = 2;
+	private static final int VALUE_COLUMN_INDEX = 0;
 
 	@Inject
 	private QueryGenerator generator;
@@ -71,14 +72,16 @@ public class ExcelReportExporter implements ReportExporter {
 
 			if (filters != null) {
 				currentExcelRow = createFiltersTable(filters, workbook, sheet);
+				currentExcelRow += AFTER_FILTERS_INCREMENT;
 			} else {
 				currentExcelRow = HEADER_ROW;
 			}
 
 			currentExcelRow = createHeaderRowFromMetadata(resultsMetaData, workbook, sheet, currentExcelRow);
+			int autoExcelFilterRow = currentExcelRow - 1;
 			int excelLastRowIndex = createDataTableFromResultset(results, resultsMetaData, workbook, sheet,
 					currentExcelRow);
-			setTableAutoFilter(resultsMetaData, sheet, excelLastRowIndex);
+			setTableAutoFilter(resultsMetaData, sheet, excelLastRowIndex, autoExcelFilterRow);
 			autoSizeColumns(resultsMetaData, sheet);
 			saveExcelFile(reportFilePath, workbook);
 
@@ -99,8 +102,9 @@ public class ExcelReportExporter implements ReportExporter {
 		}
 	}
 
-	private void setTableAutoFilter(SqlRowSetMetaData resultsMetaData, Sheet sheet, int lastDataRowIndex) {
-		sheet.setAutoFilter(new CellRangeAddress(HEADER_ROW, lastDataRowIndex, FIRST_COLUMN_INDEX,
+	private void setTableAutoFilter(SqlRowSetMetaData resultsMetaData, Sheet sheet, int lastDataRowIndex,
+			int autoExcelFilterRow) {
+		sheet.setAutoFilter(new CellRangeAddress(autoExcelFilterRow, lastDataRowIndex, FIRST_COLUMN_INDEX,
 				resultsMetaData.getColumnCount() - 1));
 	}
 
@@ -112,7 +116,6 @@ public class ExcelReportExporter implements ReportExporter {
 			Row row = sheet.createRow(currentExcelRow);
 
 			for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
-
 				Object data = results.getObject(resultsMetaData.getColumnNames()[i]);
 
 				if (data == null) {
@@ -141,9 +144,9 @@ public class ExcelReportExporter implements ReportExporter {
 
 		for (ReportQueryFilter filter : filters) {
 			filterRow = sheet.createRow(rowIndex);
-			CreateCell(filter.getColumn().getName(), FilterStyle, filterRow, COLUMN_NAME_COLUMN_INDEX);
-			CreateCell(filter.getFilter().getName(), FilterStyle, filterRow, FILTER_NAME_COLUMN_INDEX);
 			CreateCell(filter.getValue(), FilterStyle, filterRow, VALUE_COLUMN_INDEX);
+			CreateCell(filter.getFilter().getName(), FilterStyle, filterRow, FILTER_NAME_COLUMN_INDEX);
+			CreateCell(filter.getColumn().getName(), FilterStyle, filterRow, COLUMN_NAME_COLUMN_INDEX);
 			rowIndex++;
 		}
 
@@ -159,6 +162,7 @@ public class ExcelReportExporter implements ReportExporter {
 			CreateCell(resultsMetaData.getColumnNames()[i], headerStyle, headerRow, i);
 		}
 
+		currentExcelRow++;
 		return currentExcelRow;
 	}
 }
