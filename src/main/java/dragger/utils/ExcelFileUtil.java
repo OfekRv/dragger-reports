@@ -33,6 +33,10 @@ public class ExcelFileUtil {
 		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.WHITE.getIndex(), FillPatternType.NO_FILL);
 	}
 
+	public static CellStyle createFilterCellStyle(Workbook workbook) {
+		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.WHITE.getIndex(), FillPatternType.NO_FILL);
+	}
+
 	public static CellStyle createHeaderCellStyle(Workbook workbook) {
 		return createCellStyle(workbook, HSSFColor.HSSFColorPredefined.LIGHT_BLUE.getIndex(),
 				FillPatternType.SOLID_FOREGROUND);

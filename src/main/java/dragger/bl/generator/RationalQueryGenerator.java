@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import javax.inject.Named;
 
+import dragger.contracts.ReportQueryFilterContract;
 import dragger.entities.Query;
 import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
+import dragger.entities.ReportQueryFilter;
 import dragger.entities.SourceConnection;
 import dragger.exceptions.DraggerException;
 
@@ -28,7 +30,7 @@ public class RationalQueryGenerator implements QueryGenerator {
 	private static final String SEPERATOR = ", ";
 	private static final String EMPTY_STRING = "";
 
-	public String generate(Query query) throws DraggerException {
+	public String generate(Query query, Collection<ReportQueryFilter> filters) throws DraggerException {
 		StringJoiner rawQuery = new StringJoiner(NEW_LINE);
 
 		rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
