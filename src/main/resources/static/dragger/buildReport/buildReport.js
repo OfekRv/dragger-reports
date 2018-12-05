@@ -102,8 +102,10 @@ angular
 																										data : column,
 																										type : source.name
 																									};
-																									$scope.models.lists[source.name].columns
-																											.push(columnItem);
+                                                                                                    if(!$scope.models.lists[source.name].columns.includes(columnItem)) {
+                                                                                                        $scope.models.lists[source.name].columns
+                                                                                                            .push(columnItem);
+                                                                                                    }
 																								});
 																			});
 														});
