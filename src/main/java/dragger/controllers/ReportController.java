@@ -19,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ReportExporter;
-import dragger.bl.generator.QueryGenerator;
 import dragger.contracts.ReportQueryFilterContract;
 import dragger.entities.Filter;
 import dragger.entities.QueryColumn;
-import dragger.entities.QuerySource;
 import dragger.entities.Report;
 import dragger.entities.ReportQueryFilter;
 import dragger.exceptions.DraggerControllerException;
@@ -47,27 +45,7 @@ public class ReportController {
 	private FilterRepository filterRepository;
 
 	@Autowired
-	private QueryGenerator generator;
-
-	@Autowired
 	private ReportExporter exporter;
-
-	@PostMapping("api/queries/isQueryLinked")
-	public boolean isAllSourcesConnected(@RequestBody Collection<Long> columns) throws DraggerException {
-		return generator.isAllSourcesConnected(getSources(getColumnFromIds(columns)));
-	}
-
-	@GetMapping("/api/reports/getRawQuery")
-	// practically, for debug and stuff
-	public String executeReport(@RequestParam long reportId) throws Exception {
-		Optional<Report> requestedReport = reportRepository.findById(reportId);
-
-		if (requestedReport.isPresent()) {
-			return generator.generate(requestedReport.get().getQuery(), null);
-		}
-
-		throw new DraggerException("Report id:" + reportId + " not found");
-	}
 
 	@GetMapping("api/reports/generateReport")
 	public ResponseEntity<org.springframework.core.io.Resource> generateReport(@RequestParam long reportId)
@@ -113,25 +91,6 @@ public class ReportController {
 			throw new DraggerControllerException("Could not create file resource", e);
 		}
 		return resource;
-	}
-
-	private Collection<QuerySource> getSources(Collection<QueryColumn> columns) {
-		Collection<QuerySource> sources = new ArrayList<>();
-		columns.forEach(column -> {
-			if (!sources.contains(column.getSource())) {
-				sources.add(column.getSource());
-			}
-		});
-		return sources;
-	}
-
-	private Collection<QueryColumn> getColumnFromIds(Collection<Long> columnsResources) throws DraggerException {
-		Collection<QueryColumn> columns = new ArrayList<>();
-
-		for (Long columnId : columnsResources) {
-			columns.add(findColumnById(columnId));
-		}
-		return columns;
 	}
 
 	private Collection<ReportQueryFilter> createReportFilters(Collection<ReportQueryFilterContract> contractedFilters)
