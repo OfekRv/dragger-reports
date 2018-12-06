@@ -2,6 +2,7 @@ angular.module("dragger").controller(
 		"defineColumnsController",
 		function($scope, $http) {
 			$scope.sources = [];
+			$scope.dataTypes = [];
 			$scope.selected = null;
 			$scope.value = null;
 
@@ -15,6 +16,15 @@ angular.module("dragger").controller(
 									$scope.sources.push(source);
 								});
 					});
+
+			$http({
+				method : 'GET',
+				url : '/api/columns/availableDataTypes'
+			}).then(function successCallback(response) {
+				angular.forEach(response.data, function(dataType) {
+					$scope.dataTypes.push(dataType);
+				});
+			});
 
 			$scope.defineColumn = function(name, raw, source) {
 				$http({

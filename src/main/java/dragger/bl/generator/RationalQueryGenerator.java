@@ -93,8 +93,7 @@ public class RationalQueryGenerator implements QueryGenerator {
 	}
 
 	private String rawFilterValue(ReportQueryFilter filter) {
-		// TODO : for now only numeric or not
-		JDBCType columnType = filter.getColumn().getType();
+		JDBCType columnType = filter.getColumn().getDataType();
 		if (JdbcUtils.isNumeric(columnType.ordinal())) {
 			return filter.getValue();
 		} else {
