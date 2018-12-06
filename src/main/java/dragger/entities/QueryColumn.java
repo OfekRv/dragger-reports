@@ -40,7 +40,7 @@ public class QueryColumn {
 	@Column(nullable = false)
 	private String raw;
 
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private JDBCType dataType;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)

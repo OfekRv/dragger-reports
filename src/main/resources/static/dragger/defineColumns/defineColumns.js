@@ -26,13 +26,14 @@ angular.module("dragger").controller(
 				});
 			});
 
-			$scope.defineColumn = function(name, raw, source) {
+			$scope.defineColumn = function(name, raw, dataType, source) {
 				$http({
 					method : 'POST',
 					url : 'api/queryColumns',
 					data : {
 						name : name,
 						raw : raw,
+						dataType : dataType,
 						source : source
 					}
 				}).then(function successCallback(response) {
