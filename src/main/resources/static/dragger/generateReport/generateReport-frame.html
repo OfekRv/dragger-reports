@@ -1,23 +1,25 @@
 <div class="dragger-form">
-    <div id="signup">
-        <div class="signup-screen">
-            <form class="form-generate-report" method="post" name="register" novalidate>
-                    <div class="select">
-                        <select class="select-text" ng-model="selected" ng-change="changeReport()" required>
-                            <option ng-repeat="report in reports" value="{{report.id}}">{{report.name}}</option>
-                        </select>
-                        <span class="select-highlight"></span>
-                        <span class="select-bar"></span>
-                        <label class="select-label">Choose Report</label>
-                    </div>
-                    <div class="space-top text-center">
-                        <button ng-disabled="form-generate-report.$invalid || selected === null" class="waves-effect waves-light btn done">
-                            <a href = "/api/reports/generateReport?reportId={{selected}}"
-                               ng-class="{'download-disabled': selected == null || selected == ''}"
-                               style="text-decoration:none;color:black">Generate</a>
-                        </button>
-                    </div>
-            </form>
-        </div>
-    </div>
+	<div id="signup">
+		<div class="signup-screen">
+			<form class="form-generate-report" method="post" name="register"
+				novalidate>
+				<div class="select">
+					<select class="select-text" ng-model="selected"
+						ng-change="changeReport()" required>
+						<option ng-repeat="report in reports" value="{{report.id}}">{{report.name}}</option>
+					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
+					<label class="select-label">בחר דוח</label>
+				</div>
+				<div class="space-top text-center">
+					<button
+						ng-disabled="form-generate-report.$invalid || selected === null"
+						class="waves-effect waves-light btn done">
+						<a href="/api/reports/generateReport?reportId={{selected}}"
+							ng-class="{'download-disabled': selected == null || selected == ''}"
+							style="text-decoration: none; color: black">הרץ</a>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

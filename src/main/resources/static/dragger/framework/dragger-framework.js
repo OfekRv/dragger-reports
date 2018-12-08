@@ -56,10 +56,10 @@ angular
 
 								if (isDevMode != "false") {
 									scope.options = [ {
-										label : "Generate Report",
+										label : "הרצת דוח",
 										href : "#/generateReport"
 									}, {
-										label : "Build Report",
+										label : "בניית דוח",
 										href : "#/buildReport"
 									}, {
 										label : "Create Source",
@@ -73,10 +73,10 @@ angular
 									} ];
 								} else {
 									scope.options = [ {
-										label : "Generate Report",
+										label : "הרצת דוח",
 										href : "#/generateReport"
 									}, {
-										label : "Build Report",
+										label : "בניית דוח",
 										href : "#/buildReport"
 									} ];
 								}
