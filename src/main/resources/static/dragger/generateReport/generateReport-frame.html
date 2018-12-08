@@ -8,7 +8,7 @@
 						ng-change="changeReport()" required>
 						<option ng-repeat="report in reports" value="{{report.id}}">{{report.name}}</option>
 					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-					<label class="select-label">áçø ãåç</label>
+					<label class="select-label">×‘×—×¨ ×“×•×—</label>
 				</div>
 				<div class="space-top text-center">
 					<button
@@ -16,7 +16,7 @@
 						class="waves-effect waves-light btn done">
 						<a href="/api/reports/generateReport?reportId={{selected}}"
 							ng-class="{'download-disabled': selected == null || selected == ''}"
-							style="text-decoration: none; color: black">Generate</a>
+							style="text-decoration: none; color: black">×”×¨×¥</a>
 					</button>
 				</div>
 			</form>
