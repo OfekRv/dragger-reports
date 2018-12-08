@@ -3,6 +3,8 @@ package dragger.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -33,6 +35,7 @@ import dragger.repositories.ReportRepository;
 
 @RestController
 public class ReportController {
+	private static final String UTF_8 = "UTF-8";
 	private static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
 
 	@Autowired
@@ -78,9 +81,11 @@ public class ReportController {
 		InputStreamResource resource = createFileResource(reportFile);
 
 		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + reportFile.getName() + "\"")
+				.header(HttpHeaders.CONTENT_DISPOSITION,
+						"attachment; filename=\"" + getReportFileName(reportFile) + "\"")
 				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
 				.body(resource);
+
 	}
 
 	private InputStreamResource createFileResource(File reportFile) throws DraggerControllerException {
@@ -129,5 +134,13 @@ public class ReportController {
 		}
 
 		throw new DraggerException("Filter id:" + filterId + " not found");
+	}
+
+	private String getReportFileName(File reportFile) throws DraggerControllerException {
+		try {
+			return URLEncoder.encode(reportFile.getName(), UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			throw new DraggerControllerException("could not parse report name", e);
+		}
 	}
 }

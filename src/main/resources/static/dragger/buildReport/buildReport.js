@@ -18,9 +18,9 @@ angular
 								query : {columns}
 							}
 						}).then(function successCallback(response) {
-							alert("Report created!");
+							alert("דוח נבנה בהצלחה!");
 						}, function errorCallback(response) {
-							alert("Failed creating the report  :(");
+							alert("נכשל בבניית הדוח");
 						});
 					}
 
@@ -57,7 +57,7 @@ angular
 																	response) {
 																var isLinked = response.data;
 																if (isLinked == "false") {
-																	alert("This column cannot be linked to your report. \n maybe you need to add other columns to allow that?");
+																	alert("העמודה שאתה מנסה להוסיף לא יכולה להיות מקושרת לדוח");
 																}
 															});
 										}
@@ -102,8 +102,10 @@ angular
 																										data : column,
 																										type : source.name
 																									};
-																									$scope.models.lists[source.name].columns
-																											.push(columnItem);
+                                                                                                    if(!$scope.models.lists[source.name].columns.includes(columnItem)) {
+                                                                                                        $scope.models.lists[source.name].columns
+                                                                                                            .push(columnItem);
+                                                                                                    }
 																								});
 																			});
 														});

@@ -37,7 +37,7 @@ public class QueryColumn {
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 5000)
 	private String raw;
 
 	@Column(nullable = false)

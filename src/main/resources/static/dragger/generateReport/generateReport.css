@@ -1,265 +1,265 @@
 .text-center {
-    text-align: center;
+	text-align: center;
 }
 
 .space-bot {
-    margin-bottom: 35px;
+	margin-bottom: 35px;
 }
 
 .space-top {
-    margin-top: 35px;
+	margin-top: 35px;
 }
 
 /* Title */
 
 h1 {
-    color: white;
-    font-family: 'Roboto';
-    text-transform: uppercase;
-    font-weight: 900;
-    font-size: 25px;
-    text-align: center;
+	color: white;
+	font-family: 'Roboto';
+	text-transform: uppercase;
+	font-weight: 900;
+	font-size: 25px;
+	text-align: center;
 }
 
 /* Sign Up */
 
 .dragger-form {
-    max-width: 400px;
-    max-height: 100px;
-    margin-top: 10px;
-    position: absolute;
-    margin: auto;
-    right: 0;
-    left: 0;
+	max-width: 400px;
+	max-height: 100px;
+	margin-top: 10px;
+	position: absolute;
+	margin: auto;
+	right: 0;
+	left: 0;
 }
 
 .wide-form {
-    max-width: 800px;
-    max-height: 100px;
-    margin-top: 10px;
-    position: absolute;
-    margin: auto;
-    right: 0;
-    left: 0;
+	max-width: 800px;
+	max-height: 100px;
+	margin-top: 10px;
+	position: absolute;
+	margin: auto;
+	right: 0;
+	left: 0;
 }
 
 .alert-danger {
-    text-align: center;
+	text-align: center;
 }
 
 .signup-screen {
-    padding: 20px;
-    padding-bottom: 40px;
-    border-radius: 5px;
-    background-color: white;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, .3);
-    color: #0859c1;
+	padding: 20px;
+	padding-bottom: 40px;
+	border-radius: 5px;
+	background-color: white;
+	box-shadow: 0 1px 6px rgba(0, 0, 0, .3);
+	color: #0859c1;
 }
 
 .btn {
-    background-color: #0869f7;
-    color: #e0dfdf;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 3px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    outline: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+	background-color: #0869f7;
+	color: #e0dfdf;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 3px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-decoration: none;
+	outline: none;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .btn:hover {
-    color: white;
-    background-color: #0859C1;
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+	color: white;
+	background-color: #0859C1;
+	box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
 
 .btn.btn-link {
-    background: #2196f3;
-    color: #d3eafd;
+	background: #2196f3;
+	color: #d3eafd;
 }
 
 .btn.btn-link:hover {
-    background: #0d8aee;
-    color: #deeffd;
+	background: #0d8aee;
+	color: #deeffd;
 }
 
 .btn.btn-submit {
-    background: #2196f3;
-    color: #bce0fb;
+	background: #2196f3;
+	color: #bce0fb;
 }
 
 .btn.btn-submit:hover {
-    background: #0d8aee;
-    color: #deeffd;
+	background: #0d8aee;
+	color: #deeffd;
 }
 
 .btn-box {
-    text-align: center;
-    margin: 50px 0;
+	text-align: center;
+	margin: 50px 0;
 }
 
 .input-group {
-    width: 100%;
+	width: 100%;
 }
 
 .input-group .ng-invalid {
-    border: 2px solid #e74c3c;
-    border-radius: 3px;
+	border: 2px solid #e74c3c;
+	border-radius: 3px;
 }
 
 input, textarea {
-    background: none;
-    color: #c6c6c6;
-    font-size: 18px;
-    padding: 0px 10px 10px 5px;
-    display: block;
-    width: 100%;
-    line-height: 35px;
-    border: none;
-    border-radius: 0;
-    border-bottom: 1px solid #c6c6c6;
+	background: none;
+	color: #c6c6c6;
+	font-size: 18px;
+	padding: 0px 10px 10px 5px;
+	display: block;
+	width: 100%;
+	line-height: 35px;
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid #c6c6c6;
 }
 
 .help-block {
-    font-size: 12px;
-    color: white
+	font-size: 12px;
+	color: white
 }
 
 /* select starting stylings ------------------------------*/
 
 option {
-    background-color: #d7dae2;
+	background-color: #d7dae2;
 }
 
 .select {
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    position: relative;
-    width: 100%;
-    background-color: #E3D9DB;
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	position: relative;
+	width: 100%;
+	background-color: #E3D9DB;
 }
 
 .select-text {
-    position: relative;
-    font-family: inherit;
-    width: 150px;
-    padding: 10px 10px 10px 0;
-    font-size: 18px;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+	position: relative;
+	font-family: inherit;
+	width: 150px;
+	padding: 10px 10px 10px 0;
+	font-size: 18px;
+	border-radius: 0;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 /* Remove focus */
 .select-text:focus {
-    outline: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
+	outline: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0);
 }
 
 /* Use custom arrow */
 .select .select-text {
-    appearance: none;
-    -webkit-appearance: none
+	appearance: none;
+	-webkit-appearance: none
 }
 
 .select:after {
-    position: absolute;
-    top: 18px;
-    right: 10px;
-    /* Styling the down arrow */
-    width: 0;
-    height: 0;
-    padding: 0;
-    content: '';
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 6px solid rgba(0, 0, 0, 0.12);
-    pointer-events: none;
-    color: #2F80ED;
+	position: absolute;
+	top: 18px;
+	right: 10px;
+	/* Styling the down arrow */
+	width: 0;
+	height: 0;
+	padding: 0;
+	content: '';
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-top: 6px solid rgba(0, 0, 0, 0.12);
+	pointer-events: none;
+	color: #2F80ED;
 }
 
 /* LABEL ======================================= */
 .select-label {
-    font-size: 18px;
-    font-weight: normal;
-    position: absolute;
-    pointer-events: none;
-    left: 0;
-    top: 10px;
-    transition: 0.2s ease all;
+	font-size: 18px;
+	font-weight: normal;
+	position: absolute;
+	pointer-events: none;
+	left: 0;
+	top: 10px;
+	transition: 0.2s ease all;
 }
 
 /* active state */
 .select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
-    color: #2F80ED;
-    top: -20px;
-    transition: 0.2s ease all;
-    font-size: 14px;
+	color: #2F80ED;
+	top: -20px;
+	transition: 0.2s ease all;
+	font-size: 14px;
 }
 
 /* BOTTOM BARS ================================= */
 .select-bar {
-    position: relative;
-    display: block;
-    width: 150px;
+	position: relative;
+	display: block;
+	width: 150px;
 }
 
 .select-bar:before, .select-bar:after {
-    content: '';
-    height: 2px;
-    width: 0;
-    bottom: 1px;
-    position: absolute;
-    background: #2F80ED;
-    transition: 0.2s ease all;
+	content: '';
+	height: 2px;
+	width: 0;
+	bottom: 1px;
+	position: absolute;
+	background: #2F80ED;
+	transition: 0.2s ease all;
 }
 
 .select-bar:before {
-    left: 50%;
+	left: 50%;
 }
 
 .select-bar:after {
-    right: 50%;
+	right: 50%;
 }
 
 /* active state */
 .select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
-    width: 50%;
+	width: 50%;
 }
 
 /* HIGHLIGHTER ================================== */
 .select-highlight {
-    position: absolute;
-    height: 60%;
-    width: 100px;
-    top: 25%;
-    left: 0;
-    pointer-events: none;
-    opacity: 0.5;
+	position: absolute;
+	height: 60%;
+	width: 100px;
+	top: 25%;
+	left: 0;
+	pointer-events: none;
+	opacity: 0.5;
 }
 
 .download-disabled
 {
-    pointer-events: none;
+	pointer-events: none;
 }
 
 .add-filter{
-    background-color: #55c34f;
-    color: #e0dfdf;
-    border:none;
-    margin-top: 10px;
-    padding: 10px 20px;
-    border-radius: 3px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    outline: none;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+	background-color: #55c34f;
+	color: #e0dfdf;
+	border:none;
+	margin-top: 10px;
+	padding: 10px 20px;
+	border-radius: 3px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-decoration: none;
+	outline: none;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .add-filter:hover {
-    color: white;
-    background-color: #3DA134;
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+	color: white;
+	background-color: #3DA134;
+	box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
