@@ -3,6 +3,8 @@ package dragger.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
@@ -31,6 +33,7 @@ import dragger.repositories.ReportRepository;
 
 @RestController
 public class ReportController {
+	private static final String UTF_8 = "UTF-8";
 	private static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
 
 	@Autowired
@@ -52,7 +55,7 @@ public class ReportController {
 
 	@GetMapping("/api/reports/getRawQuery")
 	// practically, for debug and stuff
-	public String executeReport(@RequestParam long reportId) throws Exception {
+	public String getRawQuery(@RequestParam long reportId) throws Exception {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 
 		if (requestedReport.isPresent()) {
@@ -75,9 +78,11 @@ public class ReportController {
 		InputStreamResource resource = createFileResource(reportFile);
 
 		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + reportFile.getName() + "\"")
+				.header(HttpHeaders.CONTENT_DISPOSITION,
+						"attachment; filename=\"" + getReportFileName(reportFile) + "\"")
 				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
 				.body(resource);
+
 	}
 
 	private InputStreamResource createFileResource(File reportFile) throws DraggerControllerException {
@@ -102,7 +107,7 @@ public class ReportController {
 
 	private Collection<QueryColumn> getColumnFromIds(Collection<Long> columnsResources) throws DraggerException {
 		Collection<QueryColumn> columns = new ArrayList<>();
-		
+
 		for (Long columnId : columnsResources) {
 			columns.add(findColumnById(columnId));
 		}
@@ -117,5 +122,13 @@ public class ReportController {
 		}
 
 		throw new DraggerException("Column id:" + columnId + " not found");
+	}
+
+	private String getReportFileName(File reportFile) throws DraggerControllerException {
+		try {
+			return URLEncoder.encode(reportFile.getName(), UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			throw new DraggerControllerException("could not parse report name", e);
+		}
 	}
 }
