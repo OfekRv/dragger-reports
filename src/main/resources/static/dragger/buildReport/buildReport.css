@@ -334,6 +334,12 @@ label {
     overflow-x: hidden;
 }
 
+.fixed-report-area
+{
+    position: sticky;
+        top: 70px;
+}
+
 
 /*--------------------SCROLLBAR---------------------*/
 
