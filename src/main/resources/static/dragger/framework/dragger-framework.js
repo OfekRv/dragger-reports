@@ -76,7 +76,7 @@ angular
 										label : "הרצת דוח",
 										href : "#/generateReport"
 									}, {
-										label : "נניית דוח",
+										label : "בניית דוח",
 										href : "#/buildReport"
 									} ];
 								}
