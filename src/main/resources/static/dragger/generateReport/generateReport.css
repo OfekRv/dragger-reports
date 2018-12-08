@@ -33,6 +33,16 @@ h1 {
     left: 0;
 }
 
+.wide-form {
+    max-width: 800px;
+    max-height: 100px;
+    margin-top: 10px;
+    position: absolute;
+    margin: auto;
+    right: 0;
+    left: 0;
+}
+
 .alert-danger {
     text-align: center;
 }
@@ -99,6 +109,19 @@ h1 {
     border-radius: 3px;
 }
 
+input, textarea {
+    background: none;
+    color: #c6c6c6;
+    font-size: 18px;
+    padding: 0px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    line-height: 35px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #c6c6c6;
+}
+
 .help-block {
     font-size: 12px;
     color: white
@@ -113,14 +136,14 @@ option {
 .select {
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     position: relative;
-    width: 350px;
+    width: 100%;
     background-color: #E3D9DB;
 }
 
 .select-text {
     position: relative;
     font-family: inherit;
-    width: 350px;
+    width: 150px;
     padding: 10px 10px 10px 0;
     font-size: 18px;
     border-radius: 0;
@@ -179,7 +202,7 @@ option {
 .select-bar {
     position: relative;
     display: block;
-    width: 350px;
+    width: 150px;
 }
 
 .select-bar:before, .select-bar:after {
@@ -219,4 +242,24 @@ option {
 .download-disabled
 {
     pointer-events: none;
+}
+
+.add-filter{
+    background-color: #55c34f;
+    color: #e0dfdf;
+    border:none;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.add-filter:hover {
+    color: white;
+    background-color: #3DA134;
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
