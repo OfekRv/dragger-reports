@@ -6,7 +6,6 @@ angular.module("dragger").controller(
 
         $scope.filters = [];
         $scope.operators = [];
-        // $scope.dataTypes = {"NUMERIC": "NUMBER", "VARCHAR": "TEXT", "DATE": "DATE"};
         $scope.dataTypes = {};
 
         $scope.filtered = "";
@@ -18,27 +17,6 @@ angular.module("dragger").controller(
             function successCallback(response) {
                 angular.forEach(response.data._embedded.reports,
                     function (report) {
-                        angular
-                            .forEach(
-                                report.query._links.columns,
-                                function (column) {
-                                    var columnDataPromise = $http(
-                                        {
-                                            method: 'GET',
-                                            url: column.href
-                                        }).then(
-                                        function successCallback(response) {
-                                            return response.data;
-                                        });
-                                    columnDataPromise.then(function (response) {
-                                        if (report.columns == undefined) {
-                                            report.columns = [];
-                                        }
-
-                                        report.columns.push(response);
-                                    })
-                                }, report);
-
                         $scope.reports.push(report);
                     });
             });
@@ -78,47 +56,117 @@ angular.module("dragger").controller(
 
         $scope.changeReport = function () {
             $scope.filters = [];
+            var report = $scope.selectedReport;
+
+            if(Array.isArray(report.query._links.columns))
+            {
+                angular
+                    .forEach(
+                        report.query._links.columns,
+                        function (column) {
+                                        var columnDataPromise = $http(
+                                                                    {
+                                                                        method: 'GET',
+                                                                        url: column.href
+                                                                    }).then(
+                                                                    function successCallback(response) {
+                                                                        return response.data;
+                                                                    });
+                                        columnDataPromise.then(function (response) {
+                                            if (report.columns == undefined) {
+                                                report.columns = [];
+                                            }
+
+                                            report.columns.push(response);
+                                        })
+                    }, report);
+                }
+                else
+                {
+                    $scope.handleReportColumn({"href": report.query._links.columns.href},report);
+                }
         }
 
+        $scope.handleReportColumn = function(column, report)
+        {
+            var columnDataPromise = $http(
+                                        {
+                                            method: 'GET',
+                                            url: column.href
+                                        }).then(
+                                        function successCallback(response) {
+                                            return response.data;
+                                        });
+            columnDataPromise.then(function (response) {
+                if (report.columns == undefined) {
+                    report.columns = [];
+                }
+
+                report.columns.push(response);
+            })
+        }
         $scope.downloadUrl = function () {
+            var validationCheck = true;
             angular.forEach($scope.filters,
-                function (filter) {
+                function (filter, index) {
+                    if(!filter.filter)
+                    {
+                        validationCheck = false;
+                        alert("האופרטור בשורה " + (index + 1) + "לא אמור להיות ריק ");
+                        return;
+                    }
+                    else if(!filter.column)
+                    {
+                        validationCheck = false;
+                        alert("העמודה בשורה " + (index + 1) + "לא אמור להיות ריקה ");
+                        return;
+                    }
+                    else if(!filter.value)
+                    {
+                        validationCheck = false;
+                        alert(" הערך בשורה" + (index + 1) + "לא אמור להיות ריק ");
+                        return;
+                    }
                     filter.columnId = filter.column.columnId;
                     filter.filterId = filter.filter.id;
                 });
 
-            $http({
-                method: 'POST',
-                url: '/api/reports/generate' + $scope.filtered + 'Report?reportId=' + $scope.selectedReport.id,
-                data: $scope.filters,
-                responseType: 'arraybuffer'
-            }).success(function (data, status, headers) {
-                var headers = headers();
+            if(validationCheck)
+            {
+                $http({
+                    method: 'POST',
+                    url: '/api/reports/generate' + $scope.filtered + 'Report?reportId=' + $scope.selectedReport.id,
+                    data: $scope.filters,
+                    responseType: 'arraybuffer'
+                }).success(function (data, status, headers)
+                {
+                    var headers = headers();
 
-                var fileNameHeader = headers['content-disposition'].split(';')[1].trim().split('=')[1];
+                    var fileNameHeader = headers['content-disposition'].split(';')[1].trim().split('=')[1];
 
-                var filename = fileNameHeader.replace(/"/g, '');
-                var contentType = headers['content-type'];
+                    var filename = fileNameHeader.replace(/"/g, '');
+                    var contentType = headers['content-type'];
 
-                var linkElement = document.createElement('a');
-                try {
-                    var blob = new Blob([data], {type: contentType});
-                    var url = window.URL.createObjectURL(blob);
+                    var linkElement = document.createElement('a');
+                    try {
+                        var blob = new Blob([data], {type: contentType});
+                        var url = window.URL.createObjectURL(blob);
 
-                    linkElement.setAttribute('href', url);
-                    linkElement.setAttribute("download", filename);
+                        linkElement.setAttribute('href', url);
+                        linkElement.setAttribute("download", filename);
 
-                    var clickEvent = new MouseEvent("click", {
-                        "view": window,
-                        "bubbles": true,
-                        "cancelable": false
-                    });
-                    linkElement.dispatchEvent(clickEvent);
-                } catch (ex) {
-                    console.log(ex);
-                }
-            }).error(function (data) {
-                console.log(data);
-            });
+                        var clickEvent = new MouseEvent("click", {
+                            "view": window,
+                            "bubbles": true,
+                            "cancelable": false
+                        });
+                        linkElement.dispatchEvent(clickEvent);
+                    } catch (ex) {
+                        console.log(ex);
+                    }
+                }).error(function (data) {
+                    console.log(data);
+                });
+            }
         }
     });
