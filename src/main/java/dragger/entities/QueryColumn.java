@@ -1,5 +1,6 @@
 package dragger.entities;
 
+import java.sql.JDBCType;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -38,6 +39,9 @@ public class QueryColumn {
 
 	@Column(nullable = false, length = 5000)
 	private String raw;
+
+	@Column(nullable = false)
+	private JDBCType dataType;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")

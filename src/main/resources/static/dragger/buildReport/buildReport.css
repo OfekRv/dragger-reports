@@ -181,14 +181,14 @@ textarea {
     resize: none;
 }
 input, textarea {
-    background: white;
+    background: none;
     color: #c6c6c6;
-    font-size: 25px;
-    padding: 10px 10px 10px 5px;
+    font-size: 18px;
+    padding: 0px 10px 10px 5px;
     display: block;
     width: 100%;
     border: none;
-    border-radius: 4px;
+    border-radius: 0;
     border-bottom: 1px solid #c6c6c6;
 }
 input:focus, textarea:focus {
