@@ -63,7 +63,8 @@ public class ReportController {
 		InputStreamResource resource = createFileResource(reportFile);
 
 		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + reportFile.getName() + "\"")
+				.header(HttpHeaders.CONTENT_DISPOSITION,
+						"attachment; filename=\"" + getReportFileName(reportFile) + "\"")
 				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
 				.body(resource);
 	}
@@ -85,7 +86,6 @@ public class ReportController {
 						"attachment; filename=\"" + getReportFileName(reportFile) + "\"")
 				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
 				.body(resource);
-
 	}
 
 	private InputStreamResource createFileResource(File reportFile) throws DraggerControllerException {
