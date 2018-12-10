@@ -135,7 +135,7 @@ angular.module("dragger").controller(
             {
                 $http({
                     method: 'POST',
-                    url: '/api/reports/generate' + $scope.filtered + 'Report?reportId=' + $scope.selectedReport.id,
+                    url: '/api/reports/generateFilteredReport?reportId=' + $scope.selectedReport.id,
                     data: $scope.filters,
                     responseType: 'arraybuffer'
                 }).success(function (data, status, headers)
