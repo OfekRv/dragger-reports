@@ -144,7 +144,7 @@ angular.module("dragger").controller(
 
                     var fileNameHeader = headers['content-disposition'].split(';')[1].trim().split('=')[1];
 
-                    var filename = fileNameHeader.replace(/"/g, '');
+                    var filename = decodeURIComponent(fileNameHeader.replace(/"/g, ''));
                     var contentType = headers['content-type'];
 
                     var linkElement = document.createElement('a');
