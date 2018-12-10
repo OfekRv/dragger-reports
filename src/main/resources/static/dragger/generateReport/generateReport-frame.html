@@ -1,60 +1,65 @@
-<div ng-class="{'wide-form': filters.length > 0, 'dragger-form': filters.length == 0}">
-    <div id="signup">
-        <div class="signup-screen">
-            <form class="form-generate-report" method="post" name="register" novalidate>
-                <div class="select">
-                    <select class="select-text" ng-options="report as report.name for report in reports track by report.id" ng-model="selectedReport" ng-change="changeReport()" required>
-                    </select>
-                    <span class="select-highlight"></span>
-                    <span class="select-bar"></span>
-                    <label class="select-label">בחר דוח</label>
-                </div>
-                <div class="space-top text-center">
-                    <div class="row" ng-repeat="filter in filters">
-                        <div class="col-md-3">
-                            <div class="select">
-                                <select class="select-text" ng-options="column as column.name for column in selectedReport.columns track by column.columnId" ng-model="filter.column" required>
-                                </select>
-                                <span class="select-highlight"></span>
-                                <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">Choose Column</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="select">
-                                <select class="select-text" ng-options="operator as operator.name for operator in operators track by operator.id" ng-model="filter.filter" required>
-                                </select>
-                                <span class="select-highlight"></span>
-                                <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">Choose Operator</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div>
-                                <input type="{{dataTypes[filter.column.dataType]}}" ng-model="filter.value" required>
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label class="build-report-name-label" ng-if="$index == 0">Value</label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="button" class="remove-column-button" ng-click="removeFilter($index, column)">
-                                <img class="remove-report-icon" src="dragger/buildReport/trash_icon.png">
-                            </button>
-                        </div>
-                    </div>
-                    <button ng-if="!form-generate-report.$invalid && selectedReport !== null"
-                            class="waves-effect waves-light add-filter" ng-click="addFilter()">
-                        Add Filter
-                    </button>
-                </div>
-                <div class="space-top text-center">
-                    <button ng-disabled="form-generate-report.$invalid || selectedReport === null"
-                            ng-click="downloadUrl()"
-                            class="waves-effect waves-light btn done">הרץ
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+<div
+	ng-class="{'wide-form': filters.length > 0, 'dragger-form': filters.length == 0}">
+	<div id="signup">
+		<div class="signup-screen">
+			<form class="form-generate-report" method="post" name="register"
+				novalidate>
+				<div class="select">
+					<select class="select-text"
+						ng-options="report as report.name for report in reports track by report.id"
+						ng-model="selectedReport" ng-change="changeReport()" required>
+					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
+					<label class="select-label">בחר דוח</label>
+				</div>
+				<div class="space-top text-center">
+					<div class="row" ng-repeat="filter in filters">
+						<div class="col-md-3">
+							<button type="button" class="remove-column-button"
+								ng-click="removeFilter($index, column)">
+								<img class="remove-report-icon"
+									src="dragger/buildReport/trash_icon.png">
+							</button>
+						</div>
+						<div class="col-md-3">
+							<div>
+								<input type="{{dataTypes[filter.column.dataType]}}"
+									ng-model="filter.value" required> <span
+									class="highlight"></span> <span class="bar"></span> <label
+									class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="select">
+								<select class="select-text"
+									ng-options="operator as operator.name for operator in operators track by operator.id"
+									ng-model="filter.filter" required>
+								</select> <span class="select-highlight"></span> <span class="select-bar"></span>
+								<label class="select-label" ng-if="$index == 0">יחס לוגי</label>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="select">
+								<select class="select-text"
+									ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
+									ng-model="filter.column" required>
+								</select> <span class="select-highlight"></span> <span class="select-bar"></span>
+								<label class="select-label" ng-if="$index == 0">עמודה</label>
+							</div>
+						</div>
+					</div>
+					<button
+						ng-if="!form-generate-report.$invalid && selectedReport !== null"
+						class="waves-effect waves-light add-filter" ng-click="addFilter()">
+						הוספת סינון</button>
+				</div>
+				<div class="space-top text-center">
+					<button
+						ng-disabled="form-generate-report.$invalid || selectedReport === null"
+						ng-click="downloadUrl()" class="waves-effect waves-light btn done">הרץ
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
