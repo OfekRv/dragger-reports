@@ -56,6 +56,7 @@ angular.module("dragger").controller(
 
         $scope.changeReport = function () {
             $scope.filters = [];
+            $scope.selectedReport.columns = [];
             var report = $scope.selectedReport;
 
             if(Array.isArray(report.query._links.columns))
@@ -73,7 +74,8 @@ angular.module("dragger").controller(
                                                                         return response.data;
                                                                     });
                                         columnDataPromise.then(function (response) {
-                                            if (report.columns == undefined) {
+                                            if(report.columns == undefined)
+                                            {
                                                 report.columns = [];
                                             }
 
@@ -98,10 +100,10 @@ angular.module("dragger").controller(
                                             return response.data;
                                         });
             columnDataPromise.then(function (response) {
-                if (report.columns == undefined) {
+                if(report.columns == undefined)
+                {
                     report.columns = [];
                 }
-
                 report.columns.push(response);
             })
         }

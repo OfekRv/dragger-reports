@@ -102,7 +102,16 @@ angular
 																										data : column,
 																										type : source.name
 																									};
-                                                                                                    if(!$scope.models.lists[source.name].columns.includes(columnItem)) {
+                                                                                                    var columnExists = false;
+                                                                                                    angular.forEach($scope.models.lists[source.name].columns, function(columnInReceivedReport)
+                                                                                                    {
+                                                                                                        if(columnItem.data.columnId == columnInReceivedReport.data.columnId)
+                                                                                                        {
+                                                                                                            columnExists = true;
+                                                                                                        }
+                                                                                                    })
+
+                                                                                                    if(!columnExists) {
                                                                                                         $scope.models.lists[source.name].columns
                                                                                                             .push(columnItem);
                                                                                                     }
