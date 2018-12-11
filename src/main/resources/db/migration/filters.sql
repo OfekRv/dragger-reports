@@ -1,3 +1,3 @@
-insert into drg_filters (id, name, raw_filter) values (1, 'âãåì î', '<');
-insert into drg_filters (id, name, raw_filter) values (2, '÷èï î', '>');
-insert into drg_filters (id, name, raw_filter) values (3, 'ùååä ì', '=');
+insert into drg_filters (id, name, raw_filter) values (1, '×’×“×•×œ ×', '<');
+insert into drg_filters (id, name, raw_filter) values (2, '×§×˜×Ÿ ×', '>');
+insert into drg_filters (id, name, raw_filter) values (3, '×©×•×•×” ×œ', '=');
