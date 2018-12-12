@@ -3,6 +3,7 @@ angular.module("dragger").controller(
     function ($scope, $http) {
         $scope.reports = [];
         $scope.selectedReport = null;
+        $scope.loading = false;
 
         $scope.filters = [];
         $scope.operators = [];
@@ -108,6 +109,7 @@ angular.module("dragger").controller(
             })
         }
         $scope.downloadUrl = function () {
+            $scope.loading = true;
             var validationCheck = true;
             angular.forEach($scope.filters,
                 function (filter, index) {
@@ -166,8 +168,10 @@ angular.module("dragger").controller(
                     } catch (ex) {
                         console.log(ex);
                     }
+                    $scope.loading = false;
                 }).error(function (data) {
                     console.log(data);
+                    $scope.loading = false;
                 });
             }
         }
