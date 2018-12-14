@@ -19,9 +19,9 @@ public class RationalQueryExecuter implements QueryExecutor {
 	public SqlRowSet executeQuery(String query) throws DraggerExportException {
 		try {
 			executer.getDataSource().getConnection().setReadOnly(true);
+			return executer.queryForRowSet(query);
 		} catch (SQLException e) {
 			throw new DraggerExportException("Could not set connection to read only", e);
 		}
-		return executer.queryForRowSet(query);
 	}
 }
