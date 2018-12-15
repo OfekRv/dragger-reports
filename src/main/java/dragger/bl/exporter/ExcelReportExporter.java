@@ -33,6 +33,7 @@ import dragger.exceptions.DraggerExportException;
 
 @Named
 public class ExcelReportExporter implements ReportExporter {
+	private static final String AUTOFILTER_BUTTON_SPACE = "    ";
 	private static final char UNDER_LINE = '_';
 	private static final char SPACE = ' ';
 	private static final String SUFFIX = ".xlsx";
@@ -159,7 +160,7 @@ public class ExcelReportExporter implements ReportExporter {
 		CellStyle headerStyle = createHeaderCellStyle(workbook);
 
 		for (int i = FIRST_COLUMN_INDEX; i < resultsMetaData.getColumnCount(); i++) {
-			CreateCell(resultsMetaData.getColumnNames()[i], headerStyle, headerRow, i);
+			CreateCell(AUTOFILTER_BUTTON_SPACE + resultsMetaData.getColumnNames()[i], headerStyle, headerRow, i);
 		}
 
 		currentExcelRow++;

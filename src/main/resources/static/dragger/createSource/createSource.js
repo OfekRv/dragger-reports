@@ -11,7 +11,7 @@ angular.module("dragger").controller("createSourceController",
 				}).then(function successCallback(response) {
 					alert("source created!");
 				}, function errorCallback(response) {
-					alert("Failed source the report  :(");
+					alert("Failed to create the source :(");
 				});
 			}
 		});

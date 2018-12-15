@@ -269,3 +269,21 @@ option {
 	box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px
 		rgba(0, 0, 0, 0.12);
 }
+
+.generate-report{
+                    background-color: #0867ff;
+                    color: black;
+                    text-decoration-style: solid;
+                    width: 230px;
+                }
+
+                .generate-report:hover{
+                    background-color: #0859C1;
+                    transition: all 0.3s ease 0.2s
+                }
+
+
+.loading-icon
+{
+    margin-left : 70px
+}
