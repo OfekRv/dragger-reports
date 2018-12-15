@@ -1,6 +1,5 @@
 package dragger.bl.executor;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -18,11 +17,11 @@ public class RationalQueryExecuter implements QueryExecutor {
 
 	@Override
 	public SqlRowSet executeQuery(String query) throws DraggerExportException {
-		try (Connection jdbcConn = executer.getDataSource().getConnection()) {
-			jdbcConn.setReadOnly(true);
+		try {
+			executer.getDataSource().getConnection().setReadOnly(true);
+			return executer.queryForRowSet(query);
 		} catch (SQLException e) {
 			throw new DraggerExportException("Could not set connection to read only", e);
 		}
-		return executer.queryForRowSet(query);
 	}
 }

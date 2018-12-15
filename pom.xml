@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Dragger</groupId>
 	<artifactId>DraggerReports</artifactId>
-	<version>0.2.4</version>
+	<version>0.2.5</version>
 	<packaging>jar</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -42,6 +42,16 @@
 			<version>1</version>
 		</dependency>
 		<!-- Db drivers -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>7.0.0.jre8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.db2.jcc</groupId>
+			<artifactId>db2jcc</artifactId>
+			<version>db2jcc4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.sap.cloud.db.jdbc</groupId>
 			<artifactId>ngdbc</artifactId>
