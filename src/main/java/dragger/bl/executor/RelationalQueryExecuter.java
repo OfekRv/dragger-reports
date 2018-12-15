@@ -1,5 +1,6 @@
 package dragger.bl.executor;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.inject.Inject;
@@ -11,14 +12,14 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import dragger.exceptions.DraggerExportException;
 
 @Named
-public class RationalQueryExecuter implements QueryExecutor {
+public class RelationalQueryExecuter implements QueryExecutor {
 	@Inject
 	private JdbcTemplate executer;
 
 	@Override
 	public SqlRowSet executeQuery(String query) throws DraggerExportException {
-		try {
-			executer.getDataSource().getConnection().setReadOnly(true);
+		try (Connection jdbcCon = executer.getDataSource().getConnection()) {
+			jdbcCon.setReadOnly(true);
 			return executer.queryForRowSet(query);
 		} catch (SQLException e) {
 			throw new DraggerExportException("Could not set connection to read only", e);
