@@ -19,7 +19,7 @@
 					<span class="highlight"></span> <span class="bar"></span> <label>Raw</label>
 				</div>
 				<div class="select">
-					<select class="select-text" ng-options="dataType as dataType.type for dataType in dataTypes track by dataType.name" ng-model="column.dataType">
+					<select class="select-text" ng-options="dataType as dataType for dataType in dataTypes track by dataType" ng-model="column.dataType">
 						<!--<option ng-repeat="dataType in dataTypes" value="{{dataType}}">{{dataType}}</option>-->
 					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
 					<label class="select-label">Data Type</label>

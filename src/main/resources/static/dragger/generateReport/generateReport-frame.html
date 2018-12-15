@@ -21,7 +21,14 @@
                             </button>
                         </div>
                         <div class="col-md-3">
-                            <div>
+                            <div class="select" ng-if="dataTypes[filter.column.dataType].multivalue">
+                                <select class="select-text"
+                                        ng-options="dataType as dataType.name for dataType in dataTypes[filter.column.dataType].getValues() track by dataType.value"
+                                        ng-model="filter.value" required>
+                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                                <label class="select-label" ng-if="$index == 0">בחר ערך</label>
+                            </div>
+                            <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <input type="{{dataTypes[filter.column.dataType]}}"
                                        ng-model="filter.value" required> <span
                                     class="highlight"></span> <span class="bar"></span> <label
@@ -42,7 +49,8 @@
                             <div class="select">
                                 <select class="select-text"
                                         ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
-                                        ng-model="filter.column" required>
+                                        ng-model="filter.column"
+                                        ng-change="changeColumn($index)" required>
                                 </select> <span class="select-highlight"></span> <span class="select-bar"></span>
                                 <label class="select-label" ng-if="$index == 0">עמודה</label>
                             </div>
