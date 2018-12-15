@@ -29,7 +29,7 @@
                                 <label class="select-label" ng-if="$index == 0">בחר ערך</label>
                             </div>
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
-                                <input type="{{dataTypes[filter.column.dataType]}}"
+                                <input type="{{dataTypes[filter.column.dataType].name}}"
                                        ng-model="filter.value" required> <span
                                     class="highlight"></span> <span class="bar"></span> <label
                                     class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
