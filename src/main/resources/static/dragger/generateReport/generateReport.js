@@ -63,7 +63,7 @@ angular
 
 					$scope.addFilter = function() {
 						$scope.filters.push({
-							"value" : null,
+							"valueObj" : null,
 							"filter" : null,
 							"column" : null
 						});
@@ -109,7 +109,7 @@ angular
 					}
 
 					$scope.changeColumn = function (filterIndex) {
-                        $scope.filters[filterIndex].value = null;
+                        $scope.filters[filterIndex].valueObj = null;
                     }
 
 					$scope.handleReportColumn = function(column, report) {
@@ -140,7 +140,7 @@ angular
 										alert("העמודה בשורה " + (index + 1)
 												+ "לא אמור להיות ריקה ");
 										return;
-									} else if (!filter.value) {
+									} else if (!filter.valueObj) {
 										validationCheck = false;
 										alert(" הערך בשורה" + (index + 1)
 												+ "לא אמור להיות ריק ");
@@ -148,9 +148,14 @@ angular
 									}
 									filter.columnId = filter.column.columnId;
 									filter.filterId = filter.filter.id;
+									
 									if($scope.dataTypes[filter.column.dataType].multivalue) {
-                                        filter.value = filter.value.value;
+                                        filter.value = filter.valueObj.value;
                                     }
+									else
+										{
+										filter.value = filter.valueObj;
+										}
 								});
 
 						if (validationCheck) {
