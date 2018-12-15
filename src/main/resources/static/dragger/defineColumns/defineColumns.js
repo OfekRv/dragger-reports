@@ -33,7 +33,7 @@ angular.module("dragger").controller(
 					data : {
 						name : name,
 						raw : raw,
-						dataType : dataType.type,
+						dataType : dataType,
 						source : source
 					}
 				}).then(function successCallback(response) {

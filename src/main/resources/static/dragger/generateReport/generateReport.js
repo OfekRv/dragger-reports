@@ -9,7 +9,31 @@ angular
 
 					$scope.filters = [];
 					$scope.operators = [];
-					$scope.dataTypes = {};
+					$scope.dataTypes = {
+                        VARCHAR: {name: "TEXT",
+									multivalue:false,
+									getValue: function()
+                        {
+                            return;
+                        }},
+                        NUMERIC: {name: "NUMBER",
+                            multivalue:false,
+									getValue: function()
+                        {
+                            return;
+                        }},
+                        BOOLEAN: {multivalue:true,
+									getValues:function()
+                        {
+							return [{name:'TRUE', value:'TRUE' },{name:'FALSE', value:'FALSE'}];
+                        }},
+                        DATE: {name: "DATE",
+                            multivalue:false,
+									getValue: function()
+                        {
+                            return;
+                        }}
+                    };
 
 					$scope.filtered = "";
 
@@ -24,15 +48,6 @@ angular
 											$scope.reports.push(report);
 										});
 							});
-
-					$http({
-						method : 'GET',
-						url : '/api/columns/availableDataTypes'
-					}).then(function successCallback(response) {
-						angular.forEach(response.data, function(dataType) {
-							$scope.dataTypes[dataType.type] = dataType.name;
-						});
-					});
 
 					$http({
 						method : 'GET',
@@ -93,6 +108,10 @@ angular
 						}
 					}
 
+					$scope.changeColumn = function (filterIndex) {
+                        $scope.filters[filterIndex].value = null;
+                    }
+
 					$scope.handleReportColumn = function(column, report) {
 						var columnDataPromise = $http({
 							method : 'GET',
@@ -129,6 +148,9 @@ angular
 									}
 									filter.columnId = filter.column.columnId;
 									filter.filterId = filter.filter.id;
+									if($scope.dataTypes[filter.column.dataType].multivalue) {
+                                        filter.value = filter.value.value;
+                                    }
 								});
 
 						if (validationCheck) {
