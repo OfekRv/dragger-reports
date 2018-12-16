@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,11 +28,11 @@ import lombok.Setter;
 @Setter
 public class SourceConnection {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "connection_seq", sequenceName = "connection_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "connection_seq")
 	private long id;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinTable(name = "edges", joinColumns = @JoinColumn(name = "connection_id", referencedColumnName = "id"),
-									 inverseJoinColumns = @JoinColumn(name = "query_column_id", referencedColumnName = "columnId"))
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "edges", joinColumns = @JoinColumn(name = "connection_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "query_column_id", referencedColumnName = "columnId"))
 	private Collection<QueryColumn> edges;
 }
