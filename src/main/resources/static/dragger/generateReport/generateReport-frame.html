@@ -24,13 +24,13 @@
                             <div class="select" ng-if="dataTypes[filter.column.dataType].multivalue">
                                 <select class="select-text"
                                         ng-options="dataType as dataType.name for dataType in dataTypes[filter.column.dataType].getValues() track by dataType.value"
-                                        ng-model="filter.value" required>
+                                        ng-model="filter.valueObj" required>
                                 </select> <span class="select-highlight"></span> <span class="select-bar"></span>
                                 <label class="select-label" ng-if="$index == 0">בחר ערך</label>
                             </div>
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <input type="{{dataTypes[filter.column.dataType].name}}"
-                                       ng-model="filter.value" required> <span
+                                       ng-model="filter.valueObj" required> <span
                                     class="highlight"></span> <span class="bar"></span> <label
                                     class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
                             </div>
