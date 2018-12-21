@@ -6,6 +6,7 @@ angular
 					$scope.reports = [];
 					$scope.selectedReport = null;
 					$scope.loading = false;
+					$scope.showDuplicates = true;
 
 					$scope.filters = [];
 					$scope.operators = [];
@@ -179,7 +180,8 @@ angular
 										method : 'POST',
 										url : '/api/reports/generateFilteredReport?reportId='
 												+ $scope.selectedReport.id
-												+ '&showDuplicates=' + 'true',
+												+ '&showDuplicates='
+												+ $scope.showDuplicates,
 										data : $scope.filters,
 										responseType : 'arraybuffer'
 									})
