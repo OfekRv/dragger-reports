@@ -19,7 +19,7 @@ import dragger.entities.SourceConnection;
 import dragger.exceptions.DraggerException;
 
 @Named
-public class RationalQueryGenerator implements QueryGenerator {
+public class RelationalQueryGenerator implements QueryGenerator {
 	private static final String EQUALS = "=";
 	private static final String AND = " AND ";
 	private static final String SELECT = "SELECT ";
@@ -32,12 +32,18 @@ public class RationalQueryGenerator implements QueryGenerator {
 	private static final String SPACE = " ";
 	private static final String NEW_LINE = " \n";
 	private static final String SEPERATOR = ", ";
+	private static final String DISTINCT = "DISTINCT";
 	private static final String EMPTY_STRING = "";
 
-	public String generate(Query query, Collection<ReportQueryFilter> filters) throws DraggerException {
+	public String generate(Query query, Collection<ReportQueryFilter> filters, boolean showDuplicates)
+			throws DraggerException {
 		StringJoiner rawQuery = new StringJoiner(NEW_LINE);
-
-		rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
+		if (showDuplicates) {
+			rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
+		} else {
+			rawQuery.add(generateRawClause(SELECT + SPACE + DISTINCT, SEPERATOR, query.getColumns(),
+					this::rawAndNamedColumn));
+		}
 
 		Collection<QuerySource> sources = query.getSources();
 

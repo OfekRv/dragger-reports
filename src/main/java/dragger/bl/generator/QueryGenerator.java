@@ -7,5 +7,6 @@ import dragger.entities.ReportQueryFilter;
 import dragger.exceptions.DraggerException;
 
 public interface QueryGenerator extends ConnectionFinder {
-	public String generate(Query query, Collection<ReportQueryFilter> filters) throws DraggerException;
+	public String generate(Query query, Collection<ReportQueryFilter> filters, boolean showDuplicates)
+			throws DraggerException;
 }

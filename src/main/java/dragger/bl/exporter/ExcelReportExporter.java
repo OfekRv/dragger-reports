@@ -54,12 +54,13 @@ public class ExcelReportExporter implements ReportExporter {
 	private QueryExecutor executor;
 
 	@Override
-	public File export(Report reportToExport, Collection<ReportQueryFilter> filters) throws DraggerExportException {
+	public File export(Report reportToExport, Collection<ReportQueryFilter> filters, boolean showDuplicates)
+			throws DraggerExportException {
 		String reportName = generateReportName(reportToExport);
 		String reportFilePath = PARENT_DIRECTORIES + reportName;
 		SqlRowSet results;
 		try {
-			results = executor.executeQuery(generator.generate(reportToExport.getQuery(), filters));
+			results = executor.executeQuery(generator.generate(reportToExport.getQuery(), filters, showDuplicates));
 		} catch (DraggerException e) {
 			throw new DraggerExportException("Could not generate the query", e);
 		}

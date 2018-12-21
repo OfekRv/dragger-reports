@@ -8,5 +8,6 @@ import dragger.entities.ReportQueryFilter;
 import dragger.exceptions.DraggerExportException;
 
 public interface ReportExporter {
-	public File export(Report reportToExport, Collection<ReportQueryFilter> filters) throws DraggerExportException;
+	public File export(Report reportToExport, Collection<ReportQueryFilter> filters, boolean showDuplicates)
+			throws DraggerExportException;
 }

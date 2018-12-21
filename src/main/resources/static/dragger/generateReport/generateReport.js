@@ -10,30 +10,40 @@ angular
 					$scope.filters = [];
 					$scope.operators = [];
 					$scope.dataTypes = {
-                        VARCHAR: {name: "TEXT",
-									multivalue:false,
-									getValue: function()
-                        {
-                            return;
-                        }},
-                        NUMERIC: {name: "NUMBER",
-                            multivalue:false,
-									getValue: function()
-                        {
-                            return;
-                        }},
-                        BOOLEAN: {multivalue:true,
-									getValues:function()
-                        {
-							return [{name:'TRUE', value:'TRUE' },{name:'FALSE', value:'FALSE'}];
-                        }},
-                        DATE: {name: "DATE",
-                            multivalue:false,
-									getValue: function()
-                        {
-                            return;
-                        }}
-                    };
+						VARCHAR : {
+							name : "TEXT",
+							multivalue : false,
+							getValue : function() {
+								return;
+							}
+						},
+						NUMERIC : {
+							name : "NUMBER",
+							multivalue : false,
+							getValue : function() {
+								return;
+							}
+						},
+						BOOLEAN : {
+							multivalue : true,
+							getValues : function() {
+								return [ {
+									name : 'TRUE',
+									value : 'TRUE'
+								}, {
+									name : 'FALSE',
+									value : 'FALSE'
+								} ];
+							}
+						},
+						DATE : {
+							name : "DATE",
+							multivalue : false,
+							getValue : function() {
+								return;
+							}
+						}
+					};
 
 					$scope.filtered = "";
 
@@ -108,9 +118,9 @@ angular
 						}
 					}
 
-					$scope.changeColumn = function (filterIndex) {
-                        $scope.filters[filterIndex].valueObj = null;
-                    }
+					$scope.changeColumn = function(filterIndex) {
+						$scope.filters[filterIndex].valueObj = null;
+					}
 
 					$scope.handleReportColumn = function(column, report) {
 						var columnDataPromise = $http({
@@ -128,35 +138,38 @@ angular
 					}
 					$scope.downloadUrl = function() {
 						var validationCheck = true;
-						angular.forEach($scope.filters,
-								function(filter, index) {
-									if (!filter.filter) {
-										validationCheck = false;
-										alert("האופרטור בשורה " + (index + 1)
-												+ "לא אמור להיות ריק ");
-										return;
-									} else if (!filter.column) {
-										validationCheck = false;
-										alert("העמודה בשורה " + (index + 1)
-												+ "לא אמור להיות ריקה ");
-										return;
-									} else if (!filter.valueObj) {
-										validationCheck = false;
-										alert(" הערך בשורה" + (index + 1)
-												+ "לא אמור להיות ריק ");
-										return;
-									}
-									filter.columnId = filter.column.columnId;
-									filter.filterId = filter.filter.id;
-									
-									if($scope.dataTypes[filter.column.dataType].multivalue) {
-                                        filter.value = filter.valueObj.value;
-                                    }
-									else
-										{
-										filter.value = filter.valueObj;
-										}
-								});
+						angular
+								.forEach(
+										$scope.filters,
+										function(filter, index) {
+											if (!filter.filter) {
+												validationCheck = false;
+												alert("האופרטור בשורה "
+														+ (index + 1)
+														+ "לא אמור להיות ריק ");
+												return;
+											} else if (!filter.column) {
+												validationCheck = false;
+												alert("העמודה בשורה "
+														+ (index + 1)
+														+ "לא אמור להיות ריקה ");
+												return;
+											} else if (!filter.valueObj) {
+												validationCheck = false;
+												alert(" הערך בשורה"
+														+ (index + 1)
+														+ "לא אמור להיות ריק ");
+												return;
+											}
+											filter.columnId = filter.column.columnId;
+											filter.filterId = filter.filter.id;
+
+											if ($scope.dataTypes[filter.column.dataType].multivalue) {
+												filter.value = filter.valueObj.value;
+											} else {
+												filter.value = filter.valueObj;
+											}
+										});
 
 						if (validationCheck) {
 							$scope.loading = true;
@@ -165,7 +178,8 @@ angular
 									{
 										method : 'POST',
 										url : '/api/reports/generateFilteredReport?reportId='
-												+ $scope.selectedReport.id,
+												+ $scope.selectedReport.id
+												+ '&showDuplicates=' + 'true',
 										data : $scope.filters,
 										responseType : 'arraybuffer'
 									})
