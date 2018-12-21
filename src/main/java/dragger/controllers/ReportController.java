@@ -51,15 +51,15 @@ public class ReportController {
 	private ReportExporter exporter;
 
 	@GetMapping("api/reports/generateReport")
-	public ResponseEntity<org.springframework.core.io.Resource> generateReport(@RequestParam long reportId)
-			throws DraggerException {
+	public ResponseEntity<org.springframework.core.io.Resource> generateReport(@RequestParam long reportId,
+			@RequestParam boolean showDuplicates) throws DraggerException {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 
 		if (!requestedReport.isPresent()) {
 			throw new DraggerControllerReportNotFoundException("Report id:" + reportId + " not found");
 		}
 
-		File reportFile = exporter.export(requestedReport.get(), null);
+		File reportFile = exporter.export(requestedReport.get(), null, showDuplicates);
 		InputStreamResource resource = createFileResource(reportFile);
 
 		return ResponseEntity.ok()
@@ -71,14 +71,15 @@ public class ReportController {
 
 	@PostMapping("api/reports/generateFilteredReport")
 	public ResponseEntity<org.springframework.core.io.Resource> generateFilteredReport(@RequestParam long reportId,
-			@RequestBody Collection<ReportQueryFilterContract> filters) throws DraggerException {
+			@RequestParam boolean showDuplicates, @RequestBody Collection<ReportQueryFilterContract> filters)
+			throws DraggerException {
 		Optional<Report> requestedReport = reportRepository.findById(reportId);
 
 		if (!requestedReport.isPresent()) {
 			throw new DraggerControllerReportNotFoundException("Report id:" + reportId + " not found");
 		}
 
-		File reportFile = exporter.export(requestedReport.get(), createReportFilters(filters));
+		File reportFile = exporter.export(requestedReport.get(), createReportFilters(filters), showDuplicates);
 		InputStreamResource resource = createFileResource(reportFile);
 
 		return ResponseEntity.ok()
