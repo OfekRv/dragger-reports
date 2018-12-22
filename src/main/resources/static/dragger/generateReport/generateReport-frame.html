@@ -57,14 +57,17 @@
 							</div>
 						</div>
 					</div>
-					<button
-						ng-if="!form-generate-report.$invalid && selectedReport !== null"
-						class="waves-effect waves-light add-filter" ng-click="addFilter()">
-						הוסף סינון</button>
+					<div class="row" ng-if="!form-generate-report.$invalid && selectedReport !== null">
+						<button class="waves-effect waves-light add-filter" ng-click="addFilter()">
+							הוסף סינון</button>
+							
 
-					<label class="select-text">הצג כפילויות </label><input
-						type="checkbox" ng-model="showDuplicates">
-
+						<div class="form-check">
+						  <input class="checkbox" type="checkbox" ng-model="showDuplicates" id="duplicates">
+						  <label class="form-check-label" for="duplicates">הצג כפילויות</label>
+						</div>
+  
+					</div>
 				</div>
 				<div class="space-top text-center">
 					<button

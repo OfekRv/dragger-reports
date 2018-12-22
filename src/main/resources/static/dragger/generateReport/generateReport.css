@@ -139,6 +139,13 @@ option {
 	background-color: #E3D9DB;
 }
 
+.checkbox {
+	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	position: relative;
+	width: 100%;
+	background-color: #E3D9DB;
+}
+
 .select-text {
 	direction: rtl;
 	position: relative;
@@ -162,6 +169,18 @@ option {
 .select .select-text {
 	appearance: none;
 	-webkit-appearance: none
+}
+
+.checkbox-text {
+	direction: rtl;
+	position: relative;
+	font-family: inherit;
+	width: 15px;
+	padding: 10px 10px 10px 0;
+	font-size: 18px;
+	border-radius: 0;
+	border: none;
+	position: relative;
 }
 
 .select:after {
@@ -234,7 +253,8 @@ option {
 
 /* HIGHLIGHTER ================================== */
 .select-highlight {
-	direction: rtl; position : absolute;
+	direction: rtl;
+	position: absolute;
 	height: 60%;
 	width: 100px;
 	top: 25%;
@@ -270,20 +290,18 @@ option {
 		rgba(0, 0, 0, 0.12);
 }
 
-.generate-report{
-                    background-color: #0867ff;
-                    color: black;
-                    text-decoration-style: solid;
-                    width: 230px;
-                }
+.generate-report {
+	background-color: #0867ff;
+	color: black;
+	text-decoration-style: solid;
+	width: 230px;
+}
 
-                .generate-report:hover{
-                    background-color: #0859C1;
-                    transition: all 0.3s ease 0.2s
-                }
+.generate-report:hover {
+	background-color: #0859C1;
+	transition: all 0.3s ease 0.2s
+}
 
-
-.loading-icon
-{
-    margin-left : 70px
+.loading-icon {
+	margin-left: 70px
 }
