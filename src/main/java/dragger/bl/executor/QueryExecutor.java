@@ -2,8 +2,8 @@ package dragger.bl.executor;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import dragger.exceptions.DraggerExportException;
+import dragger.exceptions.DraggerExecuteException;
 
 public interface QueryExecutor {
-	public SqlRowSet executeQuery(String query) throws DraggerExportException;
+	public SqlRowSet executeQuery(String query) throws DraggerExecuteException;
 }
