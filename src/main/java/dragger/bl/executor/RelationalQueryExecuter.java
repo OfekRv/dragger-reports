@@ -9,7 +9,7 @@ import javax.inject.Named;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import dragger.exceptions.DraggerExportException;
+import dragger.exceptions.DraggerExecuteException;
 
 @Named
 public class RelationalQueryExecuter implements QueryExecutor {
@@ -17,12 +17,12 @@ public class RelationalQueryExecuter implements QueryExecutor {
 	private JdbcTemplate executer;
 
 	@Override
-	public SqlRowSet executeQuery(String query) throws DraggerExportException {
+	public SqlRowSet executeQuery(String query) throws DraggerExecuteException {
 		try (Connection jdbcCon = executer.getDataSource().getConnection()) {
 			jdbcCon.setReadOnly(true);
 			return executer.queryForRowSet(query);
 		} catch (SQLException e) {
-			throw new DraggerExportException("Could not set connection to read only", e);
+			throw new DraggerExecuteException("Could not set connection to read only", e);
 		}
 	}
 }
