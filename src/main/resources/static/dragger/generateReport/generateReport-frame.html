@@ -1,178 +1,190 @@
 <div
-	ng-class="{'wide-form': filters.length > 0, 'dragger-form': filters.length == 0}">
-	<div id="signup">
-		<div class="signup-screen">
-			<form class="form-generate-report" method="post" name="register"
-				novalidate>
-				<div class="select">
-					<select class="select-text"
-						ng-options="report as report.name for report in reports track by report.id"
-						ng-model="selectedReport" ng-change="changeReport()" required>
-					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-					<label class="select-label">בחר דוח</label>
-				</div>
-				<div class="space-top text-center">
-					<div class="row" ng-repeat="filter in filters">
-						<div class="col-md-3">
-							<button type="button" class="remove-column-button"
-								ng-click="removeFilter($index, column)">
-								<img class="remove-report-icon"
-									src="dragger/buildReport/trash_icon.png">
-							</button>
-						</div>
-						<div class="col-md-3">
-							<div class="select"
-								ng-if="dataTypes[filter.column.dataType].multivalue">
-								<select class="select-text"
-									ng-options="dataType as dataType.name for dataType in dataTypes[filter.column.dataType].getValues() track by dataType.value"
-									ng-model="filter.valueObj" required>
-								</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-								<label class="select-label" ng-if="$index == 0">בחר ערך</label>
-							</div>
-							<div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
-								<input type="{{dataTypes[filter.column.dataType].name}}"
-									ng-model="filter.valueObj" required> <span
-									class="highlight"></span> <span class="bar"></span> <label
-									class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="select">
-								<select class="select-text"
-									ng-options="operator as operator.name for operator in operators track by operator.id"
-									ng-model="filter.filter" required>
-								</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-								<label class="select-label" ng-if="$index == 0">יחס לוגי</label>
-							</div>
-						</div>
+        ng-class="{'wide-form': filters.length > 0, 'dragger-form': filters.length == 0}">
+    <div id="signup">
+        <div class="signup-screen">
+            <form class="form-generate-report" method="post" name="register"
+                  novalidate>
+                <div class="select">
+                    <select class="select-text"
+                            ng-options="report as report.name for report in reports track by report.id"
+                            ng-model="selectedReport" ng-change="changeReport()" required>
+                    </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                    <label class="select-label">בחר דוח</label>
+                </div>
+                <div class="space-top text-center">
+                    <div class="row" ng-repeat="filter in filters">
+                        <div class="col-md-3">
+                            <button type="button" class="remove-column-button"
+                                    ng-click="removeFilter($index, column)">
+                                <img class="remove-report-icon"
+                                     src="dragger/buildReport/trash_icon.png">
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="select"
+                                 ng-if="dataTypes[filter.column.dataType].multivalue">
+                                <select class="select-text"
+                                        ng-options="dataType as dataType.name for dataType in dataTypes[filter.column.dataType].getValues() track by dataType.value"
+                                        ng-model="filter.valueObj" required>
+                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                                <label class="select-label" ng-if="$index == 0">בחר ערך</label>
+                            </div>
+                            <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
+                                <input type="{{dataTypes[filter.column.dataType].name}}"
+                                       ng-model="filter.valueObj" required> <span
+                                    class="highlight"></span> <span class="bar"></span> <label
+                                    class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="select">
+                                <select class="select-text"
+                                        ng-options="operator as operator.name for operator in operators track by operator.id"
+                                        ng-model="filter.filter" required>
+                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                                <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
+                            </div>
+                        </div>
 
-						<div class="col-md-3">
-							<div class="select">
-								<select class="select-text"
-									ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
-									ng-model="filter.column" ng-change="changeColumn($index)"
-									required>
-								</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-								<label class="select-label" ng-if="$index == 0">עמודה</label>
-							</div>
-						</div>
-					</div>
-					<div class="row" ng-if="!form-generate-report.$invalid && selectedReport !== null">
-						<button class="waves-effect waves-light add-filter" ng-click="addFilter()">
-							הוסף סינון</button>
-							
+                        <div class="col-md-3">
+                            <div class="select">
+                                <select class="select-text"
+                                        ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
+                                        ng-model="filter.column" ng-change="changeColumn($index)"
+                                        required>
+                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                                <label class="select-label" ng-if="$index == 0">עמודה</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="!form-generate-report.$invalid && selectedReport !== null">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="waves-effect waves-light add-filter" ng-click="addFilter()">
+                                הוסף סינון
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="checkbox" type="checkbox" ng-model="showDuplicates" id="duplicates">
+                                <label class="form-check-label" for="duplicates">הצג כפילויות</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-top text-center">
+                    <button
+                            ng-disabled="form-generate-report.$invalid || selectedReport === null || loading"
+                            ng-click="downloadUrl()"
+                            class="waves-effect waves-light btn generate-report">
+                        <div ng-if="!loading">הרץ</div>
 
-						<div class="form-check">
-						  <input class="checkbox" type="checkbox" ng-model="showDuplicates" id="duplicates">
-						  <label class="form-check-label" for="duplicates">הצג כפילויות</label>
-						</div>
-  
-					</div>
-				</div>
-				<div class="space-top text-center">
-					<button
-						ng-disabled="form-generate-report.$invalid || selectedReport === null || loading"
-						ng-click="downloadUrl()"
-						class="waves-effect waves-light btn generate-report">
-						<div ng-if="!loading">הרץ</div>
-
-						<div ng-if="loading" class='loading-icon' id="stock-preview"
-							ng-class="{'tip-on':config.size>50}" class="has-tips">
-							<div class="inner rel">
-								<div
-									ng-attr-style="width:{{config.size}}px;height:{{config.size}}px"
-									class="center" style="width: 50px; height: 50px">
-									<div
-										ng-attr-style="width:{{config.size}}px;height:{{config.size}}px;background:{{config.background || 'none'}}"
-										class="inner" style="width: 50px; height: 50px;">
-										<div id="stock-preview-box" ld-spinner-preview=""
-											ng-config="config" ng-ctrl="demo" ng-mod="mod"
-											ng-class="{'loading':demo.show != 3}"
-											style="width: 100%; height: 100%; margin: 0; padding: 0;"
-											class="ng-isolate-scope">
-											<div class="watermark ng-scope"></div>
-											<div class="lds-svg ng-scope">
-												<svg class="lds-polar" width="100%" height="100%"
-													viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                        <div ng-if="loading" class='loading-icon' id="stock-preview"
+                             ng-class="{'tip-on':config.size>50}" class="has-tips">
+                            <div class="inner rel">
+                                <div
+                                        ng-attr-style="width:{{config.size}}px;height:{{config.size}}px"
+                                        class="center" style="width: 50px; height: 50px">
+                                    <div
+                                            ng-attr-style="width:{{config.size}}px;height:{{config.size}}px;background:{{config.background || 'none'}}"
+                                            class="inner" style="width: 50px; height: 50px;">
+                                        <div id="stock-preview-box" ld-spinner-preview=""
+                                             ng-config="config" ng-ctrl="demo" ng-mod="mod"
+                                             ng-class="{'loading':demo.show != 3}"
+                                             style="width: 100%; height: 100%; margin: 0; padding: 0;"
+                                             class="ng-isolate-scope">
+                                            <div class="watermark ng-scope"></div>
+                                            <div class="lds-svg ng-scope">
+                                                <svg class="lds-polar" width="100%" height="100%"
+                                                     viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                                    <g
+                                                            transform="translate(50 50)">
                                                         <g
-														transform="translate(50 50)">
-                                                            <g
-														transform="scale(0.513166 0.513166)">
-                                                                <path
-														d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-														transform="rotate(0 0 0)" stroke="none" fill="#0051a2"></path>
-                                                                <animateTransform
-														attributeName="transform" type="scale"
-														values="0.5071284133216483;0.9315512156745535;0.029952709708421073;0.21606142907835552;0.5071284133216483"
-														keyTimes="0;0.25;0.5;0.75;1" dur="1s"
-														repeatCount="indefinite"></animateTransform>
-                                                            </g>
-                                                            <g
-														transform="scale(0.423705 0.423705)">
-                                                                <path
-														d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-														transform="rotate(60 0 0)" stroke="none" fill="#1b75be"></path>
-                                                                <animateTransform
-														attributeName="transform" type="scale"
-														values="0.6387136413426893;0.12835960899366938;0.7648134752034541;0.47139195182464877;0.6387136413426893"
-														keyTimes="0;0.25;0.5;0.75;1" dur="1s"
-														repeatCount="indefinite"></animateTransform>
-                                                            </g>
-                                                            <g
-														transform="scale(0.296554 0.296554)">
-                                                                <path
-														d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-														transform="rotate(120 0 0)" stroke="none" fill="#408ee0"></path>
-                                                                <animateTransform
-														attributeName="transform" type="scale"
-														values="0.9105138146432981;0.7534654592981122;0.20300922232021298;0.5038690593513933;0.39575540620603944;0.9105138146432981"
-														keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"
-														repeatCount="indefinite"></animateTransform>
-                                                            </g>
-                                                            <g
-														transform="scale(0.709356 0.709356)">
-                                                                <path
-														d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-														transform="rotate(180 0 0)" stroke="none" fill="#89bff8"></path>
-                                                                <animateTransform
-														attributeName="transform" type="scale"
-														values="0.3068625850908189;0.8566994902932236;0.3068625850908189"
-														keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
-                                                            </g>
-                                                            <g
-														transform="scale(0.444344 0.444344)">
-                                                                <path
-														d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-														transform="rotate(240 0 0)" stroke="none" fill="#0051a2"></path>
-                                                                <animateTransform
-														attributeName="transform" type="scale"
-														values="0.7142884994456251;0.6240405166239827;0.47708363053310465;0.31010416959051446;0.1401733235360183;0.48039112106121384;0.7142884994456251"
-														keyTimes="0;0.16666666666666666;0.3333333333333333;0.5;0.6666666666666666;0.8333333333333334;1"
-														dur="1s" repeatCount="indefinite"></animateTransform>
-                                                            </g>
-                                                            <g
-														transform="scale(0.693601 0.693601)">
-                                                                <path
-														d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-														transform="rotate(300 0 0)" stroke="none" fill="#1b75be"></path>
-                                                                <animateTransform
-														attributeName="transform" type="scale"
-														values="0.8975576586085571;0.46391227668925844;0.7406255868987136;0.10395707138762693;0.5099701434565767;0.8975576586085571"
-														keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"
-														repeatCount="indefinite"></animateTransform>
-                                                            </g>
+                                                                transform="scale(0.513166 0.513166)">
+                                                            <path
+                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
+                                                                    transform="rotate(0 0 0)" stroke="none"
+                                                                    fill="#0051a2"></path>
+                                                            <animateTransform
+                                                                    attributeName="transform" type="scale"
+                                                                    values="0.5071284133216483;0.9315512156745535;0.029952709708421073;0.21606142907835552;0.5071284133216483"
+                                                                    keyTimes="0;0.25;0.5;0.75;1" dur="1s"
+                                                                    repeatCount="indefinite"></animateTransform>
                                                         </g>
-                                                    </svg>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="margin-top: -3px" class="hover-tip bottom"></div>
-						</div>
-					</button>
-				</div>
-			</form>
-		</div>
-	</div>
+                                                        <g
+                                                                transform="scale(0.423705 0.423705)">
+                                                            <path
+                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
+                                                                    transform="rotate(60 0 0)" stroke="none"
+                                                                    fill="#1b75be"></path>
+                                                            <animateTransform
+                                                                    attributeName="transform" type="scale"
+                                                                    values="0.6387136413426893;0.12835960899366938;0.7648134752034541;0.47139195182464877;0.6387136413426893"
+                                                                    keyTimes="0;0.25;0.5;0.75;1" dur="1s"
+                                                                    repeatCount="indefinite"></animateTransform>
+                                                        </g>
+                                                        <g
+                                                                transform="scale(0.296554 0.296554)">
+                                                            <path
+                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
+                                                                    transform="rotate(120 0 0)" stroke="none"
+                                                                    fill="#408ee0"></path>
+                                                            <animateTransform
+                                                                    attributeName="transform" type="scale"
+                                                                    values="0.9105138146432981;0.7534654592981122;0.20300922232021298;0.5038690593513933;0.39575540620603944;0.9105138146432981"
+                                                                    keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"
+                                                                    repeatCount="indefinite"></animateTransform>
+                                                        </g>
+                                                        <g
+                                                                transform="scale(0.709356 0.709356)">
+                                                            <path
+                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
+                                                                    transform="rotate(180 0 0)" stroke="none"
+                                                                    fill="#89bff8"></path>
+                                                            <animateTransform
+                                                                    attributeName="transform" type="scale"
+                                                                    values="0.3068625850908189;0.8566994902932236;0.3068625850908189"
+                                                                    keyTimes="0;0.5;1" dur="1s"
+                                                                    repeatCount="indefinite"></animateTransform>
+                                                        </g>
+                                                        <g
+                                                                transform="scale(0.444344 0.444344)">
+                                                            <path
+                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
+                                                                    transform="rotate(240 0 0)" stroke="none"
+                                                                    fill="#0051a2"></path>
+                                                            <animateTransform
+                                                                    attributeName="transform" type="scale"
+                                                                    values="0.7142884994456251;0.6240405166239827;0.47708363053310465;0.31010416959051446;0.1401733235360183;0.48039112106121384;0.7142884994456251"
+                                                                    keyTimes="0;0.16666666666666666;0.3333333333333333;0.5;0.6666666666666666;0.8333333333333334;1"
+                                                                    dur="1s"
+                                                                    repeatCount="indefinite"></animateTransform>
+                                                        </g>
+                                                        <g
+                                                                transform="scale(0.693601 0.693601)">
+                                                            <path
+                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
+                                                                    transform="rotate(300 0 0)" stroke="none"
+                                                                    fill="#1b75be"></path>
+                                                            <animateTransform
+                                                                    attributeName="transform" type="scale"
+                                                                    values="0.8975576586085571;0.46391227668925844;0.7406255868987136;0.10395707138762693;0.5099701434565767;0.8975576586085571"
+                                                                    keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"
+                                                                    repeatCount="indefinite"></animateTransform>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: -3px" class="hover-tip bottom"></div>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
