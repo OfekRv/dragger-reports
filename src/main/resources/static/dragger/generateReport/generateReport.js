@@ -6,7 +6,9 @@ angular
 					$scope.reports = [];
 					$scope.selectedReport = null;
 					$scope.loading = false;
-
+					$scope.duplicates = {
+						showDuplicates : false
+					};
 					$scope.filters = [];
 					$scope.operators = [];
 					$scope.dataTypes = {
@@ -91,7 +93,7 @@ angular
 						$scope.selectedReport.columns = [];
 						var report = $scope.selectedReport;
 
-						if (Array.isArray(report.query._links.columns)) {
+						if (report && report.query && report.query._links && report.query._links.columns && Array.isArray(report.query._links.columns)) {
 							angular.forEach(report.query._links.columns,
 									function(column) {
 										var columnDataPromise = $http({
@@ -179,7 +181,8 @@ angular
 										method : 'POST',
 										url : '/api/reports/generateFilteredReport?reportId='
 												+ $scope.selectedReport.id
-												+ '&showDuplicates=' + 'true',
+												+ '&showDuplicates='
+												+ $scope.duplicates.showDuplicates,
 										data : $scope.filters,
 										responseType : 'arraybuffer'
 									})
