@@ -93,7 +93,7 @@ angular
 						$scope.selectedReport.columns = [];
 						var report = $scope.selectedReport;
 
-						if (Array.isArray(report.query._links.columns)) {
+						if (report && report.query && report.query._links && report.query._links.columns && Array.isArray(report.query._links.columns)) {
 							angular.forEach(report.query._links.columns,
 									function(column) {
 										var columnDataPromise = $http({

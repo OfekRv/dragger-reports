@@ -66,7 +66,7 @@ public class ExcelReportExporter implements ReportExporter {
 		}
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
 
-		try (Workbook workbook = new XSSFWorkbook();) {
+		try (Workbook workbook = new XSSFWorkbook()) {
 			Sheet sheet = workbook.createSheet(reportName);
 			createTitle(reportToExport, workbook, sheet);
 
@@ -90,7 +90,6 @@ public class ExcelReportExporter implements ReportExporter {
 		} catch (IOException e) {
 			throw new DraggerExportException("Could not create export file", e);
 		}
-
 		return new File(reportFilePath);
 	}
 
