@@ -6,8 +6,9 @@ angular
 					$scope.reports = [];
 					$scope.selectedReport = null;
 					$scope.loading = false;
-					$scope.showDuplicates = true;
-
+					$scope.duplicates = {
+						showDuplicates : false
+					};
 					$scope.filters = [];
 					$scope.operators = [];
 					$scope.dataTypes = {
@@ -181,7 +182,7 @@ angular
 										url : '/api/reports/generateFilteredReport?reportId='
 												+ $scope.selectedReport.id
 												+ '&showDuplicates='
-												+ $scope.showDuplicates,
+												+ $scope.duplicates.showDuplicates,
 										data : $scope.filters,
 										responseType : 'arraybuffer'
 									})
