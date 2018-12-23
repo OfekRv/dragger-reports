@@ -307,17 +307,15 @@ option {
 	margin-left: 70px
 }
 
-.form-check
-{
+.options-row {
 	font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 	position: relative;
 	width: 100%;
 	background-color: white;
-	margin-top:20px;
+	margin-top: 25px;
 }
 
-.form-check-label
-{
+.options-row-label {
 	font-size: 18px;
 	font-weight: normal;
 	position: absolute;
