@@ -21,14 +21,12 @@
                             </button>
                         </div>
                         <div class="col-md-3">
-                            <div class="select"
-                                 ng-if="dataTypes[filter.column.dataType].multivalue">
-                                <select class="select-text"
-                                        ng-options="dataType as dataType.name for dataType in dataTypes[filter.column.dataType].getValues() track by dataType.value"
-                                        ng-model="filter.valueObj" required>
-                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">בחר ערך</label>
-                            </div>
+
+                                <input data-list="" ng-model="filter.valueObj" class="dropdown-input"
+                                       id="columnValueDropDown{{$index}}" ng-show="dataTypes[filter.column.dataType].multivalue"/>
+                                <button class="dropdown-btn" id="dropdown-btn{{$index}}" type="button" ng-show="dataTypes[filter.column.dataType].multivalue"><span
+                                        class="caret"></span></button>
+
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <input type="{{dataTypes[filter.column.dataType].name}}"
                                        ng-model="filter.valueObj" required> <span
@@ -45,7 +43,6 @@
                                 <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
                             </div>
                         </div>
-
                         <div class="col-md-3">
                             <div class="select">
                                 <select class="select-text"

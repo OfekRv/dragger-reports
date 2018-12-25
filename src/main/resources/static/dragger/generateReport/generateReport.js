@@ -14,7 +14,7 @@ angular
 					$scope.dataTypes = {
 						VARCHAR : {
 							name : "TEXT",
-							multivalue : false,
+							multivalue : true,
 							getValue : function() {
 								return;
 							}
@@ -122,6 +122,40 @@ angular
 
 					$scope.changeColumn = function(filterIndex) {
 						$scope.filters[filterIndex].valueObj = null;
+						$scope.filters[filterIndex].column.comboplete = null;
+
+                        var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
+                            minChars: 0,
+                        });
+                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
+                            if(!$scope.filters[filterIndex].column.comboplete)
+                            {
+                                $http({
+                                    method : 'GET',
+                                    url : '/api/columns/suggestValues?columnId='
+                                    + $scope.filters[filterIndex].column.columnId
+                                }).then(
+                                        function successCallback(response) {
+                                            comboplete._list = response.data;
+                                            $scope.filters[filterIndex].column.comboplete = comboplete;
+
+                                        },
+                                        function successCallback(response) {
+                                            alert("אין ערכים להצעה עבור עמודה זו");
+                                        });
+                            }
+
+                            if (comboplete.ul.childNodes.length === 0) {
+                                comboplete.minChars = 0;
+                                comboplete.evaluate();
+                            }
+                            else if (comboplete.ul.hasAttribute('hidden')) {
+                                comboplete.open();
+                            }
+                            else {
+                                comboplete.close();
+                            }
+                        });
 					}
 
 					$scope.handleReportColumn = function(column, report) {
