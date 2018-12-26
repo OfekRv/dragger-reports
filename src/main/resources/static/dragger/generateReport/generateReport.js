@@ -76,6 +76,7 @@ angular
 					$scope.addFilter = function() {
 						$scope.filters.push({
 							"valueObj" : null,
+							"selectValue" : null,
 							"filter" : null,
 							"column" : null
 						});
@@ -121,14 +122,18 @@ angular
 					}
 
 					$scope.changeColumn = function(filterIndex) {
-						$scope.filters[filterIndex].valueObj = null;
-						$scope.filters[filterIndex].column.comboplete = null;
-
+						$scope.filters[filterIndex].selectValue = null;
+						if($scope.filters[filterIndex].comboplete)
+						{
+						    $scope.filters[filterIndex].comboplete.destroy();
+						}
                         var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
                             minChars: 0,
                         });
+                        $scope.filters[filterIndex].comboplete = comboplete;
+
                         Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
-                            if(!$scope.filters[filterIndex].column.comboplete)
+                            if(comboplete._list.length === 0)
                             {
                                 $http({
                                     method : 'GET',
@@ -137,8 +142,16 @@ angular
                                 }).then(
                                         function successCallback(response) {
                                             comboplete._list = response.data;
-                                            $scope.filters[filterIndex].column.comboplete = comboplete;
-
+                                            if (comboplete.ul.childNodes.length === 0) {
+                                            comboplete.minChars = 0;
+                                            comboplete.evaluate();
+                                            }
+                                            else if (comboplete.ul.hasAttribute('hidden')) {
+                                                comboplete.open();
+                                            }
+                                            else {
+                                                comboplete.close();
+                                            }
                                         },
                                         function successCallback(response) {
                                             alert("אין ערכים להצעה עבור עמודה זו");
@@ -178,6 +191,12 @@ angular
 								.forEach(
 										$scope.filters,
 										function(filter, index) {
+											if ($scope.dataTypes[filter.column.dataType].multivalue) {
+												filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+											} else {
+												filter.value = filter.valueObj;
+											}
+
 											if (!filter.filter) {
 												validationCheck = false;
 												alert("האופרטור בשורה "
@@ -190,7 +209,7 @@ angular
 														+ (index + 1)
 														+ "לא אמור להיות ריקה ");
 												return;
-											} else if (!filter.valueObj) {
+											} else if (!filter.value) {
 												validationCheck = false;
 												alert(" הערך בשורה"
 														+ (index + 1)
@@ -199,12 +218,6 @@ angular
 											}
 											filter.columnId = filter.column.columnId;
 											filter.filterId = filter.filter.id;
-
-											if ($scope.dataTypes[filter.column.dataType].multivalue) {
-												filter.value = filter.valueObj.value;
-											} else {
-												filter.value = filter.valueObj;
-											}
 										});
 
 						if (validationCheck) {

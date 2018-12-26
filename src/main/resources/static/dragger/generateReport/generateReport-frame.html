@@ -21,11 +21,14 @@
                             </button>
                         </div>
                         <div class="col-md-3">
-
-                                <input data-list="" ng-model="filter.valueObj" class="dropdown-input"
-                                       id="columnValueDropDown{{$index}}" ng-show="dataTypes[filter.column.dataType].multivalue"/>
-                                <button class="dropdown-btn" id="dropdown-btn{{$index}}" type="button" ng-show="dataTypes[filter.column.dataType].multivalue"><span
+                            <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
+                                <span class="input-group-btn">
+                                <button class="dropdown-btn" id="dropdown-btn{{$index}}" type="button"><span
                                         class="caret"></span></button>
+                                </span>
+                                <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
+                                       id="columnValueDropDown{{$index}}"/>
+                            </div>
 
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <input type="{{dataTypes[filter.column.dataType].name}}"
