@@ -130,6 +130,7 @@ angular
                         var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
                             minChars: 0,
                         });
+                        comboplete.maxItems = 1000000;
                         $scope.filters[filterIndex].comboplete = comboplete;
 
                         Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
@@ -169,6 +170,12 @@ angular
                                 comboplete.close();
                             }
                         });
+
+                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
+                                                        if (!comboplete.ul.hasAttribute('hidden')) {
+                                                                comboplete.close();
+                                                        }
+                                                    });
 					}
 
 					$scope.handleReportColumn = function(column, report) {
