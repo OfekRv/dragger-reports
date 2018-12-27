@@ -88,7 +88,7 @@ angular
 									}, {
 										label : "בניית דוח",
 										href : "#/buildReport"
-									}  {
+									}  ,{
                                         label : "ניהול דוחות",
                                         href : "#/manageReports"
                                     } ];
