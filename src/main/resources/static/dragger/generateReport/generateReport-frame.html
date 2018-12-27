@@ -23,7 +23,8 @@
                         <div class="col-md-3">
                             <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
                                 <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
-                                       id="columnValueDropDown{{$index}}"/>
+                                       id="columnValueDropDown{{$index}}"/><label
+                                    class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
                                 <span class="input-group-btn">
                                 <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}" type="button"><span
                                         class="caret"></span></button>
@@ -31,10 +32,10 @@
                             </div>
 
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
-                                <input type="{{dataTypes[filter.column.dataType].name}}"
+                                <input class="column-value" type="{{dataTypes[filter.column.dataType].name}}"
                                        ng-model="filter.valueObj" required> <span
-                                    class="highlight"></span> <span class="bar"></span> <label
-                                    class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
+                                    class="highlight"></span> <span class="bar"></span><label
+                                    class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
                             </div>
                         </div>
                         <div class="col-md-3">

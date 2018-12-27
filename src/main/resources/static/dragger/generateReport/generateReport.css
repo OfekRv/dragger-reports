@@ -445,3 +445,19 @@ color:#696969;
     border:none;
     background-color:transparent;
 }
+
+.dropdown-input
+{
+    color: #0859c1;
+    text-align:right;
+    padding-top:10px;
+    padding-bottom:0px;
+}
+
+.column-value
+{
+    color: #0859c1;
+    text-align:right;
+    padding-top:10px;
+    padding-bottom:0px;
+}
