@@ -91,7 +91,7 @@ angular
 									}  {
                                         label : "ניהול דוחות",
                                         href : "#/manageReports"
-                                    }, ];
+                                    } ];
 								}
 							});
 
