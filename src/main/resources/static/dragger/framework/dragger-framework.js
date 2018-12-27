@@ -15,6 +15,7 @@ angular
 										templateUrl : 'dragger/generateReport/generateReport-frame.html',
 										controller : 'generateReportController'
 									})
+
 							.when(
 									'/manageReports',
 									{
@@ -28,6 +29,7 @@ angular
 										templateUrl : 'dragger/createSource/createSource-frame.html',
 										controller : 'createSourceController'
 									})
+
 							.when(
 									'/defineColumns',
 									{
@@ -39,8 +41,7 @@ angular
 									{
 										templateUrl : 'dragger/defineConnections/defineConnections-frame.html',
 										controller : 'defineConnectionsController'
-									})
-							.otherwise({
+									}).otherwise({
 								redirectTo : '/generateReport'
 							})
 				})
@@ -68,9 +69,9 @@ angular
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}, {
-									    label : "ניהול דוחות",
-                                        href : "#/manageReports"
-                                    }, {
+										label : "ניהול דוחות",
+										href : "#/manageReports"
+									}, {
 										label : "Create Source",
 										href : "#/createSource"
 									}, {
@@ -87,7 +88,10 @@ angular
 									}, {
 										label : "בניית דוח",
 										href : "#/buildReport"
-									} ];
+									}  {
+                                        label : "ניהול דוחות",
+                                        href : "#/manageReports"
+                                    }, ];
 								}
 							});
 
