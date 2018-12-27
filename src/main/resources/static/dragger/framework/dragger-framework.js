@@ -16,12 +16,18 @@ angular
 										controller : 'generateReportController'
 									})
 							.when(
+									'/manageReports',
+									{
+										templateUrl : 'dragger/manageReports/manageReports-frame.html',
+										controller : 'manageReportsController'
+									})
+
+							.when(
 									'/createSource',
 									{
 										templateUrl : 'dragger/createSource/createSource-frame.html',
 										controller : 'createSourceController'
 									})
-
 							.when(
 									'/defineColumns',
 									{
@@ -62,6 +68,9 @@ angular
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}, {
+									    label : "ניהול דוחות",
+                                        href : "#/manageReports"
+                                    }, {
 										label : "Create Source",
 										href : "#/createSource"
 									}, {
