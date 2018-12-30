@@ -30,7 +30,9 @@ import dragger.entities.Report;
 import dragger.entities.ReportQueryFilter;
 import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Named
 public class ExcelReportExporter implements ReportExporter {
 	private static final String AUTOFILTER_BUTTON_SPACE = "    ";
@@ -59,13 +61,19 @@ public class ExcelReportExporter implements ReportExporter {
 		String reportName = generateReportName(reportToExport);
 		String reportFilePath = PARENT_DIRECTORIES + reportName;
 		SqlRowSet results;
+
+		log.info("executing query of report: " + reportToExport.getName());
 		try {
 			results = executor.executeQuery(generator.generate(reportToExport.getQuery(), filters, showDuplicates));
 		} catch (DraggerException e) {
+			log.error("query of report: " + reportToExport.getName() + " failed");
 			throw new DraggerExportException("Could not generate the query", e);
 		}
+		log.info("query of report: " + reportToExport.getName() + " executed successfully");
+
 		SqlRowSetMetaData resultsMetaData = results.getMetaData();
 
+		log.info("writing query results of report: " + reportToExport.getName() + " to excel file");
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Sheet sheet = workbook.createSheet(reportName);
 			createTitle(reportToExport, workbook, sheet);
@@ -86,10 +94,11 @@ public class ExcelReportExporter implements ReportExporter {
 			setTableAutoFilter(resultsMetaData, sheet, excelLastRowIndex, autoExcelFilterRow);
 			autoSizeColumns(resultsMetaData, sheet);
 			saveExcelFile(reportFilePath, workbook);
-
 		} catch (IOException e) {
 			throw new DraggerExportException("Could not create export file", e);
 		}
+
+		log.info("file of report: " + reportToExport.getName() + "created");
 		return new File(reportFilePath);
 	}
 
