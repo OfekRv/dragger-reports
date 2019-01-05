@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ReportExporter;
+import dragger.bl.generator.QueryGenerator;
 import dragger.contracts.ReportQueryFilterContract;
 import dragger.entities.Filter;
 import dragger.entities.QueryColumn;
@@ -48,26 +49,10 @@ public class ReportController {
 	private FilterRepository filterRepository;
 
 	@Autowired
+	private QueryGenerator generator;
+
+	@Autowired
 	private ReportExporter exporter;
-
-	@GetMapping("api/reports/generateReport")
-	public ResponseEntity<org.springframework.core.io.Resource> generateReport(@RequestParam long reportId,
-			@RequestParam boolean showDuplicates) throws DraggerException {
-		Optional<Report> requestedReport = reportRepository.findById(reportId);
-
-		if (!requestedReport.isPresent()) {
-			throw new DraggerControllerReportNotFoundException("Report id:" + reportId + " not found");
-		}
-
-		File reportFile = exporter.export(requestedReport.get(), null, showDuplicates);
-		InputStreamResource resource = createFileResource(reportFile);
-
-		return ResponseEntity.ok()
-				.header(HttpHeaders.CONTENT_DISPOSITION,
-						"attachment; filename=\"" + getReportFileName(reportFile) + "\"")
-				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
-				.body(resource);
-	}
 
 	@PostMapping("api/reports/generateFilteredReport")
 	public ResponseEntity<org.springframework.core.io.Resource> generateFilteredReport(@RequestParam long reportId,
@@ -87,6 +72,18 @@ public class ReportController {
 						"attachment; filename=\"" + getReportFileName(reportFile) + "\"")
 				.contentLength(reportFile.length()).contentType(MediaType.parseMediaType(APPLICATION_OCTET_STREAM))
 				.body(resource);
+	}
+
+	@GetMapping("api/reports/getRawQuery")
+	public String generateReport(@RequestParam long reportId, @RequestParam boolean showDuplicates)
+			throws DraggerException {
+		Optional<Report> requestedReport = reportRepository.findById(reportId);
+
+		if (!requestedReport.isPresent()) {
+			throw new DraggerControllerReportNotFoundException("Report id:" + reportId + " not found");
+		}
+
+		return generator.generate(requestedReport.get().getQuery(), null, showDuplicates);
 	}
 
 	private InputStreamResource createFileResource(File reportFile) throws DraggerControllerException {

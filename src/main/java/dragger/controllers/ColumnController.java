@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import dragger.bl.suggestions.ColumnValueSuggestor;
 import dragger.entities.QueryColumn;
 import dragger.exceptions.DraggerException;
-import dragger.exceptions.DraggerSuggestionException;
 import dragger.repositories.QueryColumnRepository;
 
 @RestController
