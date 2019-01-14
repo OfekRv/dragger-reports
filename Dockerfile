@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8_jdk
 EXPOSE 9090
 WORKDIR /app
 RUN chmod -R 775 /app
