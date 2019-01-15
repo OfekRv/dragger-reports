@@ -1,7 +1,5 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jdk-alpine
 EXPOSE 9090
-ls -l
-ADD ./target/*.jar /opt/app/
-WORKDIR /opt/app
+WORKDIR /app
 RUN chmod -R 775 /app
 CMD java $JAVA_OPTIONS -jar ./*.jar
