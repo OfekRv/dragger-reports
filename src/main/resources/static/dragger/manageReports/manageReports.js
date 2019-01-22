@@ -4,7 +4,7 @@ angular
 				"manageReportsController",
 				function($scope, $http) {
 					$scope.dropCallback = function(index, item) {
-					if(confirm("את/ה בטוח שברצונך למחוק את הדוח?"))
+					if(confirm("אתה בטוח שברצונך למחוק את הדוח?"))
                     {
                             $http({
                                 method : 'DELETE',

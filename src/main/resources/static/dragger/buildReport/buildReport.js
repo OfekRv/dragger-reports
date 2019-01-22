@@ -5,6 +5,11 @@ angular
 				function($scope, $http) {
 					$scope.createReport = function() {
 						var columns = [];
+						if(!$scope.report || !$scope.report.name)
+						{
+						    alert("אנא מלא שם דוח");
+						    return;
+						}
 						angular.forEach($scope.models.lists.Report, function(
 								value, key) {
 							columns.push(value.data._links.self.href);

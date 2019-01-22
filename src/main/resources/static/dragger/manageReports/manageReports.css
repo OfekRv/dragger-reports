@@ -54,7 +54,7 @@
 .panel-title
 {
     background-image: inherit;
-    color: black;
+    color: white;
     font-weight: bold;
     text-decoration-style: solid;
     font-size: medium;
@@ -78,7 +78,7 @@ panel-heading
 .panel-info>.panel-heading>.report-title
 {
     background-image: inherit;
-    color: black;
+    color: white;
     font-weight: bold;
     text-decoration-style: solid;
     font-size: medium;
