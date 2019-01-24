@@ -336,7 +336,6 @@ option {
 
 html, body {
   height: 100%;
-  direction:rtl;
 }
 
 .b {
@@ -408,7 +407,7 @@ html, body {
 
 .label-duplicates
 {
-white-space: nowrap;
+word-wrap: break-word;
 margin-top: 8px;
 margin-left: 20px;
 font-size:16px;
@@ -461,4 +460,9 @@ color:#696969;
     text-align:right;
     padding-top:10px;
     padding-bottom:0px;
+}
+
+.filter-row-padding
+{
+padding-top:3px;
 }

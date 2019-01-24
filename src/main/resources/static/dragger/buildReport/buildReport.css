@@ -301,6 +301,7 @@ label {
 .column-padding-removal
 {
     padding-left:0px;
+    padding-right:0px;
 }
 
 .build-report-name
@@ -330,7 +331,7 @@ label {
     border: 1px solid #ccc;
     padding: 0;
     margin: 0;
-    overflow: scroll;
+    overflow: auto;
     overflow-x: hidden;
 }
 
@@ -374,6 +375,6 @@ label {
 
 .build-button
 {
-    font-size: 20px;
+    font-size: medium;
     width:100px;
 }
