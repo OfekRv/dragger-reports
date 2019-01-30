@@ -110,6 +110,7 @@ input:focus, textarea:focus {
 input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid ~ label {
     top: -14px;
     font-size: 12px;
+    right: 0;
     color: #2196f3;
 }
 input:focus ~ .bar:before, textarea:focus ~ .bar:before {
@@ -235,7 +236,7 @@ label {
     font-weight: normal;
     position: absolute;
     pointer-events: none;
-    left: 0;
+    right: 0;
     top: 10px;
     transition: 0.2s ease all;
 }

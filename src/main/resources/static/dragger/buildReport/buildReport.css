@@ -83,6 +83,7 @@ panel-heading
     text-decoration-style: solid;
     font-size: medium;
     background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
+    direction:rtl;
 }
 
 .text-center{
@@ -197,6 +198,7 @@ input:focus, textarea:focus {
 input:focus ~ label, textarea:focus ~ label, input:valid ~ label, textarea:valid ~ label {
     top: -14px;
     font-size: 12px;
+    right:0;
     color: #2196f3;
 }
 input:focus ~ .bar:before, textarea:focus ~ .bar:before {
@@ -311,6 +313,7 @@ label {
     width: 100%;
     background-color: white;
     color:black;
+    direction:rtl;
 }
 
 .padding-report-name
@@ -322,6 +325,7 @@ label {
 {
      top: -14px;
      font-size: 12px;
+     right:0;
      color: #2196f3;
 }
 
