@@ -205,7 +205,7 @@ option {
 	font-weight: normal;
 	position: absolute;
 	pointer-events: none;
-	left: 0;
+	right: 0;
 	top: 10px;
 	transition: 0.2s ease all;
 }
@@ -270,7 +270,7 @@ option {
 
 .add-filter {
 	background-color: #55c34f;
-	color: #e0dfdf;
+	color: white;
 	border: none;
 	margin-top: 10px;
 	padding: 10px 20px;
@@ -293,14 +293,14 @@ option {
 
 .generate-report {
 	background-color: #0867ff;
-	color: black;
+	color: white;
 	text-decoration-style: solid;
 	width: 230px;
 }
 
 .generate-report:hover {
 	background-color: #0859C1;
-	transition: all 0.3s ease 0.2s
+	transition: all 0.3s ease 0.2s;
 }
 
 .loading-icon {
@@ -407,7 +407,7 @@ html, body {
 
 .label-duplicates
 {
-white-space: nowrap;
+word-wrap: break-word;
 margin-top: 8px;
 margin-left: 20px;
 font-size:16px;
@@ -460,4 +460,9 @@ color:#696969;
     text-align:right;
     padding-top:10px;
     padding-bottom:0px;
+}
+
+.filter-row-padding
+{
+padding-top:3px;
 }
