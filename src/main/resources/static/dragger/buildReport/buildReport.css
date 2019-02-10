@@ -337,6 +337,7 @@ label {
     margin: 0;
     overflow: auto;
     overflow-x: hidden;
+    direction:rtl;
 }
 
 .fixed-report-area
