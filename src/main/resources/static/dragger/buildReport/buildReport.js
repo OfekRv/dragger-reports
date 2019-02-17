@@ -88,6 +88,7 @@ angular
 															$scope.models.lists[source.name] = {};
 															$scope.models.lists[source.name].columns = [];
 															$scope.models.lists[source.name].allowedTypes = [];
+															$scope.models.lists[source.name].visible = source.visible;
 															$scope.models.lists[source.name].allowedTypes.push(source.name);
 
 															$http(
