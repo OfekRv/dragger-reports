@@ -3,6 +3,22 @@ angular
 		.controller(
 				"buildReportController",
 				function($scope, $http) {
+				    $scope.filterSources =function(sourceName, source)
+				    {
+				        var matchForColumns = false;
+				        for (let i = 0; i < source.columns.length; i++) {
+                            matchForColumns = source.columns[i].data.name.includes($scope.searchSources);
+                            if(matchForColumns)
+                            {
+                                break;
+                            }
+                        }
+
+                        return !sourceName.includes('Report') &&
+                        source.visible &&
+                        (!$scope.searchSources || sourceName.includes($scope.searchSources) || matchForColumns);
+				    };
+
 					$scope.createReport = function() {
 						var columns = [];
 						if(!$scope.report || !$scope.report.name)
