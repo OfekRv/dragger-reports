@@ -8,26 +8,26 @@
 						<option ng-repeat="source in sources"
 							value="{{source._links.self.href}}">{{source.name}}</option>
 					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-					<label class="select-label">Choose Source</label>
+					<label class="select-label">בחר מקור</label>
 				</div>
 				<div class="group">
 					<input type="text" id="name" ng-model="column.name" required>
-					<span class="highlight"></span> <span class="bar"></span> <label>Name</label>
+					<span class="highlight"></span> <span class="bar"></span> <label>שם שדה</label>
 				</div>
 				<div class="group">
 					<input type="text" id="raw" ng-model="column.raw" required>
-					<span class="highlight"></span> <span class="bar"></span> <label>Raw</label>
+					<span class="highlight"></span> <span class="bar"></span> <label>שם שדה(תכל'ס)</label>
 				</div>
 				<div class="select">
 					<select class="select-text" ng-options="dataType as dataType for dataType in dataTypes track by dataType" ng-model="column.dataType">
 						<!--<option ng-repeat="dataType in dataTypes" value="{{dataType}}">{{dataType}}</option>-->
 					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
-					<label class="select-label">Data Type</label>
+					<label class="select-label">סוג מידע</label>
 				</div>
 				<div class="space-top text-center">
 					<button ng-disabled="form-define-columns.$invalid"
 						ng-click="defineColumn(column.name, column.raw, column.dataType, selected)"
-						class="waves-effect waves-light btn done">Define columns
+						class="waves-effect waves-light btn done">צור
 					</button>
 				</div>
 			</div>

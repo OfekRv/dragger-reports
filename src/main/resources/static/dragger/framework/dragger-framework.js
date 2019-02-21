@@ -72,13 +72,13 @@ angular
 										label : "ניהול דוחות",
 										href : "#/manageReports"
 									}, {
-										label : "Create Source",
+										label : "יצירת מקור",
 										href : "#/createSource"
 									}, {
-										label : "Define Columns",
+										label : "יצירת שדה מידע",
 										href : "#/defineColumns"
 									}, {
-										label : "Define Connections",
+										label : "יצירת קישור",
 										href : "#/defineConnections"
 									} ];
 								} else {

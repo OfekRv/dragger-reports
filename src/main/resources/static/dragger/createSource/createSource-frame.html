@@ -6,18 +6,18 @@
                     <input type="text" id="name" ng-model="source.name" required>
                     <span class="highlight"></span>
                     <span class="bar"></span>
-                    <label>Name</label>
+                    <label>שם מקור</label>
                 </div>
                 <div class="group">
                     <input type="text" id="from" ng-model="source.from" required>
                     <span class="highlight"></span>
                     <span class="bar"></span>
-                    <label>From clause</label>
+                    <label>שם מקור במסד נתונים</label>
                 </div>
                 <div class="space-top text-center">
                     <button ng-disabled="form-create-source.$invalid"
                             ng-click="createSource(source.name, source.from)"
-                            class="waves-effect waves-light btn done">Create
+                            class="waves-effect waves-light btn done">צור
                     </button>
                 </div>
             </div>
