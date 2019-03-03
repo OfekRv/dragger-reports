@@ -49,4 +49,7 @@ public class QueryColumn {
 
 	@ManyToMany(mappedBy = "edges", fetch = FetchType.EAGER)
 	private Collection<SourceConnection> connections;
+
+	@Column(nullable = false)
+	private boolean isVisible;
 }

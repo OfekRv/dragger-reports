@@ -305,3 +305,9 @@ label {
     pointer-events: none;
     opacity: 0.5;
 }
+
+.visible-button
+{
+    margin-top:35px;
+    margin-bottom:95px;
+}

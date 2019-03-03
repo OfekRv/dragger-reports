@@ -7,7 +7,7 @@ angular
 				    {
 				        var matchForColumns = false;
 				        for (let i = 0; i < source.columns.length; i++) {
-                            matchForColumns = source.columns[i].data.name.includes($scope.searchSources);
+                            matchForColumns = source.columns[i].data.name.includes($scope.searchSources) && columns[i].data.visible;
                             if(matchForColumns)
                             {
                                 break;
@@ -18,6 +18,11 @@ angular
                         source.visible &&
                         (!$scope.searchSources || sourceName.includes($scope.searchSources) || matchForColumns);
 				    };
+
+				    $scope.filterColumns =function(column)
+                    				    {
+                    				        return column.data.visible;
+                    				    };
 
 					$scope.createReport = function() {
 						var columns = [];
