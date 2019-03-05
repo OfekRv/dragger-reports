@@ -6,12 +6,16 @@ angular.module("dragger").controller("createSourceController",
 					url : 'api/querySources',
 					data : {
 						name : $scope.source.name,
-						fromClauseRaw : $scope.source.from
+						fromClauseRaw : $scope.source.from,
+						visible: $scope.visible
 					}
 				}).then(function successCallback(response) {
+
 					alert("source created!");
 				}, function errorCallback(response) {
 					alert("Failed to create the source :(");
 				});
 			}
+
+			$scope.visible=true;
 		});

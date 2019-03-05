@@ -14,10 +14,23 @@
                     <span class="bar"></span>
                     <label>From clause</label>
                 </div>
+                <div class="group">
+                    <div class="col-md-3">
+                        <div class="toggle">
+                            <input type="checkbox" ng-model="visible" class="check">
+                            <b class="b switch"></b>
+                            <b class="b track"></b>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-8">
+                        <label class="label-duplicates">נראה למשתמש</label>
+                    </div>
+                </div>
                 <div class="space-top text-center">
                     <button ng-disabled="form-create-source.$invalid"
                             ng-click="createSource(source.name, source.from)"
-                            class="waves-effect waves-light btn done">Create
+                            class="waves-effect waves-light btn done create-source">Create
                     </button>
                 </div>
             </div>

@@ -3,6 +3,27 @@ angular
 		.controller(
 				"buildReportController",
 				function($scope, $http) {
+				    $scope.filterSources =function(sourceName, source)
+				    {
+				        var matchForColumns = false;
+				        for (let i = 0; i < source.columns.length; i++) {
+                            matchForColumns = source.columns[i].data.name.includes($scope.searchSources) && columns[i].data.visible;
+                            if(matchForColumns)
+                            {
+                                break;
+                            }
+                        }
+
+                        return !sourceName.includes('Report') &&
+                        source.visible &&
+                        (!$scope.searchSources || sourceName.includes($scope.searchSources) || matchForColumns);
+				    };
+
+				    $scope.filterColumns =function(column)
+                    				    {
+                    				        return column.data.visible;
+                    				    };
+
 					$scope.createReport = function() {
 						var columns = [];
 						if(!$scope.report || !$scope.report.name)
@@ -88,6 +109,7 @@ angular
 															$scope.models.lists[source.name] = {};
 															$scope.models.lists[source.name].columns = [];
 															$scope.models.lists[source.name].allowedTypes = [];
+															$scope.models.lists[source.name].visible = source.visible;
 															$scope.models.lists[source.name].allowedTypes.push(source.name);
 
 															$http(
