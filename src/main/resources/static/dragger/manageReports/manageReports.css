@@ -341,13 +341,6 @@ label {
     direction:rtl;
 }
 
-.fixed-report-area
-{
-    position: sticky;
-        top: 70px;
-}
-
-
 /*--------------------SCROLLBAR---------------------*/
 
 #style-8::-webkit-scrollbar

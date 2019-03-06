@@ -40,4 +40,7 @@ public class QuerySource {
 
 	@Column(nullable = false, length = 5000)
 	private String fromClauseRaw;
+
+	@Column(nullable = false)
+	private boolean isVisible;
 }
