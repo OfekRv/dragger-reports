@@ -4,20 +4,32 @@ angular
 				"buildReportController",
 				function($scope, $http) {
 				    $scope.filterSources =function(sourceName, source)
-				    {
-				        var matchForColumns = false;
-				        for (let i = 0; i < source.columns.length; i++) {
-                            matchForColumns = source.columns[i].data.name.includes($scope.searchSources) && columns[i].data.visible;
-                            if(matchForColumns)
-                            {
-                                break;
-                            }
-                        }
+                    				    {
+                    				        if(!(source && sourceName) || sourceName.includes('Report'))
+                    				        {
+                    				            return false;
+                    				        }
 
-                        return !sourceName.includes('Report') &&
-                        source.visible &&
-                        (!$scope.searchSources || sourceName.includes($scope.searchSources) || matchForColumns);
-				    };
+                    				        if(!$scope.searchSources)
+                                            {
+                                                $scope.searchSources = '';
+                                            }
+
+                                            if(source.visible && (!$scope.searchSources || sourceName.toLowerCase().includes($scope.searchSources.toLowerCase())))
+                                            {
+                                                return true;
+                                            }
+
+                    				        for (let i = 0; i < source.columns.length; i++) {
+                                                if(source.columns[i].data.name && source.columns[i].data.name.toLowerCase().includes($scope.searchSources.toLowerCase()) &&
+                                                    source.columns[i].data.visible)
+                                                {
+                                                    return true;
+                                                }
+                                            }
+
+                                            return false;
+                    				    };
 
 				    $scope.filterColumns =function(column)
                     				    {
