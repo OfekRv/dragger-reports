@@ -5,7 +5,7 @@ angular
 				function($scope, $http) {
 				    $scope.filterSources =function(sourceName, source)
                     				    {
-                    				        if(!(source && sourceName) || sourceName.includes('Report'))
+                    				        if(!(source && sourceName) || sourceName.includes('Report') || !source.visible)
                     				        {
                     				            return false;
                     				        }
@@ -15,7 +15,7 @@ angular
                                                 $scope.searchSources = '';
                                             }
 
-                                            if(source.visible && (!$scope.searchSources || sourceName.toLowerCase().includes($scope.searchSources.toLowerCase())))
+                                            if(sourceName.toLowerCase().includes($scope.searchSources.toLowerCase()))
                                             {
                                                 return true;
                                             }
@@ -150,7 +150,7 @@ angular
                                                                                                         }
                                                                                                     })
 
-                                                                                                    if(!columnExists) {
+                                                                                                    if(!columnExists && columnItem.data.visible) {
                                                                                                         $scope.models.lists[source.name].columns
                                                                                                             .push(columnItem);
                                                                                                     }
