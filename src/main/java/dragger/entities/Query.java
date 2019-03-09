@@ -6,7 +6,8 @@ import java.util.Collection;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OrderBy;
+
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,16 @@ public class Query {
 	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> columns;
 
+	@Nullable
+	@ManyToMany
+	@JoinColumn(name = "columnId")
+	private Collection<QueryColumn> countCoulmns;
+
+	@Nullable
+	@ManyToMany
+	@JoinColumn(name = "columnId")
+	private Collection<QueryColumn> groupBys;
+
 	public Collection<QuerySource> getSources() {
 		Collection<QuerySource> sources = new ArrayList<>();
 		columns.forEach(column -> {
@@ -31,6 +42,19 @@ public class Query {
 				sources.add(column.getSource());
 			}
 		});
+
+		groupBys.forEach(column -> {
+			if (!sources.contains(column.getSource())) {
+				sources.add(column.getSource());
+			}
+		});
+
+		countCoulmns.forEach(column -> {
+			if (!sources.contains(column.getSource())) {
+				sources.add(column.getSource());
+			}
+		});
+
 		return sources;
 	}
 }
