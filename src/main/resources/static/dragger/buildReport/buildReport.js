@@ -38,7 +38,7 @@ angular
 
 					$scope.createReport = function() {
 						var columns = [];
-						var countCoulmns = [];
+						var countColumns = [];
 						var groupBys = [];
 						if(!$scope.report || !$scope.report.name)
 						{
@@ -55,7 +55,7 @@ angular
 							url : 'api/reports',
 							data : {
 								name : $scope.report.name,
-								query : {columns, countCoulmns, groupBys}
+								query : {columns, countColumns, groupBys}
 							}
 						}).then(function successCallback(response) {
 							alert("דוח נבנה בהצלחה!");

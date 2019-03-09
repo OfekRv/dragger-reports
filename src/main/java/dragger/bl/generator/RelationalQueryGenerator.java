@@ -62,7 +62,6 @@ public class RelationalQueryGenerator implements QueryGenerator {
 			sources = sources.stream().distinct().collect(Collectors.toList());
 			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
 			rawQuery.add(generateRawClause(WHERE, AND, connections, this::rawConnection));
-
 		} else {
 			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
 		}
@@ -84,7 +83,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private boolean isCountQuery(Query query) {
-		return !query.getCountCoulmns().isEmpty();
+		return query.getCountCoulmns() != null && !query.getCountCoulmns().isEmpty();
 	}
 
 	private boolean containsFilters(Collection<ReportQueryFilter> filters) {

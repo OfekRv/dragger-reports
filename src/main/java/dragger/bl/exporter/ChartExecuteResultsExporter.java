@@ -11,7 +11,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
 import dragger.contracts.ChartResult;
-import dragger.entities.Query;
+import dragger.entities.Chart;
 import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +31,13 @@ public class ChartExecuteResultsExporter implements ChartQueryExporter {
 	@Inject
 	private QueryExecutor executor;
 
-	public Collection<ChartResult> export(Query chartQuery) throws DraggerExportException {
+	public Collection<ChartResult> export(Chart chartQuery) throws DraggerExportException {
 		SqlRowSet results;
 
 		log.info("executing chart query");
 		try {
-			StringBuilder rawQuery = new StringBuilder(generator.generate(chartQuery, null, SHOW_DUPLICATES));
+			StringBuilder rawQuery = new StringBuilder(
+					generator.generate(chartQuery.getQuery(), null, SHOW_DUPLICATES));
 			rawQuery.insert(rawQuery.indexOf(SELECT_IN_QUERY) + SELECT_IN_QUERY.length(), COUNT);
 			results = executor.executeQuery(rawQuery.toString());
 		} catch (DraggerException e) {
