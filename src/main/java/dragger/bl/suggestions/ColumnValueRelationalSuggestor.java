@@ -28,7 +28,7 @@ public class ColumnValueRelationalSuggestor implements ColumnValueSuggestor {
 	public Collection<String> suggestValues(QueryColumn column) throws DraggerSuggestionException {
 		String suggestionQuery = null;
 		try {
-			suggestionQuery = generator.generate(new Query(asList(column)), null, false);
+			suggestionQuery = generator.generate(new Query(asList(column), null, null), null, false);
 		} catch (DraggerException e) {
 			throw new DraggerSuggestionException("Could not generate the suggestion query", e);
 		}

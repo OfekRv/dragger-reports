@@ -24,6 +24,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	private static final String AND = " AND ";
 	private static final String SELECT = "SELECT ";
 	private static final String FROM = "FROM ";
+	private static final String GROUP_BY = "GROUP BY ";
 	private static final String WHERE = "WHERE ";
 	private static final String AS = " AS ";
 	private static final String DOT = ".";
@@ -38,11 +39,19 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	public String generate(Query query, Collection<ReportQueryFilter> filters, boolean showDuplicates)
 			throws DraggerException {
 		StringJoiner rawQuery = new StringJoiner(NEW_LINE);
+
+		StringBuilder countColumnAddition = new StringBuilder();
+		if (isCountQuery(query)) {
+			countColumnAddition
+					.append(rawAndNamedCountColumn(query.getCountColumns().stream().findFirst().get()) + SEPERATOR);
+		}
+
 		if (showDuplicates) {
-			rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
-		} else {
-			rawQuery.add(generateRawClause(SELECT + SPACE + DISTINCT, SEPERATOR, query.getColumns(),
+			rawQuery.add(generateRawClause(SELECT + countColumnAddition, SEPERATOR, query.getColumns(),
 					this::rawAndNamedColumn));
+		} else {
+			rawQuery.add(generateRawClause(SELECT + SPACE + DISTINCT + countColumnAddition, SEPERATOR,
+					query.getColumns(), this::rawAndNamedColumn));
 		}
 
 		Collection<QuerySource> sources = query.getSources();
@@ -53,12 +62,11 @@ public class RelationalQueryGenerator implements QueryGenerator {
 			sources = sources.stream().distinct().collect(Collectors.toList());
 			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
 			rawQuery.add(generateRawClause(WHERE, AND, connections, this::rawConnection));
-
 		} else {
 			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
 		}
 
-		if (filters != null && filters.size() > 0) {
+		if (containsFilters(filters)) {
 			if (isMultipeSourcesQuery(sources)) {
 				// we are already in WHERE so we use it as AND
 				rawQuery.add(generateRawClause(AND, AND, filters, this::rawFilter));
@@ -67,12 +75,31 @@ public class RelationalQueryGenerator implements QueryGenerator {
 			}
 		}
 
-		return rawQuery.toString();
+		if (isGroupByQuery(query)) {
+			rawQuery.add(generateRawClause(GROUP_BY, SEPERATOR, query.getGroupBys(), this::columnWithSource));
+		}
 
+		return rawQuery.toString();
+	}
+
+	private boolean isCountQuery(Query query) {
+		return query.getCountColumns() != null && !query.getCountColumns().isEmpty();
+	}
+
+	private boolean containsFilters(Collection<ReportQueryFilter> filters) {
+		return filters != null && filters.size() > 0;
+	}
+
+	private boolean isGroupByQuery(Query query) {
+		return !query.getGroupBys().isEmpty();
 	}
 
 	private boolean isMultipeSourcesQuery(Collection<QuerySource> sources) {
 		return sources.size() > 1;
+	}
+
+	private String rawAndNamedCountColumn(QueryColumn col) {
+		return "COUNT(" + columnWithSource(col) + ")";
 	}
 
 	private String rawAndNamedColumn(QueryColumn col) {
