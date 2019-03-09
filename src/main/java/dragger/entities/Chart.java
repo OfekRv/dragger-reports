@@ -20,7 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Chart {
+public class Chart{
 	@Id
 	@SequenceGenerator(name = "chart_seq", sequenceName = "chart_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chart_seq")

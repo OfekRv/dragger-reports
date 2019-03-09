@@ -18,12 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Named
-public class ChartExecuteResultsExporter implements ChartQueryExporter {
-	private static final String COUNT = "COUNT(*), ";
-	private static final int COUNT_COLUMN_INDEX = 0;
-	private static final int DATA_COLUMN_INDEX = 1;
+public class ChartRestResultsExporter implements ChartQueryExporter {
+	private static final int COUNT_COLUMN_INDEX = 1;
+	private static final int DATA_COLUMN_INDEX = 2;
 	private static final String EMPTY = "";
-	private static final String SELECT_IN_QUERY = "SELECT ";
 	private static final boolean SHOW_DUPLICATES = true;
 
 	@Inject
@@ -34,15 +32,12 @@ public class ChartExecuteResultsExporter implements ChartQueryExporter {
 	public Collection<ChartResult> export(Chart chartQuery) throws DraggerExportException {
 		SqlRowSet results;
 
-		log.info("executing chart query");
+		log.info("executing chart query (id = " + chartQuery.getId() + ")");
 		try {
-			StringBuilder rawQuery = new StringBuilder(
-					generator.generate(chartQuery.getQuery(), null, SHOW_DUPLICATES));
-			rawQuery.insert(rawQuery.indexOf(SELECT_IN_QUERY) + SELECT_IN_QUERY.length(), COUNT);
-			results = executor.executeQuery(rawQuery.toString());
+			results = executor.executeQuery(generator.generate(chartQuery.getQuery(), null, SHOW_DUPLICATES));
 		} catch (DraggerException e) {
-			log.error("execution of chart query of failed");
-			throw new DraggerExportException("Could not generate the query", e);
+			log.error("execution of chart query (id = " + chartQuery.getId() + ")" + " failed");
+			throw new DraggerExportException("Could not generate the chart query (id = " + chartQuery.getId() + ")", e);
 		}
 
 		Collection<ChartResult> chartResults = new ArrayList<>();
@@ -58,7 +53,7 @@ public class ChartExecuteResultsExporter implements ChartQueryExporter {
 			chartResults.add(new ChartResult(label.toString(), count));
 		}
 
-		log.info("chart query executed successfully");
+		log.info("chart query (id = " + chartQuery.getId() + ")" + " executed successfully");
 		return chartResults;
 	}
 }

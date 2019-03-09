@@ -43,7 +43,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		StringBuilder countColumnAddition = new StringBuilder();
 		if (isCountQuery(query)) {
 			countColumnAddition
-					.append(rawAndNamedCountColumn(query.getCountCoulmns().stream().findFirst().get()) + SEPERATOR);
+					.append(rawAndNamedCountColumn(query.getCountColumns().stream().findFirst().get()) + SEPERATOR);
 		}
 
 		if (showDuplicates) {
@@ -83,7 +83,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private boolean isCountQuery(Query query) {
-		return query.getCountCoulmns() != null && !query.getCountCoulmns().isEmpty();
+		return query.getCountColumns() != null && !query.getCountColumns().isEmpty();
 	}
 
 	private boolean containsFilters(Collection<ReportQueryFilter> filters) {

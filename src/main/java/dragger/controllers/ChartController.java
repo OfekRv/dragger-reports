@@ -1,13 +1,15 @@
 package dragger.controllers;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ChartQueryExporter;
+import dragger.contracts.ChartResult;
 import dragger.entities.Chart;
 import dragger.exceptions.DraggerControllerReportNotFoundException;
 import dragger.exceptions.DraggerException;
@@ -21,14 +23,14 @@ public class ChartController {
 	@Autowired
 	private ChartQueryExporter exporter;
 
-	@PostMapping("api/charts/executeCountChartQuery")
-	public void generateFilteredReport(@RequestParam long chartId) throws DraggerException {
+	@GetMapping("api/charts/executeCountChartQuery")
+	public Collection<ChartResult> generateFilteredReport(@RequestParam long chartId) throws DraggerException {
 		Optional<Chart> requestedChart = chartRepository.findById(chartId);
 
 		if (!requestedChart.isPresent()) {
 			throw new DraggerControllerReportNotFoundException("Chart id:" + chartId + " not found");
 		}
 
-		exporter.export(requestedChart.get());
+		return exporter.export(requestedChart.get());
 	}
 }

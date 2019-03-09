@@ -9,6 +9,9 @@ import javax.persistence.ManyToMany;
 
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,13 +31,14 @@ public class Query {
 	@Nullable
 	@ManyToMany
 	@JoinColumn(name = "columnId")
-	private Collection<QueryColumn> countCoulmns;
+	private Collection<QueryColumn> countColumns;
 
 	@Nullable
 	@ManyToMany
 	@JoinColumn(name = "columnId")
 	private Collection<QueryColumn> groupBys;
 
+	@JsonIgnore
 	public Collection<QuerySource> getSources() {
 		Collection<QuerySource> sources = new ArrayList<>();
 		columns.forEach(column -> {
@@ -49,7 +53,7 @@ public class Query {
 			}
 		});
 
-		countCoulmns.forEach(column -> {
+		countColumns.forEach(column -> {
 			if (!sources.contains(column.getSource())) {
 				sources.add(column.getSource());
 			}
