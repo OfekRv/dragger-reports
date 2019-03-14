@@ -1,5 +1,5 @@
 angular
-		.module("dragger", [ "ngRoute", "dndLists" ])
+		.module("dragger", [ "ngRoute", "dndLists", "chart.js"])
 		.config(
 				function($routeProvider) {
 					$routeProvider
@@ -9,6 +9,12 @@ angular
 										templateUrl : 'dragger/buildReport/buildReport-frame.html',
 										controller : 'buildReportController'
 									})
+                            .when(
+                                    '/chartPresentation',
+                                    {
+                                        templateUrl : 'dragger/chartPresentation/chartPresentation.html',
+                                        controller : 'chartPresentationController'
+                                    })
 							.when(
 									'/generateReport',
 									{
@@ -63,9 +69,12 @@ angular
 
 								if (isDevMode != "false") {
 									scope.options = [ {
-										label : "הרצת דוח",
-										href : "#/generateReport"
-									}, {
+                                        label : "הרצת דוח",
+                                        href : "#/generateReport"
+                                    },{
+                                        label : "הצגת תרשים",
+                                        href : "#/chartPresentation"
+                                    }, {
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}, {
@@ -86,6 +95,9 @@ angular
 										label : "הרצת דוח",
 										href : "#/generateReport"
 									}, {
+                                       label : "שם כלשהוא",
+                                       href : "#/chartPresentation"
+                                   }, {
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}  ,{

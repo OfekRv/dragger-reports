@@ -1,0 +1,25 @@
+<!-- The dnd-list directive allows to drop elements into it.
+     The dropped data will be added to the referenced list -->
+<ul class="report-area" dnd-list="models.lists['Count']"
+    dnd-disable-if="models.lists['Count'].length == 1"">
+    <!-- The dnd-draggable directive makes an element draggable and will
+         transfer the object that was assigned to it. If an element was
+         dragged away, you have to remove it from the original list
+         yourself using the dnd-moved attribute -->
+    <li ng-repeat="source in models.lists['Count']"
+        dnd-draggable="source"
+        dnd-effect-allowed="move"
+        dnd-moved="models.lists['Count'].splice($index, 1)"
+        dnd-horizontal-list="true">
+        <div class="row">
+            <div class="col-md-10">
+                {{source.name}}
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="remove-column-button" ng-click="dropCallbackCount($index, source)">
+                    <img class="remove-report-icon" src="dragger/buildReport/trash_icon.png">
+                </button>
+            </div>
+        </div>
+    </li>
+</ul>

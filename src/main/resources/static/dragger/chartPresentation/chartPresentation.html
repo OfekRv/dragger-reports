@@ -1,0 +1,93 @@
+<form class="form-build-chart" method="post" name="register" novalidate>
+    <div class="simpleDemo row">
+        <div class="col-md-3">
+            <div id="signup">
+                <div class="padding-report-name">
+                    <input type="text" ng-model="searchSourcesAndColumns"
+                           class="build-report-name" required> <span
+                        class="highlight"></span> <span class="bar"></span> <label
+                        class="build-report-name-label select-label">חפש מקור/עמודה</label>
+                </div>
+            </div>
+            <div class="row scrollable-sources-area">
+                <div ng-repeat="(listName, list) in models.lists" class="row"
+                     ng-if="filterSourcesList(listName,list)">
+                    <div class="panel panel-info">
+                        <div class="panel-heading source-heading">
+                            <div class=" source-heading">
+                                <h3 class="panel-title">{{listName}}</h3>
+                            </div>
+                        </div>
+                        <div class="panel-body"
+                             ng-include="'dragger/buildReport/resources.html'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <div class="row">
+                <canvas id="pie" class="chart chart-pie"
+                        chart-data="data" chart-labels="labels" chart-options="options">
+                </canvas>
+            </div>
+            <div class="row">
+                <div class="chart-sources-area">
+                    <div class="panel panel-info">
+                        <div id="reportTitle" class="panel-heading">
+                            <h3 class="panel-title report-title">כמות ה</h3>
+                        </div>
+                        <div class="panel-body"
+                             ng-include="'dragger/chartPresentation/count.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="chart-sources-area">
+                    <div class="panel panel-info">
+                        <div id="reportTitle" class="panel-heading">
+                            <h3 class="panel-title report-title">ביחס ל</h3>
+                        </div>
+                        <div class="panel-body"
+                             ng-include="'dragger/chartPresentation/groupBy.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button ng-disabled="form-build-report.$invalid" type="button"
+                        ng-click="createChart()" class="btn done build-button">בנה תרשים
+                    </button>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <div class="row scrollable-sources-area">
+                <div class="row">
+                    <div class="panel panel-info">
+                        <div class="panel-heading source-heading">
+                            <div class=" source-heading">
+                                <div class="padding-sources-name">
+                                    <input type="text" ng-model="searchSources"
+                                           class="build-report-name" required> <span
+                                        class="highlight"></span> <span class="bar"></span> <label
+                                        class="build-report-name-label select-label">חפש מקור</label>
+                                </div>
+                            </div>
+                        </div>
+                        <ul dnd-list="models.lists['Sources']"
+                            dnd-external-sources="true" style="direction:rtl">
+                            <li ng-repeat="source in models.lists['Sources']" dnd-draggable="source"
+                                ng-if="filterSources(source)"
+                                dnd-effect-allowed="move" dnd-moved="models.lists['Sources'].splice($index, 1)">{{source.name}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -5,10 +5,10 @@ engines:
     enabled: true
 ratings:
   paths:
-  - "**.js"
+  - "**.angular-chart"
 exclude_paths:
-- "**.min.js"
-- karma*.conf.js
+- "**.min.angular-chart"
+- karma*.conf.angular-chart
 - prism/**/*
 - test/**/*
 - .*
