@@ -1,6 +1,7 @@
 <!-- The dnd-list directive allows to drop elements into it.
      The dropped data will be added to the referenced list -->
-<ul class="report-area" dnd-list="models.lists['GroupBy']"
+<ul class="groupby-area" dnd-list="models.lists['GroupBy']"
+    dnd-allowed-types="models.listsData['GroupBy'].allowedTypes"
     dnd-disable-if="models.lists['GroupBy'].length == 1">
     <!-- The dnd-draggable directive makes an element draggable and will
          transfer the object that was assigned to it. If an element was

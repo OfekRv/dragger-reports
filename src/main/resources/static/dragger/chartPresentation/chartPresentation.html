@@ -83,7 +83,7 @@
                             dnd-external-sources="true" style="direction:rtl">
                             <li ng-repeat="source in models.lists['Sources']" dnd-draggable="source"
                                 ng-if="filterSources(source)"
-                                dnd-effect-allowed="move" dnd-moved="models.lists['Sources'].splice($index, 1)">{{source.name}}</li>
+                                dnd-effect-allowed="move" dnd-moved="models.lists['Sources'].splice($index, 1)" dnd-type="'Sources'">{{source.name}}</li>
                         </ul>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ angular
 
 				    $scope.filterSources =function(source)
                     {
-                        if(!source || !source.name)
+                        if(!(source && source.name))
                         {
                             return false;
                         }
@@ -30,24 +30,32 @@ angular
                     };
 
                     $scope.filterSourcesList =function(sourceName, source)
-                    {
-                        if(!source || !sourceName || $scope.models.listsData[sourceName])
-                        {
-                            return false;
-                        }
+                            {
+                                if(!(source && sourceName) || $scope.models.listsData[sourceName])
+                                {
+                                    return false;
+                                }
 
-                        if(!$scope.searchSourcesAndColumns)
-                        {
-                            $scope.searchSourcesAndColumns = '';
-                        }
+                                if(!$scope.searchSourcesAndColumns)
+                                {
+                                    $scope.searchSourcesAndColumns = '';
+                                }
 
-                        if(sourceName.toLowerCase().includes($scope.searchSourcesAndColumns.toLowerCase()))
-                        {
-                            return true;
-                        }
+                                if(sourceName.toLowerCase().includes($scope.searchSourcesAndColumns.toLowerCase()))
+                                {
+                                    return true;
+                                }
 
-                        return false;
-                    };
+                                for (let i = 0; i < source.columns.length; i++) {
+                                    if(source.columns[i].data.name && source.columns[i].data.name.toLowerCase().includes($scope.searchSourcesAndColumns.toLowerCase()) &&
+                                        source.columns[i].data.visible)
+                                    {
+                                        return true;
+                                    }
+                                }
+
+                                return false;
+                            };
 
                     $scope.getColumn = function(source)
                     {
@@ -220,7 +228,10 @@ angular
 					};
                     $scope.models.lists['Sources'] = [];
                     $scope.models.lists['Sources'].allowedTypes = [];
-                    $scope.models.lists['GroupBy'].allowedTypes = [];
+                    $scope.models.listsData['GroupBy'] = {};
+                    $scope.models.listsData['Count'] = {};
+                    $scope.models.listsData['GroupBy'].allowedTypes = [];
+                    $scope.models.listsData['Count'].allowedTypes = ['Sources'];
                     $scope.models.listsData['Sources'].staticList = true;
                     $scope.models.listsData['GroupBy'].staticList = true;
                     $scope.models.listsData['Count'].staticList = true;
@@ -243,6 +254,7 @@ angular
                                                                 $scope.models.lists[source.name].allowedTypes = [];
                                                                 $scope.models.lists[source.name].visible = source.visible;
                                                                 $scope.models.lists[source.name].allowedTypes.push(source.name);
+                                                                $scope.models.listsData['GroupBy'].allowedTypes.push(source.name);
 
                                                                 $http(
                                                                     {
@@ -273,7 +285,6 @@ angular
                                                                                                     if(!columnExists && columnItem.data.visible) {
                                                                                                         $scope.models.lists[source.name].columns
                                                                                                             .push(columnItem);
-                                                                                                        $scope.models.lists['GroupBy'].allowedTypes.push(columnItem.data.name);
                                                                                                     }
                                                                                                 });
                                                                             });
