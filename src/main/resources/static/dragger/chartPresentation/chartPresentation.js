@@ -11,6 +11,8 @@ angular
                 $scope.colorsConfiguration = ['#3b56ba','#6a98dc','#4d5360','#949fb1','#1976d2','#1e88e5','#64b5f6'];
                 $scope.colors = [];
                 $scope.lastColorIndex = 0;
+                $scope.currentSelectedSource;
+                $scope.currentSelectedColumn;
 
 				    $scope.filterSources =function(source)
                     {
@@ -35,11 +37,32 @@ angular
                     $scope.selectedSource = function(selectedSource)
                     {
                         selectedSource.selected = !selectedSource.selected;
-                        $scope.models.lists['Sources'].forEach(function(actualSource)
+                        $scope.currentSelectedSource = selectedSource;
+
+                        $scope.models.lists['Sources'].forEach(function(checkedSource)
                         {
-                            if(actualSource != selectedSource)
+                            if(checkedSource != selectedSource)
                             {
-                                actualSource.selected = false;
+                                checkedSource.selected = false;
+                            }
+                        })
+                    }
+
+                    $scope.selectedColumn = function(selectedColumn)
+                    {
+                        selectedColumn.selected = !selectedColumn.selected;
+                        $scope.currentSelectedColumn = selectedColumn;
+                        Object.getOwnPropertyNames($scope.models.lists).forEach(function(listName)
+                        {
+                            if(listName !== 'Sources' && listName !== 'Count' && listName !== 'GroupBy')
+                            {
+                                $scope.models.lists[listName].columns.forEach(function(checkedColumn)
+                                {
+                                    if(checkedColumn != selectedColumn)
+                                    {
+                                        checkedColumn.selected = false;
+                                    }
+                                })
                             }
                         })
                     }
@@ -149,18 +172,17 @@ angular
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
 
-						$scope.models.lists.GroupBy.forEach(function(
-								value, key) {
-							groupBysPromises.push(value);
-						});
+						if(!$scope.currentSelectedColumn)
+                        {
+                            return;
+                        }
+                        groupBysPromises.push($scope.currentSelectedColumn);
 
-						$scope.models.lists['Sources'].forEach(function(
-                                source) {
-                            if(source.selected)
-                            {
-                                countColumnsPromises.push($scope.getColumn(source));
-                            }
-                        });
+						if(!$scope.currentSelectedSource)
+						{
+						    return;
+						}
+                        countColumnsPromises.push($scope.getColumn($scope.currentSelectedSource));
 
                         $q.all(groupBysPromises).then(function(groupBysResponse){
                         $q.all(countColumnsPromises).then(function(countColumnsResponse){
@@ -189,11 +211,9 @@ angular
 								query : {columns, countColumns, groupBys}
 							}
 						}).then(function successCallback(response) {
-						    var hrefOfChart = response.data._links.self.href;
-						    var chartId = hrefOfChart.substring(hrefOfChart.lastIndexOf("/") + 1);
                             $http({
                                 method : 'GET',
-                                url : 'api/charts/executeCountChartQuery?chartId=' + chartId
+                                url : 'api/charts/executeCountChartQuery?chartId=' + response.data.id
                                 }).then(
                                 function successCallback(response) {
                                 $scope.labels = [];
@@ -328,6 +348,7 @@ angular
                                                                                                     })
 
                                                                                                     if(!columnExists && columnItem.data.visible) {
+                                                                                                    columnItem.selected = false;
                                                                                                         $scope.models.lists[source.name].columns
                                                                                                             .push(columnItem);
                                                                                                     }

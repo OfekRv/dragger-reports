@@ -6,7 +6,11 @@
          transfer the object that was assigned to it. If an element was
          dragged away, you have to remove it from the original list
          yourself using the dnd-moved attribute -->
-	<li ng-repeat="column in list.columns" dnd-draggable="column"
-		dnd-effect-allowed="move" dnd-moved="list.columns.splice($index, 1)"
-		dnd-type="column.type">{{column.name}}</li>
+	<li ng-repeat="column in list.columns"
+		dnd-draggable="column"
+		dnd-effect-allowed="move"
+		dnd-moved="list.columns.splice($index, 1)"
+		dnd-type="column.type"
+		dnd-selected="selectedColumn(source)"
+		ng-class="{'selected': column.selected}">{{column.name}}</li>
 </ul>

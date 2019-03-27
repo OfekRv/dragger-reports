@@ -28,6 +28,40 @@
                         </ul>
                 </div>
             </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            <div class="row">
+                <canvas id="pie" class="chart chart-pie"
+                        chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
+                </canvas>
+            </div>
+            <div class="row padding-row">
+            </div>
+            <!--<div class="row">
+                <div class="chart-sources-area">
+                    <div class="panel panel-info">
+                        <div id="reportTitle" class="panel-heading">
+                            <h3 class="panel-title report-title">הכנס עמודה</h3>
+                        </div>
+                        <div class="panel-body"
+                             ng-include="'dragger/chartPresentation/groupBy.html'"></div>
+                    </div>
+                </div>
+            </div>-->
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2">
+                    <button ng-disabled="form-build-report.$invalid" type="button"
+                            ng-click="createChart()" class="btn done build-button">בנה תרשים
+                    </button>
+                </div>
+                <div class="col-md-5">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
             <div class="row">
                 <div id="signup">
                     <div class="padding-sources-name">
@@ -47,40 +81,21 @@
                                 <h3 class="panel-title">{{listName}}</h3>
                             </div>
                         </div>
-                        <div class="panel-body"
-                             ng-include="'dragger/buildReport/resources.html'"></div>
+                        <ul dnd-list="list.columns" dnd-allowed-types="list.allowedTypes"
+                            dnd-external-sources="true" style="direction:rtl">
+                            <!-- The dnd-draggable directive makes an element draggable and will
+                                 transfer the object that was assigned to it. If an element was
+                                 dragged away, you have to remove it from the original list
+                                 yourself using the dnd-moved attribute -->
+                            <li ng-repeat="column in list.columns"
+                                dnd-draggable="column"
+                                dnd-effect-allowed="move"
+                                dnd-moved="list.columns.splice($index, 1)"
+                                dnd-type="column.type"
+                                dnd-selected="selectedColumn(column)"
+                                ng-class="{'selected': column.selected}">{{column.data.name}}</li>
+                        </ul>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-6">
-            <div class="row">
-                <canvas id="pie" class="chart chart-pie"
-                        chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
-                </canvas>
-            </div>
-            <div class="row padding-row">
-            </div>
-            <div class="row">
-                <div class="chart-sources-area">
-                    <div class="panel panel-info">
-                        <div id="reportTitle" class="panel-heading">
-                            <h3 class="panel-title report-title">הכנס עמודה</h3>
-                        </div>
-                        <div class="panel-body"
-                             ng-include="'dragger/chartPresentation/groupBy.html'"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-2">
-                    <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createChart()" class="btn done build-button">בנה תרשים
-                    </button>
-                </div>
-                <div class="col-md-5">
                 </div>
             </div>
         </div>
