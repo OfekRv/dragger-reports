@@ -340,14 +340,14 @@ label {
     direction:rtl;
 }
 
-.scrollable-sources-area
+.scrollable-sources-area-build-report
 {
     height:83vh;
     overflow-y:scroll;
     scroll-behavior: smooth;
 }
 
-.scrollable-sources-area::-webkit-scrollbar
+.scrollable-sources-area-build-report::-webkit-scrollbar
 {
     width: 0 !important
 }

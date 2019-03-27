@@ -8,6 +8,9 @@ angular
                 $scope.chartId = 0;
                 $scope.labels.push("אין מידע זמין כרגע");
                 $scope.data.push(0);
+                $scope.colorsConfiguration = ['#3b56ba','#6a98dc','#4d5360','#949fb1','#1976d2','#1e88e5','#64b5f6'];
+                $scope.colors = [];
+                $scope.lastColorIndex = 0;
 
 				    $scope.filterSources =function(source)
                     {
@@ -28,6 +31,18 @@ angular
 
                         return false;
                     };
+
+                    $scope.selectedSource = function(selectedSource)
+                    {
+                        selectedSource.selected = !selectedSource.selected;
+                        $scope.models.lists['Sources'].forEach(function(actualSource)
+                        {
+                            if(actualSource != selectedSource)
+                            {
+                                actualSource.selected = false;
+                            }
+                        })
+                    }
 
                     $scope.filterSourcesList =function(sourceName, source)
                             {
@@ -56,6 +71,21 @@ angular
 
                                 return false;
                             };
+                    $scope.getColor = function(excludeColor)
+                    {
+                        if(!$scope.colorsConfiguration || $scope.colorsConfiguration.length <= 1)
+                        {
+                            return;
+                        }
+
+                        var randomColorIndex = Math.floor(Math.random() * $scope.colorsConfiguration.length);
+                        while($scope.colorsConfiguration[randomColorIndex] === excludeColor)
+                        {
+                            randomColorIndex = Math.floor(Math.random() * $scope.colorsConfiguration.length)
+                        }
+
+                        return $scope.colorsConfiguration[randomColorIndex];
+                    };
 
                     $scope.getColumn = function(source)
                     {
@@ -124,9 +154,12 @@ angular
 							groupBysPromises.push(value);
 						});
 
-						$scope.models.lists.Count.forEach(function(
-                                value, key) {
-                            countColumnsPromises.push($scope.getColumn(value));
+						$scope.models.lists['Sources'].forEach(function(
+                                source) {
+                            if(source.selected)
+                            {
+                                countColumnsPromises.push($scope.getColumn(source));
+                            }
                         });
 
                         $q.all(groupBysPromises).then(function(groupBysResponse){
@@ -165,11 +198,22 @@ angular
                                 function successCallback(response) {
                                 $scope.labels = [];
                                 $scope.data = [];
-                                response.data.forEach(function(slice)
+                                $scope.colors = [];
+                                var lastColor = $scope.colorsConfiguration[0];
+
+                                response.data.forEach(function(slice,index)
                                 {
                                     $scope.labels.push(slice.label);
                                     $scope.data.push(slice.count);
-                                })},
+                                    lastColor = $scope.getColor(lastColor)
+                                    $scope.colors.push(lastColor)
+                                })
+                                if($scope.colors[0] === $scope.colors[$scope.colors.length - 1])
+                                {
+                                    $scope.colors.pop();
+                                    $scope.colors.push($scope.getColor(0));
+                                }
+                                },
                                 function failureCallback(response) { console.log("couldn't retrieve chart data");
                                 return;
                                 });
@@ -248,6 +292,7 @@ angular
 														function(source) {
                                                             if(source && source.visible)
                                                             {
+                                                                source.selected = false;
                                                                 $scope.models.lists['Sources'].push(source);
                                                                 $scope.models.lists[source.name] = {};
                                                                 $scope.models.lists[source.name].columns = [];
