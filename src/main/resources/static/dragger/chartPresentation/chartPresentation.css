@@ -41,14 +41,25 @@
 /**
  * Show selected elements in green
  */
+
+ .simpleDemo ul[dnd-list] li
+ {
+    background-color: #9c9fa3
+ }
+
 .simpleDemo ul[dnd-list] li.selected {
-    background-color: #64b5f6;
-    color: #3c763d;
+    background-color: #ae52d4;
+    color: black;
+}
+
+.simpleDemo ul[dnd-list] li.sourceSelected {
+    background-color: #76d275;
+    color: black;
 }
 
 .panel-info>.panel-heading
 {
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
+    background-image: linear-gradient(to bottom, #7b1fa2 0, #7b1fa2 100%);
 }
 
 .panel-title
@@ -62,7 +73,7 @@
 
 panel-heading
 {
-    background-image: linear-gradient(to bottom, #086df5  0, #086df5 100%);
+    background-image: linear-gradient(to bottom, #7b1fa2  0, #7b1fa2 100%);
 }
 
 .panel-info>.panel-heading>.source-heading
@@ -72,7 +83,7 @@ panel-heading
     animation: random;
     text-align: center;
     margin-bottom: 5px;
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
+    background-image: linear-gradient(to bottom, #7b1fa2 0, #7b1fa2 100%);
 }
 
 .panel-info>.panel-heading>.report-title
@@ -88,7 +99,7 @@ panel-heading
 
 panel-heading-sources-only
 {
-    background-image: linear-gradient(to bottom, #359cef  0, #359cef 100%);
+    background-image: linear-gradient(to bottom, #43a047  0, #43a047 100%);
 }
 
 .panel-info>.panel-heading-sources-only>.source-heading-sources-only
@@ -98,19 +109,10 @@ panel-heading-sources-only
     animation: random;
     text-align: center;
     margin-bottom: 5px;
-    background-image: linear-gradient(to bottom, #359cef 0, #359cef 100%);
+    background-image: linear-gradient(to bottom, #43a047 0, #43a047 100%);
 }
 
-.panel-info>.panel-heading-sources-only>.report-title
-{
-    background-image: inherit;
-    color: white;
-    font-weight: bold;
-    text-decoration-style: solid;
-    font-size: medium;
-    background-image: linear-gradient(to bottom, #359cef 0, #359cef 100%);
-    direction:rtl;
-}
+
 
 .text-center{
     text-align: center;
@@ -380,7 +382,7 @@ label {
 
 .scrollable-sources-only-area
 {
-    height:30vh;
+    max-height:30vh;
     overflow-y:scroll;
     scroll-behavior: smooth;
 }
@@ -469,4 +471,14 @@ margin-top: 50px;
 .padding-row
 {
     height:100px;
+}
+
+.selectedSource
+{
+    color:#76d275;
+}
+
+.selectedColumn
+{
+    color: #ae52d4
 }

@@ -2,35 +2,45 @@
     <div class="simpleDemo row">
         <div class="col-md-2">
             <div class="row">
-                    <div class="panel panel-info">
-                        <div class="panel-heading-sources-only source-heading-sources-only">
-                            <div class="source-heading-sources-only">
-                                <div class="sources-padding">
-                                    <input type="text" ng-model="searchSources"
-                                           class="build-report-name" required> <span
-                                        class="highlight"></span> <span class="bar"></span> <label
-                                        class="build-report-name-label select-label">בחר מקור</label>
-                                </div>
-                            </div>
+                <div id="signup">
+                    <div class="padding-sources-name">
+                        <input type="text" ng-model="searchSources"
+                               class="build-report-name" required> <span
+                            class="highlight"></span> <span class="bar"></span> <label
+                            class="build-report-name-label select-label">חפש מקור</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-info">
+                    <div class="panel-heading-sources-only source-heading-sources-only">
+                        <div class="source-heading-sources-only">
+                            <h3 class="panel-title">מקורות</h3>
                         </div>
-                        <ul dnd-list="models.lists['Sources']"
-                            class="scrollable-sources-only-area"
-                            dnd-external-sources="true" style="direction:rtl">
-                            <li ng-repeat="source in models.lists['Sources']"
-                                dnd-draggable="source"
-                                ng-if="filterSources(source)"
-                                dnd-effect-allowed="move"
-                                dnd-moved="models.lists['Sources'].splice($index, 1)"
-                                dnd-selected="selectedSource(source)"
-                                ng-class="{'selected': source.selected}"
-                                dnd-type="'Sources'">{{source.name}}
-                            </li>
-                        </ul>
+                    </div>
+                    <ul dnd-list="models.lists['Sources']"
+                        class="scrollable-sources-only-area"
+                        dnd-external-sources="true" style="direction:rtl">
+                        <li ng-repeat="source in models.lists['Sources']"
+                            dnd-draggable="source"
+                            ng-if="filterSources(source)"
+                            dnd-effect-allowed="move"
+                            dnd-moved="models.lists['Sources'].splice($index, 1)"
+                            dnd-selected="selectedSourceEvent(source)"
+                            ng-class="{'sourceSelected': source.selected}"
+                            dnd-type="'Sources'">{{source.name}}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-6">
+            <div class="row">
+                <h3>
+                    <p class="selectedSource" >{{selectedSource}}</p>ביחס ל<p class="selectedColumn" >{{selectedColumn}}</p>
+                </h3>
+            </div>
             <div class="row">
                 <canvas id="pie" class="chart chart-pie"
                         chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
@@ -38,17 +48,6 @@
             </div>
             <div class="row padding-row">
             </div>
-            <!--<div class="row">
-                <div class="chart-sources-area">
-                    <div class="panel panel-info">
-                        <div id="reportTitle" class="panel-heading">
-                            <h3 class="panel-title report-title">הכנס עמודה</h3>
-                        </div>
-                        <div class="panel-body"
-                             ng-include="'dragger/chartPresentation/groupBy.html'"></div>
-                    </div>
-                </div>
-            </div>-->
             <div class="row">
                 <div class="col-md-5"></div>
                 <div class="col-md-2">
@@ -83,17 +82,14 @@
                         </div>
                         <ul dnd-list="list.columns" dnd-allowed-types="list.allowedTypes"
                             dnd-external-sources="true" style="direction:rtl">
-                            <!-- The dnd-draggable directive makes an element draggable and will
-                                 transfer the object that was assigned to it. If an element was
-                                 dragged away, you have to remove it from the original list
-                                 yourself using the dnd-moved attribute -->
                             <li ng-repeat="column in list.columns"
                                 dnd-draggable="column"
                                 dnd-effect-allowed="move"
                                 dnd-moved="list.columns.splice($index, 1)"
                                 dnd-type="column.type"
-                                dnd-selected="selectedColumn(column)"
-                                ng-class="{'selected': column.selected}">{{column.data.name}}</li>
+                                dnd-selected="selectedColumnEvent(column)"
+                                ng-class="{'selected': column.selected}">{{column.data.name}}
+                            </li>
                         </ul>
                     </div>
                 </div>
