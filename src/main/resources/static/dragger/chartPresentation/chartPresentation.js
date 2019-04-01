@@ -15,8 +15,8 @@ angular
                 $scope.lastColorIndex = 0;
                 $scope.currentSelectedSource;
                 $scope.currentSelectedColumn;
-                $scope.selectedSource = '';
-                $scope.selectedColumn = '';
+                $scope.selectedSource = {text: 'מקור', selected:false};
+                $scope.selectedColumn = {text: 'עמודה', selected:false}
 
 				    $scope.filterSources =function(source)
                     {
@@ -41,8 +41,17 @@ angular
                     $scope.selectedSourceEvent = function(selectedSource)
                     {
                         selectedSource.selected = !selectedSource.selected;
+                        if(!selectedSource.selected)
+                        {
+                            $scope.currentSelectedSource = null;
+                            $scope.selectedSource.text = 'מקור';
+                            $scope.selectedSource.selected = false;
+                            return;
+                        }
+
                         $scope.currentSelectedSource = selectedSource;
-                        $scope.selectedSource = selectedSource.name;
+                        $scope.selectedSource.text = selectedSource.name;
+                        $scope.selectedSource.selected = true;
 
                         $scope.models.lists['Sources'].forEach(function(checkedSource)
                         {
@@ -56,8 +65,17 @@ angular
                     $scope.selectedColumnEvent = function(selectedColumn)
                     {
                         selectedColumn.selected = !selectedColumn.selected;
+                        if(!selectedColumn.selected)
+                        {
+                            $scope.currentSelectedColumn = null;
+                            $scope.selectedColumn.text = 'עמודה';
+                            $scope.selectedColumn.selected = false;
+                            return;
+                        }
+
                         $scope.currentSelectedColumn = selectedColumn;
-                        $scope.selectedColumn = selectedColumn.data.name;
+                        $scope.selectedColumn.text = selectedColumn.type;
+                        $scope.selectedColumn.selected = true;
 
                         Object.getOwnPropertyNames($scope.models.lists).forEach(function(listName)
                         {
@@ -181,12 +199,14 @@ angular
 
 						if(!$scope.currentSelectedColumn)
                         {
+                            alert("יש לבחור עמודה");
                             return;
                         }
                         groupBysPromises.push($scope.currentSelectedColumn);
 
 						if(!$scope.currentSelectedSource)
 						{
+						    alert("יש לבחור מקור");
 						    return;
 						}
                         countColumnsPromises.push($scope.getColumn($scope.currentSelectedSource));
@@ -235,10 +255,11 @@ angular
                                     lastColor = $scope.getColor(lastColor)
                                     $scope.colors.push(lastColor)
                                 })
+
                                 if($scope.colors[0] === $scope.colors[$scope.colors.length - 1])
                                 {
                                     $scope.colors.pop();
-                                    $scope.colors.push($scope.getColor(0));
+                                    $scope.colors.push($scope.getColor(lastColor));
                                 }
                                 },
                                 function failureCallback(response) { console.log("couldn't retrieve chart data");
@@ -251,17 +272,17 @@ angular
 						});
 					}
 
-					$scope.dropCallbackGroupBy = function(index, item) {
-                        $scope.models.lists[item.type].columns.push(item);
-                        $scope.models.lists['GroupBy'] = [];
-                        $scope.models.listsData['GroupBy'].staticList = true;
-                    };
-
-                    $scope.dropCallbackCount = function(index, item) {
-                        $scope.models.lists['Sources'].push(item);
-                        $scope.models.lists['Count'] = [];
-                        $scope.models.listsData['Count'].staticList = true;
-                    };
+//					$scope.dropCallbackGroupBy = function(index, item) {
+//                        $scope.models.lists[item.type].columns.push(item);
+//                        $scope.models.lists['GroupBy'] = [];
+//                        $scope.models.listsData['GroupBy'].staticList = true;
+//                    };
+//
+//                    $scope.dropCallbackCount = function(index, item) {
+//                        $scope.models.lists['Sources'].push(item);
+//                        $scope.models.lists['Count'] = [];
+//                        $scope.models.listsData['Count'].staticList = true;
+//                    };
 
 					$scope
 							.$watchCollection(

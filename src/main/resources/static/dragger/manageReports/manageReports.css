@@ -75,7 +75,7 @@ panel-heading
     background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
-.panel-info>.panel-heading>.report-title
+.panel-info>.panel-heading>.main-area-title
 {
     background-image: inherit;
     color: white;

@@ -46,12 +46,12 @@
     color: #3c763d;
 }
 
-.panel-info-build>.panel-heading-build
+.panel-info>.panel-heading
 {
     background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
-.panel-title-build
+.panel-title
 {
     background-image: inherit;
     color: white;
@@ -60,12 +60,12 @@
     font-size: medium;
 }
 
-.panel-heading-build
+.panel-heading
 {
     background-image: linear-gradient(to bottom, #086df5  0, #086df5 100%);
 }
 
-.panel-info-build>.panel-heading-build>.source-heading-build
+.panel-info>.panel-heading>.source-heading
 {
     margin-bottom: 0;
     -webkit-animation:random;
@@ -75,18 +75,7 @@
     background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
 }
 
-.panel-info-build>.panel-heading-build>.report-title-build
-{
-    background-image: inherit;
-    color: white;
-    font-weight: bold;
-    text-decoration-style: solid;
-    font-size: medium;
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
-    direction:rtl;
-}
-
-.panel-info-build>.panel-heading>.report-title-build
+.panel-info>.panel-heading>.report-title
 {
     background-image: inherit;
     color: white;
