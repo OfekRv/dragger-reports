@@ -419,8 +419,9 @@ label {
 
 .build-chart-button
 {
-    font-size: medium;
-    width:120px;
+    font-size: xx-large;
+    padding-right:5px;
+    padding-left:5px;
 }
 
 .create-source
@@ -485,27 +486,27 @@ margin-top: 50px;
 .glowSource {
         color:  #43a047;
                  text-shadow:
-                   0 0 5px  #43a047,
-                   0 0 10px  #43a047,
                    0 0 20px  #43a047,
+                   0 0 30px  #43a047,
                    0 0 40px  #43a047,
+                   0 0 50px  #43a047,
+                   0 0 60px  #43a047,
+                   0 0 70px  #43a047,
                    0 0 80px  #43a047,
-                   0 0 90px  #43a047,
-                   0 0 100px  #43a047,
-                   0 0 150px  #43a047;
+                   0 0 90px  #43a047;
 
     }
 
     .glowColumn {
             color: #7b1fa2;
                      text-shadow:
-                       0 0 5px #7b1fa2,
-                       0 0 10px #7b1fa2,
                        0 0 20px #7b1fa2,
+                       0 0 30px #7b1fa2,
                        0 0 40px #7b1fa2,
+                       0 0 50px #7b1fa2,
+                       0 0 60px #7b1fa2,
+                       0 0 70px #7b1fa2,
                        0 0 80px #7b1fa2,
-                       0 0 90px #7b1fa2,
-                       0 0 100px #7b1fa2,
-                       0 0 150px #7b1fa2;
+                       0 0 90px #7b1fa2;
 
         }

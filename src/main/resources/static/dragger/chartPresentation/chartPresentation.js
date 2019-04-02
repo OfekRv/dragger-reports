@@ -10,7 +10,7 @@ angular
                 $scope.data.push(0);
                 $scope.labels = ['לא נבחר מידע להצגה'];
                 $scope.data = [1];
-                $scope.colors = ['#4d5360'];
+                $scope.colors = ['#ffffff'];
                 $scope.colorsConfiguration = ['#3b56ba','#6a98dc','#4d5360','#949fb1','#1976d2','#1e88e5','#64b5f6'];
                 $scope.lastColorIndex = 0;
                 $scope.currentSelectedSource;

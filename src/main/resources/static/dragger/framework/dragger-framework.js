@@ -71,9 +71,6 @@ angular
 									scope.options = [ {
                                         label : "הרצת דוח",
                                         href : "#/generateReport"
-                                    },{
-                                        label : "הצגת תרשים",
-                                        href : "#/chartPresentation"
                                     }, {
 										label : "בניית דוח",
 										href : "#/buildReport"
@@ -81,6 +78,9 @@ angular
 										label : "ניהול דוחות",
 										href : "#/manageReports"
 									}, {
+                                       label : "בניית תרשים",
+                                       href : "#/chartPresentation"
+                                    },{
 										label : "Create Source",
 										href : "#/createSource"
 									}, {
@@ -94,16 +94,16 @@ angular
 									scope.options = [ {
 										label : "הרצת דוח",
 										href : "#/generateReport"
-									}, {
-                                       label : "שם כלשהוא",
-                                       href : "#/chartPresentation"
-                                   }, {
+									},  {
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}  ,{
                                         label : "ניהול דוחות",
                                         href : "#/manageReports"
-                                    } ];
+                                    }, {
+                                        label : "בניית דוח",
+                                        href : "#/chartPresentation"
+                                    }];
 								}
 							});
 

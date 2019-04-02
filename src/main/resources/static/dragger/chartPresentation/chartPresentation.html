@@ -47,9 +47,7 @@
                     <h2 class="chart-title">
                         <span ng-if="!(selectedSource.selected || selectedColumn.selected)">בחר </span>
                         <span class="selectedSource"
-                                ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
-                        ביחס ל
-                        <span class="selectedColumn"
+                                ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span> ביחס ל<span class="selectedColumn"
                                 ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
