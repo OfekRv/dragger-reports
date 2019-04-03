@@ -9,7 +9,7 @@
                         class="build-report-name-label select-label">חפש מקור/עמודה</label>
                 </div>
             </div>
-            <div class="row scrollable-sources-area">
+            <div class="row scrollable-sources-area-build-report">
                 <div ng-repeat="(listName, list) in models.lists" class="row"
                      ng-if="filterSources(listName,list)">
                     <div class="panel panel-info">
@@ -51,8 +51,7 @@
                 <div class="col-md-5"></div>
                 <div class="col-md-2 column-padding-removal">
                     <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createReport()" class="btn done build-button">בנה
-                        דוח
+                            ng-click="createReport()" class="btn done build-button">בנה דוח
                     </button>
                 </div>
             </div>

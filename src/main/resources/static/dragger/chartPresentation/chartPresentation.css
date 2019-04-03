@@ -41,14 +41,60 @@
 /**
  * Show selected elements in green
  */
+
+ .simpleDemo ul[dnd-list] li.chart-page
+ {
+    background-color: #9c9fa3
+ }
+
 .simpleDemo ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    color: #3c763d;
+    background-color: #ae52d4;
+    color: black;
 }
 
-.panel-info>.panel-heading
+.simpleDemo ul[dnd-list] li.sourceSelected {
+    background-color: #76d275;
+    color: black;
+}
+
+/*panel-heading
 {
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
+    background-image: linear-gradient(to bottom, #7b1fa2  0, #7b1fa2 100%);
+}*/
+/*panel-heading-sources-only
+{
+    background-image: linear-gradient(to bottom, #43a047  0, #43a047 100%);
+}*/
+
+.panel-info-sources-with-columns>.panel-heading-sources-with-columns
+{
+    background-image: linear-gradient(to bottom, #7b1fa2 0, #7b1fa2 100%);
+}
+
+.panel-info-sources-with-columns>.panel-heading-sources-with-columns>.panel-heading-sources-with-columns
+{
+    margin-bottom: 0;
+    -webkit-animation:random;
+    animation: random;
+    text-align: center;
+    margin-bottom: 5px;
+    background-image: linear-gradient(to bottom, #7b1fa2 0, #7b1fa2 100%);
+}
+
+
+.panel-info-sources-only>.panel-heading-sources-only
+{
+    background-image: linear-gradient(to bottom, #43a047 0, #43a047 100%);
+}
+
+.panel-info-sources-only>.panel-heading-sources-only>.panel-heading-sources-only
+{
+    margin-bottom: 0;
+    -webkit-animation:random;
+    animation: random;
+    text-align: center;
+    margin-bottom: 5px;
+    background-image: linear-gradient(to bottom, #43a047 0, #43a047 100%);
 }
 
 .panel-title
@@ -60,31 +106,6 @@
     font-size: medium;
 }
 
-.panel-heading
-{
-    background-image: linear-gradient(to bottom, #086df5  0, #086df5 100%);
-}
-
-.panel-info>.panel-heading>.source-heading
-{
-    margin-bottom: 0;
-    -webkit-animation:random;
-    animation: random;
-    text-align: center;
-    margin-bottom: 5px;
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
-}
-
-.panel-info>.panel-heading>.report-title
-{
-    background-image: inherit;
-    color: white;
-    font-weight: bold;
-    text-decoration-style: solid;
-    font-size: medium;
-    background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
-    direction:rtl;
-}
 
 .text-center{
     text-align: center;
@@ -127,7 +148,7 @@ h1 {
 
 .signup-screen {
     padding: 20px;
-    padding-bottom: 40px;
+    padding-top: 40px;
     border-radius: 5px;
     background-color: white;
     box-shadow: 0 1px 6px rgba(0,0,0,.3);
@@ -316,9 +337,9 @@ label {
     direction:rtl;
 }
 
-.padding-report-name
+.padding-sources-name
 {
-    padding-bottom: 40px;
+    padding-bottom: 10px;
 }
 
 .build-report-name-label
@@ -340,14 +361,26 @@ label {
     direction:rtl;
 }
 
-.scrollable-sources-area-build-report
+.scrollable-sources-area
 {
-    height:83vh;
+    height:50vh;
     overflow-y:scroll;
     scroll-behavior: smooth;
 }
 
-.scrollable-sources-area-build-report::-webkit-scrollbar
+.scrollable-sources-area::-webkit-scrollbar
+{
+    width: 0 !important
+}
+
+.scrollable-sources-only-area
+{
+    max-height:50vh;
+    overflow-y:scroll;
+    scroll-behavior: smooth;
+}
+
+.scrollable-sources-only-area::-webkit-scrollbar
 {
     width: 0 !important
 }
@@ -384,13 +417,96 @@ label {
     min-height: 450px;
 }
 
-.build-button
+.build-chart-button
 {
-    font-size: medium;
-    width:100px;
+    font-size: xx-large;
+    padding-right:5px;
+    padding-left:5px;
 }
 
 .create-source
 {
 margin-top: 50px;
 }
+
+.chart-sources-area
+{
+    height:200px;
+}
+
+.groupby-area
+{
+    height:100px;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    overflow-x: hidden;
+    direction:rtl;
+}
+
+.count-area
+{
+    height:100px;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    overflow-x: hidden;
+    direction:rtl;
+}
+
+.sources-padding
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.padding-row
+{
+    height:100px;
+}
+
+.selectedSource
+{
+    color:#439f47;
+}
+
+.selectedColumn
+{
+    color: #7a1fa1;
+}
+
+.chart-title
+{
+    text-align:center;
+    text-decoration:bold;
+}
+
+.glowSource {
+        color:  #43a047;
+                 text-shadow:
+                   0 0 20px  #43a047,
+                   0 0 30px  #43a047,
+                   0 0 40px  #43a047,
+                   0 0 50px  #43a047,
+                   0 0 60px  #43a047,
+                   0 0 70px  #43a047,
+                   0 0 80px  #43a047,
+                   0 0 90px  #43a047;
+
+    }
+
+    .glowColumn {
+            color: #7b1fa2;
+                     text-shadow:
+                       0 0 20px #7b1fa2,
+                       0 0 30px #7b1fa2,
+                       0 0 40px #7b1fa2,
+                       0 0 50px #7b1fa2,
+                       0 0 60px #7b1fa2,
+                       0 0 70px #7b1fa2,
+                       0 0 80px #7b1fa2,
+                       0 0 90px #7b1fa2;
+
+        }

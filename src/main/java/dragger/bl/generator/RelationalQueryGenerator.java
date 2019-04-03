@@ -83,7 +83,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private boolean isCountQuery(Query query) {
-		return query.getCountColumns() != null && !query.getCountColumns().isEmpty();
+		return !(query.getCountColumns() == null || query.getCountColumns().isEmpty());
 	}
 
 	private boolean containsFilters(Collection<ReportQueryFilter> filters) {
@@ -91,7 +91,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private boolean isGroupByQuery(Query query) {
-		return !query.getGroupBys().isEmpty();
+		return !(query.getGroupBys() == null || query.getGroupBys().isEmpty());
 	}
 
 	private boolean isMultipeSourcesQuery(Collection<QuerySource> sources) {

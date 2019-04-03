@@ -24,41 +24,44 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Query {
-	@ManyToMany
-	@JoinColumn(name = "columnId")
-	private Collection<QueryColumn> columns;
+    @ManyToMany
+    @JoinColumn(name = "columnId")
+    private Collection<QueryColumn> columns;
 
-	@Nullable
-	@ManyToMany
-	@JoinColumn(name = "columnId")
-	private Collection<QueryColumn> countColumns;
+    @Nullable
+    @ManyToMany
+    @JoinColumn(name = "columnId")
+    private Collection<QueryColumn> countColumns;
 
-	@Nullable
-	@ManyToMany
-	@JoinColumn(name = "columnId")
-	private Collection<QueryColumn> groupBys;
+    @Nullable
+    @ManyToMany
+    @JoinColumn(name = "columnId")
+    private Collection<QueryColumn> groupBys;
 
-	@JsonIgnore
-	public Collection<QuerySource> getSources() {
-		Collection<QuerySource> sources = new ArrayList<>();
-		columns.forEach(column -> {
-			if (!sources.contains(column.getSource())) {
-				sources.add(column.getSource());
-			}
-		});
+    @JsonIgnore
+    public Collection<QuerySource> getSources() {
+        Collection<QuerySource> sources = new ArrayList<>();
+        columns.forEach(column -> {
+            if (!sources.contains(column.getSource())) {
+                sources.add(column.getSource());
+            }
+        });
+        if (groupBys != null) {
+            groupBys.forEach(column -> {
+                if (!sources.contains(column.getSource())) {
+                    sources.add(column.getSource());
+                }
+            });
+        }
 
-		groupBys.forEach(column -> {
-			if (!sources.contains(column.getSource())) {
-				sources.add(column.getSource());
-			}
-		});
+        if (countColumns != null) {
+            countColumns.forEach(column -> {
+                if (!sources.contains(column.getSource())) {
+                    sources.add(column.getSource());
+                }
+            });
+        }
 
-		countColumns.forEach(column -> {
-			if (!sources.contains(column.getSource())) {
-				sources.add(column.getSource());
-			}
-		});
-
-		return sources;
-	}
+        return sources;
+    }
 }

@@ -4,6 +4,11 @@ body {
     background-color: #d7dae2;
 }
 
+.container
+{
+    width:1700px
+}
+
 .box {
     margin-bottom: 20px;
     background-color: #fff;

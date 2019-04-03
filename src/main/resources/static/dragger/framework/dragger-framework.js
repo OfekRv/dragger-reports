@@ -1,5 +1,5 @@
 angular
-		.module("dragger", [ "ngRoute", "dndLists" ])
+		.module("dragger", [ "ngRoute", "dndLists", "chart.js"])
 		.config(
 				function($routeProvider) {
 					$routeProvider
@@ -9,6 +9,12 @@ angular
 										templateUrl : 'dragger/buildReport/buildReport-frame.html',
 										controller : 'buildReportController'
 									})
+                            .when(
+                                    '/chartPresentation',
+                                    {
+                                        templateUrl : 'dragger/chartPresentation/chartPresentation.html',
+                                        controller : 'chartPresentationController'
+                                    })
 							.when(
 									'/generateReport',
 									{
@@ -63,15 +69,18 @@ angular
 
 								if (isDevMode != "false") {
 									scope.options = [ {
-										label : "הרצת דוח",
-										href : "#/generateReport"
-									}, {
+                                        label : "הרצת דוח",
+                                        href : "#/generateReport"
+                                    }, {
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}, {
 										label : "ניהול דוחות",
 										href : "#/manageReports"
 									}, {
+                                       label : "בניית תרשים",
+                                       href : "#/chartPresentation"
+                                    },{
 										label : "Create Source",
 										href : "#/createSource"
 									}, {
@@ -85,13 +94,16 @@ angular
 									scope.options = [ {
 										label : "הרצת דוח",
 										href : "#/generateReport"
-									}, {
+									},  {
 										label : "בניית דוח",
 										href : "#/buildReport"
 									}  ,{
                                         label : "ניהול דוחות",
                                         href : "#/manageReports"
-                                    } ];
+                                    }, {
+                                        label : "בניית דוח",
+                                        href : "#/chartPresentation"
+                                    }];
 								}
 							});
 
