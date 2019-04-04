@@ -15,8 +15,8 @@ angular
                 $scope.lastColorIndex = 0;
                 $scope.currentSelectedSource;
                 $scope.currentSelectedColumn;
-                $scope.selectedSource = {text: 'מקור', selected:false};
-                $scope.selectedColumn = {text: 'עמודה', selected:false}
+                $scope.selectedSource = {text: '[...] ', selected:false};
+                $scope.selectedColumn = {text: '[...]', selected:false}
 
 				    $scope.filterSources =function(source)
                     {
@@ -44,7 +44,7 @@ angular
                         if(!selectedSource.selected)
                         {
                             $scope.currentSelectedSource = null;
-                            $scope.selectedSource.text = 'מקור';
+                            $scope.selectedSource.text = '[...]';
                             $scope.selectedSource.selected = false;
                             return;
                         }
@@ -68,7 +68,7 @@ angular
                         if(!selectedColumn.selected)
                         {
                             $scope.currentSelectedColumn = null;
-                            $scope.selectedColumn.text = 'עמודה';
+                            $scope.selectedColumn.text = '[...]';
                             $scope.selectedColumn.selected = false;
                             return;
                         }

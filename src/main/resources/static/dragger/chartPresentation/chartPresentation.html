@@ -41,13 +41,11 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <!--<h3 class="chart-title" ng-if="!(selectedSource && selectedColumn)">-->
-                        <!--יש לבחור מקור ועמודה  -->
-                    <!--</h3>-->
                     <h2 class="chart-title">
-                        <span ng-if="!(selectedSource.selected || selectedColumn.selected)">בחר </span>
+                        <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג </span>
+                        <span>כמות ה</span>
                         <span class="selectedSource"
-                                ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span> ביחס ל<span class="selectedColumn"
+                                ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span> בכל ה<span class="selectedColumn"
                                 ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
