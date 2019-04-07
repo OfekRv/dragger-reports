@@ -11,12 +11,8 @@ angular
                 $scope.labels = ['לא נבחר מידע להצגה'];
                 $scope.data = [1];
                 $scope.colors = ['#ffffff'];
-                $scope.colorsConfiguration = ['#3b56ba','#6a98dc','#4d5360','#949fb1','#1976d2','#1e88e5','#64b5f6'];
-                $scope.lastColorIndex = 0;
-                $scope.currentSelectedSource;
-                $scope.currentSelectedColumn;
-                $scope.selectedSource = {text: 'מקור', selected:false};
-                $scope.selectedColumn = {text: 'עמודה', selected:false}
+                $scope.selectedSource = {text: '[...] ', selected:false};
+                $scope.selectedColumn = {text: '[...]', selected:false}
 
 				    $scope.filterSources =function(source)
                     {
@@ -43,13 +39,13 @@ angular
                         selectedSource.selected = !selectedSource.selected;
                         if(!selectedSource.selected)
                         {
-                            $scope.currentSelectedSource = null;
-                            $scope.selectedSource.text = 'מקור';
+                            $scope.selectedSource.data = null;
+                            $scope.selectedSource.text = '[...]';
                             $scope.selectedSource.selected = false;
                             return;
                         }
 
-                        $scope.currentSelectedSource = selectedSource;
+                        $scope.selectedSource.data = selectedSource;
                         $scope.selectedSource.text = selectedSource.name;
                         $scope.selectedSource.selected = true;
 
@@ -60,6 +56,8 @@ angular
                                 checkedSource.selected = false;
                             }
                         })
+
+                        $scope.isLinked();
                     }
 
                     $scope.selectedColumnEvent = function(selectedColumn)
@@ -67,14 +65,14 @@ angular
                         selectedColumn.selected = !selectedColumn.selected;
                         if(!selectedColumn.selected)
                         {
-                            $scope.currentSelectedColumn = null;
-                            $scope.selectedColumn.text = 'עמודה';
+                            $scope.selectedColumn.data = null;
+                            $scope.selectedColumn.text = '[...]';
                             $scope.selectedColumn.selected = false;
                             return;
                         }
 
-                        $scope.currentSelectedColumn = selectedColumn;
-                        $scope.selectedColumn.text = selectedColumn.type;
+                        $scope.selectedColumn.data = selectedColumn;
+                        $scope.selectedColumn.text = selectedColumn.type + ' לפי ' + selectedColumn.data.name;
                         $scope.selectedColumn.selected = true;
 
                         Object.getOwnPropertyNames($scope.models.lists).forEach(function(listName)
@@ -90,10 +88,12 @@ angular
                                 })
                             }
                         })
+
+                        $scope.isLinked();
                     }
 
                     $scope.filterSourcesList =function(sourceName, source)
-                            {
+                    {
                                 if(!(source && sourceName) || $scope.models.listsData[sourceName])
                                 {
                                     return false;
@@ -119,21 +119,6 @@ angular
 
                                 return false;
                             };
-                    $scope.getColor = function(excludeColor)
-                    {
-                        if(!$scope.colorsConfiguration || $scope.colorsConfiguration.length <= 1)
-                        {
-                            return;
-                        }
-
-                        var randomColorIndex = Math.floor(Math.random() * $scope.colorsConfiguration.length);
-                        while($scope.colorsConfiguration[randomColorIndex] === excludeColor)
-                        {
-                            randomColorIndex = Math.floor(Math.random() * $scope.colorsConfiguration.length)
-                        }
-
-                        return $scope.colorsConfiguration[randomColorIndex];
-                    };
 
                     $scope.getColumn = function(source)
                     {
@@ -152,14 +137,10 @@ angular
 
                     $scope.isLinked = function()
                     {
-                        var columns;
-                        if ($scope.models.lists.Count.length == 1 &&
-                            $scope.models.lists.GroupBy.length == 1) {
+                        if ($scope.selectedSource.selected && $scope.selectedColumn.selected) {
                             var columnsRetrievalPromise = [];
 
-                            $scope.models.lists.Count.forEach(function(count) {
-                                columnsRetrievalPromise.push($scope.getColumn(count));
-                            });
+                             columnsRetrievalPromise.push($scope.getColumn($scope.selectedSource.data));
 
                             $q.all(columnsRetrievalPromise).then(function(columns){
                             var columnIds = [];
@@ -169,10 +150,7 @@ angular
                                 columnIds.push(column.columnId);
                             });
 
-                            $scope.models.lists.GroupBy.forEach(function(groupBy)
-                            {
-                                columnIds.push(groupBy.data.columnId);
-                            });
+                            columnIds.push($scope.selectedColumn.data.data.columnId);
 
                             $http(
                                     {
@@ -183,33 +161,33 @@ angular
                                     .then(
                                             function successCallback(
                                                     response) {
-                                                var isLinked = response.data;
-                                                if (isLinked == "false") {
-                                                    alert("המקור שאתה מנסה להוסיף לא יכול להיות מקושר לתרשים");
+                                                if (response.data == "false") {
+                                                    alert("המקור והעמודה שבחרת לא מקושרים");
                                                 }
                                             });
                                     });
                         }
                     }
 
-					$scope.createChart = function() {
+					$scope.createChart = function()
+					{
 						var columns = [];
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
 
-						if(!$scope.currentSelectedColumn)
+						if(!$scope.selectedColumn.selected)
                         {
                             alert("יש לבחור עמודה");
                             return;
                         }
-                        groupBysPromises.push($scope.currentSelectedColumn);
+                        groupBysPromises.push($scope.selectedColumn.data);
 
-						if(!$scope.currentSelectedSource)
+						if(!$scope.selectedSource.selected)
 						{
 						    alert("יש לבחור מקור");
 						    return;
 						}
-                        countColumnsPromises.push($scope.getColumn($scope.currentSelectedSource));
+                        countColumnsPromises.push($scope.getColumn($scope.selectedSource.data));
 
                         $q.all(groupBysPromises).then(function(groupBysResponse){
                         $q.all(countColumnsPromises).then(function(countColumnsResponse){
@@ -246,21 +224,12 @@ angular
                                 $scope.labels = [];
                                 $scope.data = [];
                                 $scope.colors = [];
-                                var lastColor = $scope.colorsConfiguration[0];
 
                                 response.data.forEach(function(slice,index)
                                 {
                                     $scope.labels.push(slice.label);
                                     $scope.data.push(slice.count);
-                                    lastColor = $scope.getColor(lastColor)
-                                    $scope.colors.push(lastColor)
                                 })
-
-                                if($scope.colors[0] === $scope.colors[$scope.colors.length - 1])
-                                {
-                                    $scope.colors.pop();
-                                    $scope.colors.push($scope.getColor(lastColor));
-                                }
                                 },
                                 function failureCallback(response) { console.log("couldn't retrieve chart data");
                                 return;
@@ -271,39 +240,6 @@ angular
 						});
 						});
 					}
-
-//					$scope.dropCallbackGroupBy = function(index, item) {
-//                        $scope.models.lists[item.type].columns.push(item);
-//                        $scope.models.lists['GroupBy'] = [];
-//                        $scope.models.listsData['GroupBy'].staticList = true;
-//                    };
-//
-//                    $scope.dropCallbackCount = function(index, item) {
-//                        $scope.models.lists['Sources'].push(item);
-//                        $scope.models.lists['Count'] = [];
-//                        $scope.models.listsData['Count'].staticList = true;
-//                    };
-
-					$scope
-							.$watchCollection(
-									'models.lists.GroupBy',
-									function(newGroupBys, oldGroupBys) {
-										$scope.isLinked();
-									});
-
-                    $scope
-                            .$watchCollection(
-                                    'models.lists.Count',
-                                    function(newCounts, oldCounts) {
-//                                        newCounts.forEach(function(source)
-//                                        {
-//                                            if(!$scope.models.listsData[source.name].staticList)
-//                                            {
-//                                                return false;
-//                                            }
-//                                        })
-                                        $scope.isLinked();
-                                    });
 
 					$scope.models = {
 						selected : null,

@@ -78,7 +78,7 @@ angular
 										label : "ניהול דוחות",
 										href : "#/manageReports"
 									}, {
-                                       label : "בניית תרשים",
+                                       label : "תרשים כמותי",
                                        href : "#/chartPresentation"
                                     },{
 										label : "Create Source",
@@ -101,7 +101,7 @@ angular
                                         label : "ניהול דוחות",
                                         href : "#/manageReports"
                                     }, {
-                                        label : "בניית דוח",
+                                        label : "תרשים כמותי",
                                         href : "#/chartPresentation"
                                     }];
 								}

@@ -481,6 +481,7 @@ margin-top: 50px;
 {
     text-align:center;
     text-decoration:bold;
+    direction:rtl;
 }
 
 .glowSource {
