@@ -43,18 +43,32 @@
                 <div class="col-md-6">
                     <h2 class="chart-title">
                         <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג </span>
-                        <span>כמות ה</span>
-                        <span class="selectedSource"
-                                ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span> עבור ה<span class="selectedColumn"
-                                ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
+                        <span>כמות ה</span><span class="selectedSource"
+                                                 ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
+                        עבור ה<span class="selectedColumn"
+                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
                 <div class="col-md-3"></div>
             </div>
             <div class="row">
-                <canvas id="pie" class="chart chart-pie"
-                        chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
-                </canvas>
+                <div class="col-md-2">
+                    <ol class="chart-legend" ng-if="emptyPie">
+                        <div class="row legend-row" ng-repeat="color in colors">
+                            <div class="col-md-10"><span class="chart-legend-label">{{labels[$index]}} ({{data[$index]}})</span>
+                            <div class="col-md-2">
+                                <li><span
+                                        style="background-color: {{color.pointBackgroundColor}}"></span>
+                                </li></div>
+                            </div>
+                        </div>
+                    </ol>
+                </div>
+                <div class="col-md-10">
+                    <canvas id="pie" class="chart chart-pie"
+                            chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
+                    </canvas>
+                </div>
             </div>
             <div class="row padding-row">
             </div>
@@ -101,7 +115,7 @@
                                 dnd-type="column.type"
                                 dnd-selected="selectedColumnEvent(column)"
                                 ng-class="{'selected': column.selected}" selectedColumn
-                                >{{column.data.name}}
+                            >{{column.data.name}}
                             </li>
                         </ul>
                     </div>

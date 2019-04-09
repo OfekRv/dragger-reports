@@ -11,6 +11,7 @@ angular
                 $scope.labels = ['לא נבחר מידע להצגה'];
                 $scope.data = [1];
                 $scope.colors = ['#ffffff'];
+                $scope.emptyPie = false;
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -224,7 +225,10 @@ angular
                                 $scope.labels = [];
                                 $scope.data = [];
                                 $scope.colors = [];
-
+                                if(response.data.length > 0 )
+                                {
+                                    $scope.emptyPie = true;
+                                }
                                 response.data.forEach(function(slice,index)
                                 {
                                     $scope.labels.push(slice.label);
