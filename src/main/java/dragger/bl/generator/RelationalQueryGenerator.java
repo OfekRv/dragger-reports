@@ -29,7 +29,6 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	private static final int FIRST_EDGE_INDEX = 0;
 	private static final int SECOND_EDGE_INDEX = 1;
 	private static final String ON = "ON ";
-	private static final String INNER_JOIN = "INNER JOIN ";
 	private static final String EQUALS = "=";
 	private static final String AND = " AND ";
 	private static final String SELECT = "SELECT ";
