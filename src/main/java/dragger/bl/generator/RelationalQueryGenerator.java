@@ -100,22 +100,30 @@ public class RelationalQueryGenerator implements QueryGenerator {
 					.filter(conn -> isConnectionSourcesExistInSources(conn, usedSources)).findAny().get();
 
 			connectionEdges = extractEdgesFromConnection(connection);
-			if (isConnectionSourceExistInSources(connection, FIRST_EDGE_INDEX, usedSources)) {
-				baseEdge = connectionEdges[FIRST_EDGE_INDEX];
-				joinEdge = connectionEdges[SECOND_EDGE_INDEX];
-			} else {
-				baseEdge = connectionEdges[SECOND_EDGE_INDEX];
-				joinEdge = connectionEdges[FIRST_SOURCE_INDEX];
+
+			if (notAllEdgesAlreadyUsed(usedSources, connectionEdges)) {
+				if (isConnectionSourceExistInSources(connection, FIRST_EDGE_INDEX, usedSources)) {
+					baseEdge = connectionEdges[FIRST_EDGE_INDEX];
+					joinEdge = connectionEdges[SECOND_EDGE_INDEX];
+				} else {
+					baseEdge = connectionEdges[SECOND_EDGE_INDEX];
+					joinEdge = connectionEdges[FIRST_SOURCE_INDEX];
+				}
+
+				JoinType type = isCountQuery ? JoinType.LeftJoin : JoinType.InnerJoin;
+				rawJoin.add(rawInnerJoin(baseEdge, joinEdge, type));
+				usedSources.add(joinEdge.getSource());
 			}
 
-			JoinType type = isCountQuery ? JoinType.LeftJoin : JoinType.InnerJoin;
-			rawJoin.add(rawInnerJoin(baseEdge, joinEdge, type));
-			usedSources.add(joinEdge.getSource());
 			connections.remove(connection);
-
 		}
 
 		return rawJoin.toString();
+	}
+
+	private boolean notAllEdgesAlreadyUsed(Collection<QuerySource> usedSources, QueryColumn[] connectionEdges) {
+		return !usedSources.containsAll(
+				asList(connectionEdges[FIRST_EDGE_INDEX].getSource(), connectionEdges[SECOND_EDGE_INDEX].getSource()));
 	}
 
 	private boolean isCountQuery(Query query) {
