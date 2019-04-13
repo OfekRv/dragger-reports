@@ -17,6 +17,7 @@ import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
 import dragger.entities.ReportQueryFilter;
 import dragger.entities.SourceConnection;
+import dragger.enums.JoinType;
 import dragger.exceptions.DraggerException;
 
 @Named
@@ -70,7 +71,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 
 		if (isMultipeSourcesQuery(sources)) {
 			Collection<SourceConnection> connections = findConnectionsBetweenSources(sources);
-			rawQuery.add(generateJoinClause(connections, baseSource));
+			rawQuery.add(generateJoinClause(connections, baseSource, isCountQuery(query)));
 		}
 
 		if (containsFilters(filters)) {
@@ -84,7 +85,8 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		return rawQuery.toString();
 	}
 
-	private String generateJoinClause(Collection<SourceConnection> connections, QuerySource baseSource) {
+	private String generateJoinClause(Collection<SourceConnection> connections, QuerySource baseSource,
+			boolean isCountQuery) {
 		StringJoiner rawJoin = new StringJoiner(NEW_LINE);
 
 		Collection<QuerySource> allSources = extractSourcesFromConnections(connections);
@@ -106,11 +108,14 @@ public class RelationalQueryGenerator implements QueryGenerator {
 				baseEdge = connectionEdges[SECOND_EDGE_INDEX];
 				joinEdge = connectionEdges[FIRST_SOURCE_INDEX];
 			}
-			rawJoin.add(rawInnerJoin(baseEdge, joinEdge));
+
+			JoinType type = isCountQuery ? JoinType.LeftJoin : JoinType.InnerJoin;
+			rawJoin.add(rawInnerJoin(baseEdge, joinEdge, type));
 			usedSources.add(joinEdge.getSource());
 			connections.remove(connection);
 
 		}
+
 		return rawJoin.toString();
 	}
 
@@ -143,9 +148,9 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		return source.getFromClauseRaw() + AS + QUOT_MARKS + source.getName() + QUOT_MARKS;
 	}
 
-	private String rawInnerJoin(QueryColumn baseEdge, QueryColumn joinEdge) {
-		return INNER_JOIN + rawAndNamedSource(joinEdge.getSource()) + SPACE + ON + rawAndNamedEdge(baseEdge) + EQUALS
-				+ rawAndNamedEdge(joinEdge);
+	private String rawInnerJoin(QueryColumn baseEdge, QueryColumn joinEdge, JoinType type) {
+		return type.getRaw() + SPACE + rawAndNamedSource(joinEdge.getSource()) + SPACE + ON + rawAndNamedEdge(baseEdge)
+				+ EQUALS + rawAndNamedEdge(joinEdge);
 	}
 
 	private String rawFilter(ReportQueryFilter filter) {
