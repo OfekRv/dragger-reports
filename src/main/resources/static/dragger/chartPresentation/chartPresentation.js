@@ -10,7 +10,7 @@ angular
                 $scope.data.push(0);
                 $scope.labels = ['לא נבחר מידע להצגה'];
                 $scope.data = [1];
-                $scope.colors = ['#ffffff'];
+                $scope.colors = ['#565cc1'];
                 $scope.emptyPie = false;
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
@@ -224,16 +224,27 @@ angular
                                 function successCallback(response) {
                                 $scope.labels = [];
                                 $scope.data = [];
-                                $scope.colors = [];
+
                                 if(response.data.length > 0 )
                                 {
                                     $scope.emptyPie = true;
                                 }
+                                else
+                                {
+                                    $scope.colors = ['#565cc1'];
+                                    return;
+                                }
+
                                 response.data.forEach(function(slice,index)
                                 {
                                     $scope.labels.push(slice.label);
                                     $scope.data.push(slice.count);
                                 })
+
+                                if($scope.colors.length > $scope.labels.length)
+                                {
+                                    $scope.colors = $scope.colors.slice(0, $scope.labels.length - 1);
+                                }
                                 },
                                 function failureCallback(response) { console.log("couldn't retrieve chart data");
                                 return;

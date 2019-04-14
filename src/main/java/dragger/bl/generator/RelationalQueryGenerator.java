@@ -1,11 +1,12 @@
 package dragger.bl.generator;
 
+import static java.util.Arrays.asList;
+
 import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringJoiner;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.inject.Named;
 
@@ -16,10 +17,18 @@ import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
 import dragger.entities.ReportQueryFilter;
 import dragger.entities.SourceConnection;
+import dragger.enums.JoinType;
 import dragger.exceptions.DraggerException;
 
 @Named
 public class RelationalQueryGenerator implements QueryGenerator {
+	private static final int SECOND_SOURCE_INDEX = 1;
+	private static final int FIRST_SOURCE_INDEX = 0;
+	private static final int EDGES_COUNT = 2;
+	private static final int FIRST_EDGE = 1;
+	private static final int FIRST_EDGE_INDEX = 0;
+	private static final int SECOND_EDGE_INDEX = 1;
+	private static final String ON = "ON ";
 	private static final String EQUALS = "=";
 	private static final String AND = " AND ";
 	private static final String SELECT = "SELECT ";
@@ -39,40 +48,33 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	public String generate(Query query, Collection<ReportQueryFilter> filters, boolean showDuplicates)
 			throws DraggerException {
 		StringJoiner rawQuery = new StringJoiner(NEW_LINE);
-
-		StringBuilder countColumnAddition = new StringBuilder();
-		if (isCountQuery(query)) {
-			countColumnAddition
-					.append(rawAndNamedCountColumn(query.getCountColumns().stream().findFirst().get()) + SEPERATOR);
-		}
-
-		if (showDuplicates) {
-			rawQuery.add(generateRawClause(SELECT + countColumnAddition, SEPERATOR, query.getColumns(),
-					this::rawAndNamedColumn));
-		} else {
-			rawQuery.add(generateRawClause(SELECT + SPACE + DISTINCT + countColumnAddition, SEPERATOR,
-					query.getColumns(), this::rawAndNamedColumn));
-		}
-
 		Collection<QuerySource> sources = query.getSources();
+		QuerySource baseSource;
+		if (isCountQuery(query)) {
+			QueryColumn countColumn = query.getCountColumns().stream().findFirst().get();
+			rawQuery.add(generateRawClause(SELECT + rawAndNamedCountColumn(countColumn) + SEPERATOR, SEPERATOR,
+					query.getColumns(), this::rawAndNamedColumn));
+			baseSource = countColumn.getSource();
+		} else {
+			if (showDuplicates) {
+				rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
+			} else {
+				rawQuery.add(generateRawClause(SELECT + SPACE + DISTINCT, SEPERATOR, query.getColumns(),
+						this::rawAndNamedColumn));
+			}
+
+			baseSource = getBaseSourceFromQuery(query);
+		}
+
+		rawQuery.add(generateRawClause(FROM, SEPERATOR, asList(baseSource), this::rawAndNamedSource));
 
 		if (isMultipeSourcesQuery(sources)) {
 			Collection<SourceConnection> connections = findConnectionsBetweenSources(sources);
-			sources.addAll(extractSourcesFromConnections(connections));
-			sources = sources.stream().distinct().collect(Collectors.toList());
-			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
-			rawQuery.add(generateRawClause(WHERE, AND, connections, this::rawConnection));
-		} else {
-			rawQuery.add(generateRawClause(FROM, SEPERATOR, sources, this::rawAndNamedSource));
+			rawQuery.add(generateJoinClause(connections, baseSource, isCountQuery(query)));
 		}
 
 		if (containsFilters(filters)) {
-			if (isMultipeSourcesQuery(sources)) {
-				// we are already in WHERE so we use it as AND
-				rawQuery.add(generateRawClause(AND, AND, filters, this::rawFilter));
-			} else {
-				rawQuery.add(generateRawClause(WHERE, AND, filters, this::rawFilter));
-			}
+			rawQuery.add(generateRawClause(WHERE, AND, filters, this::rawFilter));
 		}
 
 		if (isGroupByQuery(query)) {
@@ -80,6 +82,48 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		}
 
 		return rawQuery.toString();
+	}
+
+	private String generateJoinClause(Collection<SourceConnection> connections, QuerySource baseSource,
+			boolean isCountQuery) {
+		StringJoiner rawJoin = new StringJoiner(NEW_LINE);
+
+		Collection<QuerySource> allSources = extractSourcesFromConnections(connections);
+		Collection<QuerySource> usedSources = new ArrayList<>();
+		usedSources.add(baseSource);
+
+		QueryColumn baseEdge;
+		QueryColumn joinEdge;
+		QueryColumn[] connectionEdges;
+		while (!usedSources.containsAll(allSources)) {
+			SourceConnection connection = connections.stream()
+					.filter(conn -> isConnectionSourcesExistInSources(conn, usedSources)).findAny().get();
+
+			connectionEdges = extractEdgesFromConnection(connection);
+
+			if (notAllEdgesAlreadyUsed(usedSources, connectionEdges)) {
+				if (isConnectionSourceExistInSources(connection, FIRST_EDGE_INDEX, usedSources)) {
+					baseEdge = connectionEdges[FIRST_EDGE_INDEX];
+					joinEdge = connectionEdges[SECOND_EDGE_INDEX];
+				} else {
+					baseEdge = connectionEdges[SECOND_EDGE_INDEX];
+					joinEdge = connectionEdges[FIRST_SOURCE_INDEX];
+				}
+
+				JoinType type = isCountQuery ? JoinType.LeftJoin : JoinType.InnerJoin;
+				rawJoin.add(rawInnerJoin(baseEdge, joinEdge, type));
+				usedSources.add(joinEdge.getSource());
+			}
+
+			connections.remove(connection);
+		}
+
+		return rawJoin.toString();
+	}
+
+	private boolean notAllEdgesAlreadyUsed(Collection<QuerySource> usedSources, QueryColumn[] connectionEdges) {
+		return !usedSources.containsAll(
+				asList(connectionEdges[FIRST_EDGE_INDEX].getSource(), connectionEdges[SECOND_EDGE_INDEX].getSource()));
 	}
 
 	private boolean isCountQuery(Query query) {
@@ -111,10 +155,9 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		return source.getFromClauseRaw() + AS + QUOT_MARKS + source.getName() + QUOT_MARKS;
 	}
 
-	private String rawConnection(SourceConnection connection) {
-		StringJoiner raw = new StringJoiner(EQUALS);
-		connection.getEdges().stream().forEach(edge -> rawAndNamedEdge(edge, raw));
-		return raw.toString();
+	private String rawInnerJoin(QueryColumn baseEdge, QueryColumn joinEdge, JoinType type) {
+		return type.getRaw() + SPACE + rawAndNamedSource(joinEdge.getSource()) + SPACE + ON + rawAndNamedEdge(baseEdge)
+				+ EQUALS + rawAndNamedEdge(joinEdge);
 	}
 
 	private String rawFilter(ReportQueryFilter filter) {
@@ -141,8 +184,8 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		return raw.toString();
 	}
 
-	private StringJoiner rawAndNamedEdge(QueryColumn edge, StringJoiner raw) {
-		return raw.add(QUOT_MARKS + edge.getSource().getName() + QUOT_MARKS + DOT + edge.getRaw());
+	private String rawAndNamedEdge(QueryColumn edge) {
+		return QUOT_MARKS + edge.getSource().getName() + QUOT_MARKS + DOT + edge.getRaw();
 	}
 
 	private <T> String generateRawClause(String clauseTypeRaw, String delimiter, Collection<T> clauseItems,
@@ -155,6 +198,12 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		return EMPTY_STRING;
 	}
 
+	private QuerySource getBaseSourceFromQuery(Query query) {
+		QuerySource baseSource = isCountQuery(query) ? query.getCountColumns().stream().findFirst().get().getSource()
+				: query.getSources().stream().findFirst().get();
+		return baseSource;
+	}
+
 	private Collection<QuerySource> extractSourcesFromConnections(Collection<SourceConnection> connections) {
 		Collection<QuerySource> sources = new ArrayList<>();
 		for (SourceConnection connection : connections) {
@@ -163,5 +212,30 @@ public class RelationalQueryGenerator implements QueryGenerator {
 			}
 		}
 		return sources;
+	}
+
+	private QuerySource[] extractSourcesFromConnection(SourceConnection connection) {
+		QuerySource[] sources = new QuerySource[EDGES_COUNT];
+		QueryColumn[] edges = extractEdgesFromConnection(connection);
+		sources[FIRST_SOURCE_INDEX] = edges[FIRST_SOURCE_INDEX].getSource();
+		sources[SECOND_SOURCE_INDEX] = edges[SECOND_SOURCE_INDEX].getSource();
+		return sources;
+	}
+
+	private QueryColumn[] extractEdgesFromConnection(SourceConnection connection) {
+		QueryColumn[] edges = new QueryColumn[EDGES_COUNT];
+		edges[FIRST_SOURCE_INDEX] = connection.getEdges().stream().findFirst().get();
+		edges[SECOND_SOURCE_INDEX] = connection.getEdges().stream().skip(FIRST_EDGE).findFirst().get();
+		return edges;
+	}
+
+	private boolean isConnectionSourcesExistInSources(SourceConnection connection, Collection<QuerySource> sources) {
+		return isConnectionSourceExistInSources(connection, FIRST_EDGE_INDEX, sources)
+				|| isConnectionSourceExistInSources(connection, SECOND_EDGE_INDEX, sources);
+	}
+
+	private boolean isConnectionSourceExistInSources(SourceConnection connection, int sourceIndex,
+			Collection<QuerySource> sources) {
+		return sources.contains(extractSourcesFromConnection(connection)[sourceIndex]);
 	}
 }
