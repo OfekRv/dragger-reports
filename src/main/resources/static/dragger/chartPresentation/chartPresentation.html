@@ -45,7 +45,7 @@
                         <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג </span>
                         <span>כמות ה</span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
-                        עבור ה<span class="selectedColumn"
+                        עבור <span class="selectedColumn"
                                     ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
@@ -56,10 +56,11 @@
                     <ol class="chart-legend" ng-if="emptyPie">
                         <div class="row legend-row" ng-repeat="color in colors">
                             <div class="col-md-10"><span class="chart-legend-label">{{labels[$index]}} ({{data[$index]}})</span>
-                            <div class="col-md-2">
-                                <li><span
-                                        style="background-color: {{color.pointBackgroundColor}}"></span>
-                                </li></div>
+                                <div class="col-md-2">
+                                    <li><span
+                                            style="background-color: {{color.pointBackgroundColor}}"></span>
+                                    </li>
+                                </div>
                             </div>
                         </div>
                     </ol>
