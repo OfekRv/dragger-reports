@@ -5,7 +5,8 @@ angular.module("dragger").controller(
 			$scope.dataTypes = [];
 			$scope.selected = null;
 			$scope.value = null;
-			$scope.visible=true;
+			$scope.visible = true;
+			$scope.isId = false;
 
 			$http({
 				method : 'GET',
@@ -36,7 +37,8 @@ angular.module("dragger").controller(
 						raw : raw,
 						dataType : dataType,
 						source : source,
-						visible: $scope.visible
+						visible : $scope.visible,
+						id : $scope.isId
 					}
 				}).then(function successCallback(response) {
 					alert("Column defined!");
