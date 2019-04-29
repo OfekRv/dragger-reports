@@ -45,4 +45,8 @@ public class QuerySource {
 
 	@Column(nullable = false)
 	private boolean isVisible;
+
+	public QueryColumn getIdColumn() {
+		return columns.stream().filter(col -> col.isId()).findFirst().orElse(columns.stream().findFirst().get());
+	}
 }

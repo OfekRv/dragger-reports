@@ -194,6 +194,7 @@ angular
                         $q.all(countColumnsPromises).then(function(countColumnsResponse){
                         var groupBys = [];
                         var countColumns = [];
+                        var countSources = [];
 
                         groupBysResponse.forEach(function(groupBy)
                         {
@@ -210,11 +211,13 @@ angular
                             columns.push(groupBy.data._links.self.href);
                         })
 
+                        countSources.push($scope.selectedSource.data._links.self.href);
+                        
 						$http({
 							method : 'POST',
 							url : 'api/charts',
 							data : {
-								query : {columns, countColumns, groupBys}
+								query : {columns, countSources, groupBys}
 							}
 						}).then(function successCallback(response) {
                             $http({
