@@ -23,44 +23,44 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Query {
-    @ManyToMany
-    @JoinColumn(name = "columnId")
-    private Collection<QueryColumn> columns;
+	@ManyToMany
+	@JoinColumn(name = "columnId")
+	private Collection<QueryColumn> columns;
 
-    @Nullable
-    @ManyToMany
-    @JoinColumn(name = "columnId")
-    private Collection<QueryColumn> countColumns;
+	@Nullable
+	@ManyToMany
+	@JoinColumn(name = "sourceId")
+	private Collection<QuerySource> countSources;
 
-    @Nullable
-    @ManyToMany
-    @JoinColumn(name = "columnId")
-    private Collection<QueryColumn> groupBys;
+	@Nullable
+	@ManyToMany
+	@JoinColumn(name = "columnId")
+	private Collection<QueryColumn> groupBys;
 
-    @JsonIgnore
-    public Collection<QuerySource> getSources() {
-        Collection<QuerySource> sources = new ArrayList<>();
-        columns.forEach(column -> {
-            if (!sources.contains(column.getSource())) {
-                sources.add(column.getSource());
-            }
-        });
-        if (groupBys != null) {
-            groupBys.forEach(column -> {
-                if (!sources.contains(column.getSource())) {
-                    sources.add(column.getSource());
-                }
-            });
-        }
+	@JsonIgnore
+	public Collection<QuerySource> getSources() {
+		Collection<QuerySource> sources = new ArrayList<>();
+		columns.forEach(column -> {
+			if (!sources.contains(column.getSource())) {
+				sources.add(column.getSource());
+			}
+		});
+		if (groupBys != null) {
+			groupBys.forEach(column -> {
+				if (!sources.contains(column.getSource())) {
+					sources.add(column.getSource());
+				}
+			});
+		}
 
-        if (countColumns != null) {
-            countColumns.forEach(column -> {
-                if (!sources.contains(column.getSource())) {
-                    sources.add(column.getSource());
-                }
-            });
-        }
+		if (countSources != null) {
+			countSources.forEach(countSource -> {
+				if (!sources.contains(countSource)) {
+					sources.add(countSource);
+				}
+			});
+		}
 
-        return sources;
-    }
+		return sources;
+	}
 }
