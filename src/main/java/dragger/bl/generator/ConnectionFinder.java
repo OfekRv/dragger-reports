@@ -23,7 +23,7 @@ public interface ConnectionFinder {
 		Queue<Map.Entry<QuerySource, Collection<SourceConnection>>> toVisit = new LinkedList<>();
 		toVisit.add(mapSourceToConnections(findFirstElement(sources), null));
 
-		while (!toVisit.isEmpty()) {
+		while (!toVisit.isEmpty() && !needToBeFoundSources.isEmpty()) {
 			Map.Entry<QuerySource, Collection<SourceConnection>> source = toVisit.poll();
 			visited.add(source.getKey());
 
