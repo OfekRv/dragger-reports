@@ -15,6 +15,12 @@ angular
                                         templateUrl : 'dragger/chartPresentation/chartPresentation.html',
                                         controller : 'chartPresentationController'
                                     })
+                            .when(
+                                    '/dashboard',
+                                    {
+                                        templateUrl : 'dragger/dashboard/dashboard-tiles.html',
+                                        controller : 'dashboardController'
+                                    })
 							.when(
 									'/generateReport',
 									{
@@ -80,7 +86,10 @@ angular
 									}, {
                                        label : "תרשים כמותי",
                                        href : "#/chartPresentation"
-                                    },{
+                                    }, {
+                                      label : "לוח",
+                                      href : "#/dashboard"
+                                  },{
 										label : "Create Source",
 										href : "#/createSource"
 									}, {
@@ -103,7 +112,10 @@ angular
                                     }, {
                                         label : "תרשים כמותי",
                                         href : "#/chartPresentation"
-                                    }];
+                                    }, {
+                                         label : "לוח",
+                                         href : "#/dashboard"
+                                     }];
 								}
 							});
 

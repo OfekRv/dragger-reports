@@ -3,15 +3,15 @@ angular
 		.controller(
 				"chartPresentationController",
 				function($scope, $http,$q) {
-				$scope.labels = [];
-                $scope.data = [];
+				$scope.chart = {
+				        id:0,
+				        name:'',
+				        emptyPie: false,
+				        labels: ['לא נבחר מידע להצגה'],
+				        data: [],
+				        colors: ['#565cc1']
+				};
                 $scope.chartId = 0;
-                $scope.labels.push("אין מידע זמין כרגע");
-                $scope.data.push(0);
-                $scope.labels = ['לא נבחר מידע להצגה'];
-                $scope.data = [1];
-                $scope.colors = ['#565cc1'];
-                $scope.emptyPie = false;
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -222,28 +222,28 @@ angular
                                 url : 'api/charts/executeCountChartQuery?chartId=' + response.data.id
                                 }).then(
                                 function successCallback(response) {
-                                $scope.labels = [];
-                                $scope.data = [];
+                                $scope.chart.labels = [];
+                                $scope.chart.data = [];
 
-                                if(response.data.length > 0 )
+                                if(response.chart.data.length > 0 )
                                 {
                                     $scope.emptyPie = true;
                                 }
                                 else
                                 {
-                                    $scope.colors = ['#565cc1'];
+                                    $scope.chart.colors = ['#565cc1'];
                                     return;
                                 }
 
                                 response.data.forEach(function(slice,index)
                                 {
-                                    $scope.labels.push(slice.label);
-                                    $scope.data.push(slice.count);
+                                    $scope.chart.labels.push(slice.label);
+                                    $scope.chart.data.push(slice.count);
                                 })
 
-                                if($scope.colors.length > $scope.labels.length)
+                                if($scope.chart.colors.length > $scope.chart.labels.length)
                                 {
-                                    $scope.colors = $scope.colors.slice(0, $scope.labels.length - 1);
+                                    $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
                                 }
                                 },
                                 function failureCallback(response) { console.log("couldn't retrieve chart data");

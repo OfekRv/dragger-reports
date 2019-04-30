@@ -1,0 +1,20 @@
+helllooooo<div class="row">
+    <div class="col-md-2">
+        <ol class="chart-legend" ng-if="emptyPie">
+            <div class="row legend-row" ng-repeat="color in colors">
+                <div class="col-md-10"><span class="chart-legend-label">{{labels[$index]}} ({{data[$index]}})</span>
+                    <div class="col-md-2">
+                        <li><span
+                                style="background-color: {{color.pointBackgroundColor}}"></span>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </ol>
+    </div>
+    <div class="col-md-10">
+        <canvas id="pie" class="chart chart-pie"
+                chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
+        </canvas>
+    </div>
+</div>
