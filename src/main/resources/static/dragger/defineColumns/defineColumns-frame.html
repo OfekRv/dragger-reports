@@ -26,7 +26,7 @@
 					</select> <span class="select-highlight"></span> <span class="select-bar"></span>
 					<label class="select-label">Data Type</label>
 				</div>
-				<div class="visible-button">
+				<div class="row visible-button">
 					<div class="col-md-3">
 						<div class="toggle">
 							<input type="checkbox" ng-model="visible" class="check">
@@ -38,7 +38,7 @@
 						<label class="label-duplicates">נראה למשתמש</label>
 					</div>
 				</div>
-				<div class="isId-button">
+				<div class="row isId-button">
 					<div class="col-md-3">
 						<div class="toggle">
 							<input type="checkbox" ng-model="isId" class="check"> <b
@@ -50,7 +50,7 @@
 						<label class="label-duplicates">האם מזהה</label>
 					</div>
 				</div>
-				<div class="space-top text-center">
+				<div class=" row space-top text-center">
 					<button ng-disabled="form-define-columns.$invalid"
 						ng-click="defineColumn(column.name, column.raw, column.dataType, selected)"
 						class="waves-effect waves-light btn done">Define columns
