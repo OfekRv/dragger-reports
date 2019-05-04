@@ -2,6 +2,7 @@ package dragger.bl.exporter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,8 +13,11 @@ import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
 import dragger.contracts.ChartResult;
 import dragger.entities.Chart;
+import dragger.entities.ChartQueryFilter;
+import dragger.entities.ReportQueryFilter;
 import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
+import dragger.repositories.FilterRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,13 +32,17 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 	private QueryGenerator generator;
 	@Inject
 	private QueryExecutor executor;
+	@Inject
+	private FilterRepository filterRepository;
 
-	public Collection<ChartResult> export(Chart chartQuery) throws DraggerExportException {
+	public Collection<ChartResult> export(Chart chartQuery, Collection<ChartQueryFilter> filters)
+			throws DraggerExportException {
 		SqlRowSet results;
 
 		log.info("executing chart query (id = " + chartQuery.getId() + ")");
 		try {
-			results = executor.executeQuery(generator.generate(chartQuery.getQuery(), null, SHOW_DUPLICATES));
+			results = executor.executeQuery(
+					generator.generate(chartQuery.getQuery(), convertToQueryFilters(filters), SHOW_DUPLICATES));
 		} catch (DraggerException e) {
 			log.error("execution of chart query (id = " + chartQuery.getId() + ")" + " failed");
 			throw new DraggerExportException("Could not generate the chart query (id = " + chartQuery.getId() + ")", e);
@@ -55,5 +63,14 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 
 		log.info("chart query (id = " + chartQuery.getId() + ")" + " executed successfully");
 		return chartResults;
+	}
+
+	private Collection<ReportQueryFilter> convertToQueryFilters(Collection<ChartQueryFilter> filters) {
+		return filters.stream().map(chartFilter -> convertToQueryFilter(chartFilter)).collect(Collectors.toList());
+	}
+
+	private ReportQueryFilter convertToQueryFilter(ChartQueryFilter filter) {
+		return new ReportQueryFilter(filterRepository.findById(filter.getFilterId()).get(), filter.getColumn(),
+				filter.getValue());
 	}
 }

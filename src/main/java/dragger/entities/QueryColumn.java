@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -44,7 +45,7 @@ public class QueryColumn {
 
 	@Column(nullable = false)
 	private JDBCType dataType;
-	
+
 	@Column(nullable = false)
 	private boolean isId;
 
@@ -54,6 +55,10 @@ public class QueryColumn {
 
 	@ManyToMany(mappedBy = "edges", fetch = FetchType.EAGER)
 	private Collection<SourceConnection> connections;
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "column_id", nullable = true)
+	private Collection<ChartQueryFilter> chartFilters;
 
 	@Column(nullable = false)
 	private boolean isVisible;

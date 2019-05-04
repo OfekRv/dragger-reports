@@ -195,7 +195,7 @@ angular
                         var groupBys = [];
                         var countColumns = [];
                         var countSources = [];
-
+                        
                         groupBysResponse.forEach(function(groupBy)
                         {
                             groupBys.push(groupBy.data._links.self.href);
@@ -219,6 +219,9 @@ angular
 							data : {
 								query : {columns, countSources, groupBys}
 							}
+						
+						// now we need to create the filters
+						// and it will automatically add them to the chart
 						}).then(function successCallback(response) {
                             $http({
                                 method : 'GET',

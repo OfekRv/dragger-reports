@@ -1,10 +1,15 @@
 package dragger.entities;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Chart{
+public class Chart {
 	@Id
 	@SequenceGenerator(name = "chart_seq", sequenceName = "chart_seq", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chart_seq")
@@ -28,4 +33,8 @@ public class Chart{
 
 	@Column(nullable = false)
 	private Query query;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "chartId")
+	private Collection<ChartQueryFilter> filters;
 }

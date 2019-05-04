@@ -31,6 +31,6 @@ public class ChartController {
 			throw new DraggerControllerReportNotFoundException("Chart id:" + chartId + " not found");
 		}
 
-		return exporter.export(requestedChart.get());
+		return exporter.export(requestedChart.get(), requestedChart.get().getFilters());
 	}
 }
