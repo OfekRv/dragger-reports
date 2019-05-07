@@ -1,10 +1,11 @@
 <form class="form-build-report" method="post" name="register" novalidate>
-	<div class="container">
+	<div class="simpleDemo">
 			<div class="row">
 				<div class="blabla">
 					<div class="panel panel-info">
-						<div class="panel-body"
-							ng-include="'dragger/dashboard/dashboard.html'"></div>
+						<canvas id="pie" class="chart chart-pie"
+								chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options" chart-colors="chart.colors">
+						</canvas>
 					</div>
 				</div>
 		</div>

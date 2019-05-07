@@ -1,4 +1,4 @@
-angular
+(function(){angular
 		.module("dragger", [ "ngRoute", "dndLists", "chart.js"])
 		.config(
 				function($routeProvider) {
@@ -18,7 +18,7 @@ angular
                             .when(
                                     '/dashboard',
                                     {
-                                        templateUrl : 'dragger/dashboard/dashboard-tiles.html',
+                                        templateUrl : 'dragger/dashboard/dashboard.html',
                                         controller : 'dashboardController'
                                     })
 							.when(
@@ -76,28 +76,28 @@ angular
 								if (isDevMode != "false") {
 									scope.options = [ {
                                         label : "הרצת דוח",
-                                        href : "#/generateReport"
+                                        href : "#!/generateReport"
                                     }, {
 										label : "בניית דוח",
-										href : "#/buildReport"
+										href : "#!/buildReport"
 									}, {
 										label : "ניהול דוחות",
-										href : "#/manageReports"
+										href : "#!/manageReports"
 									}, {
                                        label : "תרשים כמותי",
-                                       href : "#/chartPresentation"
+                                       href : "#!/chartPresentation"
                                     }, {
                                       label : "לוח",
-                                      href : "#/dashboard"
+                                      href : "#!/dashboard"
                                   },{
 										label : "Create Source",
-										href : "#/createSource"
+										href : "#!/createSource"
 									}, {
 										label : "Define Columns",
-										href : "#/defineColumns"
+										href : "#!/defineColumns"
 									}, {
 										label : "Define Connections",
-										href : "#/defineConnections"
+										href : "#!/defineConnections"
 									} ];
 								} else {
 									scope.options = [ {
@@ -130,3 +130,4 @@ angular
 						}
 					};
 				});
+})();

@@ -28,4 +28,7 @@ public class Chart{
 
 	@Column(nullable = false)
 	private Query query;
+
+	@Column(nullable = false)
+	private String name;
 }

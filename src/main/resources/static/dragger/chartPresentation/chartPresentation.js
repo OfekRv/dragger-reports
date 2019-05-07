@@ -6,12 +6,15 @@ angular
 				$scope.chart = {
 				        id:0,
 				        name:'',
-				        emptyPie: false,
+				        emptyPie: true,
 				        labels: ['לא נבחר מידע להצגה'],
 				        data: [],
 				        colors: ['#565cc1']
 				};
-                $scope.chartId = 0;
+//				$scope.data = [];
+//				$scope.labels = [];
+//				$scope.colors = [];
+//                $scope.chartId = 0;
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -225,9 +228,9 @@ angular
                                 $scope.chart.labels = [];
                                 $scope.chart.data = [];
 
-                                if(response.chart.data.length > 0 )
+                                if(response.data.length > 0 )
                                 {
-                                    $scope.emptyPie = true;
+                                    $scope.chart.emptyPie = false;
                                 }
                                 else
                                 {

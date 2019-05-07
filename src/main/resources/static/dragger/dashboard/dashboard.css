@@ -376,3 +376,13 @@ label {
 {
     direction:rtl
 }
+
+.dashboard-chart-title
+{
+    text-align: center;
+}
+
+.dashboard-card
+{
+    padding: 0px 5px 5px 5px;
+}
