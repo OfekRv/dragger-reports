@@ -386,3 +386,18 @@ label {
 {
     padding: 0px 5px 5px 5px;
 }
+
+.legend-row-dash
+{
+
+}
+
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .card {
+    display: inline-block;
+  }
+}

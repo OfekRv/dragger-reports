@@ -19,8 +19,8 @@ public class DashboardController {
 	}
 
 	@GetMapping("api/dashboard/addChart")
-	public void generateFilteredReport(@RequestParam Dashboard dashboard, @RequestParam Chart chartToRemove)
+	public void addChartToDashboard(@RequestParam Dashboard dashboard, @RequestParam Chart chartToAdd)
 			throws DraggerException {
-		dashboard.getCharts().add(chartToRemove);
+		dashboard.getCharts().add(chartToAdd);
 	}
 }
