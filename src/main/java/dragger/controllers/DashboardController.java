@@ -3,8 +3,9 @@ package dragger.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.entities.Chart;
@@ -20,7 +21,7 @@ public class DashboardController {
 	@Autowired
 	private DashboardRepository dashboardRepository;
 
-	@GetMapping("api/dashboard/{dashboardId}/removeChart/{chartId}")
+	@DeleteMapping("api/dashboard/{dashboardId}/removeChart/{chartId}")
 	public void removeChartFromDashboard(@PathVariable("dashboardId") long dashboardId,
 			@PathVariable("chartId") long chartId) throws DraggerException {
 		Dashboard dashboard = findDashboardById(dashboardId);
@@ -28,7 +29,7 @@ public class DashboardController {
 		dashboard.getCharts().remove(chartToRemove);
 	}
 
-	@GetMapping("api/dashboard/{dashboardId}/addChart/{chartId}")
+	@PutMapping("api/dashboard/{dashboardId}/addChart/{chartId}")
 	public void addChartToDashboard(@PathVariable("dashboardId") long dashboardId,
 			@PathVariable("chartId") long chartId) throws DraggerException {
 		Dashboard dashboard = findDashboardById(dashboardId);
