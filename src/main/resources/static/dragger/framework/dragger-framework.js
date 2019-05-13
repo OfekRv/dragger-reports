@@ -74,7 +74,10 @@
 								var isDevMode = response.data
 
 								if (isDevMode != "false") {
-									scope.options = [ {
+									scope.options = [{
+                                        label : "לוח",
+                                        href : "#!/dashboard"
+                                    }, {
                                         label : "הרצת דוח",
                                         href : "#!/generateReport"
                                     }, {
@@ -87,9 +90,6 @@
                                        label : "תרשים כמותי",
                                        href : "#!/chartPresentation"
                                     }, {
-                                      label : "לוח",
-                                      href : "#!/dashboard"
-                                  },{
 										label : "Create Source",
 										href : "#!/createSource"
 									}, {
@@ -101,6 +101,9 @@
 									} ];
 								} else {
 									scope.options = [ {
+                                        label : "לוח",
+                                        href : "#/dashboard"
+                                    },{
 										label : "הרצת דוח",
 										href : "#/generateReport"
 									},  {
@@ -112,10 +115,7 @@
                                     }, {
                                         label : "תרשים כמותי",
                                         href : "#/chartPresentation"
-                                    }, {
-                                         label : "לוח",
-                                         href : "#/dashboard"
-                                     }];
+                                    }];
 								}
 							});
 

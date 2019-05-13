@@ -552,3 +552,8 @@ margin-top: 50px;
         direction:rtl;
         left: -10px;
     }
+
+    .save-chart-button
+    {
+        font-size: xx-large;
+    }

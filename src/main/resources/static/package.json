@@ -1,13 +1,31 @@
 {
   "name": "dragger",
   "version": "1.0.0",
-  "description": "",
   "main": "angular-drag-and-drop-lists.js",
-  "dependencies": {},
+  "dependencies": {
+    "angular": "^1.6.0",
+    "angular-route": "^1.6.0",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.4.0",
+    "sweetalert2": "^8.10.7"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OfekRv/dragger-reports.git"
+  },
+  "keywords": [
+    "drag",
+    "drop"
+  ],
+  "bugs": {
+    "url": "https://github.com/OfekRv/dragger-reports/issues"
+  },
+  "homepage": "https://github.com/OfekRv/dragger-reports#readme",
+  "description": ""
 }

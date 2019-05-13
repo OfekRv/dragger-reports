@@ -6,14 +6,30 @@
                 <div class="row-">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <h3 class="dashboard-chart-title">name</h3>
+                        <h3 class="dashboard-chart-title">{{chart.id}}</h3>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
-                <canvas id="pie" class="chart chart-pie"
-                        chart-data="chart.data" chart-labels="chart.labels"
-                        chart-options="chart.options" chart-colors="chart.colors">
-                </canvas>
+                <div class="row">
+                    <canvas id="pie" class="chart chart-pie"
+                            chart-data="chart.data" chart-labels="chart.labels"
+                            chart-options="chart.options" chart-colors="chart.colors">
+                    </canvas>
+                </div>
+                <div class="row">
+                    <ol class="chart-legend">
+                        <div ng-repeat="color in chart.colors">
+                            <!--<div class="col-md-10">-->
+                            <span class="chart-legend-label">{{chart.labels[$index]}} ({{chart.data[$index]}})</span>
+                            <!--<div class="col-md-2">-->
+                            <li><span
+                                    style="background-color: {{color.pointBackgroundColor}}"></span>
+                            </li>
+                            <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                    </ol>
+                </div>
             </form>
         </div>
     </div>

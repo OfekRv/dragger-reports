@@ -9,7 +9,8 @@ angular
 				        emptyPie: true,
 				        labels: ['לא נבחר מידע להצגה'],
 				        data: [],
-				        colors: ['#565cc1']
+				        colors: ['#565cc1'],
+				        self: null
 				};
 //				$scope.data = [];
 //				$scope.labels = [];
@@ -139,6 +140,57 @@ angular
                             );
                     };
 
+                    $scope.addChartToDashboard = function()
+                    {
+                        $http(
+                            {
+                                method : 'GET',
+                                url : 'api/dashboards/1'
+                            })
+                            .then(
+                                function successCallback(response){
+                                var chartName;
+                                Swal.fire({
+                                  title: 'בחר שם לתרשים',
+                                  input: 'text',
+                                  inputAttributes: {
+                                    autocapitalize: 'off'
+                                  },
+                                  showCancelButton: true,
+                                  confirmButtonText: 'הוסף',
+                                  cancelButtonText: 'בטל',
+                                  showLoaderOnConfirm: false,
+                                  preConfirm: (name) => {
+                                    chartName = name;
+                                  },
+                                  allowOutsideClick: false
+                                }).then(() => {
+                                    $scope.chart.name = chartName;
+                                     response.data.charts.push($scope.chart);
+
+                                     $http(
+                                     {
+                                         method : 'PUT',
+                                         url : 'api/dashboards/1',
+                                         data: response.data
+                                     }).then(
+                                     function successCallback(response){
+                                         if (!response) {
+                                         Swal.fire({
+                                           title: "הוספת התרשים כשלה"
+                                         })
+                                       }
+                                       else
+                                       {
+                                         Swal.fire({
+                                           title: "התרשים נוסף בהצלחה!"
+                                         })
+                                       }
+                                       });
+                                    });
+                                    });
+                    };
+
                     $scope.isLinked = function()
                     {
                         if ($scope.selectedSource.selected && $scope.selectedColumn.selected) {
@@ -220,13 +272,25 @@ angular
 								query : {columns, countColumns, groupBys}
 							}
 						}).then(function successCallback(response) {
+						    if(!response.data.id)
+						    {
+                                 alert("בניית התרשים כשלה")
+                                 return;
+						    }
+						    else
+						    {
+						        $scope.chart = response.data;
+						    }
+
                             $http({
                                 method : 'GET',
-                                url : 'api/charts/executeCountChartQuery?chartId=' + response.data.id
+                                url : 'api/charts/executeCountChartQuery?chartId=' + $scope.chart.id
                                 }).then(
                                 function successCallback(response) {
                                 $scope.chart.labels = [];
                                 $scope.chart.data = [];
+                                $scope.chart.colors = [];
+                                $scope.chart.emptyPie = true;
 
                                 if(response.data.length > 0 )
                                 {
