@@ -12,10 +12,10 @@ angular
 				        colors: ['#565cc1'],
 				        self: null
 				};
-//				$scope.data = [];
-//				$scope.labels = [];
-//				$scope.colors = [];
-//                $scope.chartId = 0;
+// $scope.data = [];
+// $scope.labels = [];
+// $scope.colors = [];
+// $scope.chartId = 0;
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -171,8 +171,7 @@ angular
                                      $http(
                                      {
                                          method : 'PUT',
-                                         url : 'api/dashboards/1',
-                                         data: response.data
+                                         url : 'api/dashboard/1/addChart/' + $scope.chart.id,
                                      }).then(
                                      function successCallback(response){
                                          if (!response) {
