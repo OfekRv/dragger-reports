@@ -1,22 +1,24 @@
 <div class="row">
-    <div class="col-md-4 signup dashboard-card" ng-repeat="chart in models.lists['Charts']| limitTo:3:0">
-        <div class="signup-screen">
-            <form class="form-generate-report ng-pristine ng-invalid ng-invalid-required" method="post" name="register"
-                  novalidate="">
-                <div class="row-">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <h3 class="dashboard-chart-title">{{chart.id + ' ' + chart.name}}</h3>
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
-                <div class="row">
-                    <canvas id="pie" class="chart chart-pie"
-                            chart-data="chart.data" chart-labels="chart.labels"
-                            chart-options="chart.options" chart-colors="chart.colors">
+	<div class="col-md-4 signup dashboard-card"
+		ng-repeat="chart in models.lists['Charts']| limitTo:3:0">
+		<div class="signup-screen">
+			<form
+				class="form-generate-report ng-pristine ng-invalid ng-invalid-required"
+				method="post" name="register" novalidate="">
+				<div class="row-">
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<h3 class="dashboard-chart-title">{{chart.name}}</h3>
+					</div>
+					<div class="col-md-4"></div>
+				</div>
+				<div class="row">
+					<canvas id="pie" class="chart chart-pie" chart-data="chart.data"
+						chart-labels="chart.labels" chart-options="chart.options"
+						chart-colors="chart.colors">
                     </canvas>
-                </div>
-                <!-- <div class="row">
+				</div>
+				<!-- <div class="row">
                     <ol class="chart-legend">
                         <div ng-repeat="color in chart.colors">
                             <span class="chart-legend-label">{{chart.labels[$index]}} ({{chart.data[$index]}})</span>
@@ -26,28 +28,30 @@
                         </div>
                     </ol>
                 </div> -->
-            </form>
-        </div>
-    </div>
+			</form>
+		</div>
+	</div>
 </div>
 <div class="row-"></div>
 <div class="row">
-    <div class="col-md-4 signup dashboard-card" ng-repeat="chart in models.lists['Charts']| limitTo:100:3">
-        <div class="signup-screen">
-            <form class="form-generate-report ng-pristine ng-invalid ng-invalid-required" method="post" name="register"
-                  novalidate="">
-                <div class="row-">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <h3 class="dashboard-chart-title">{{chart.id + ' ' + chart.name}}</h3>
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
-                <canvas id="pie" class="chart chart-pie"
-                        chart-data="chart.data" chart-labels="chart.labels"
-                        chart-options="chart.options" chart-colors="chart.colors">
+	<div class="col-md-4 signup dashboard-card"
+		ng-repeat="chart in models.lists['Charts']| limitTo:100:3">
+		<div class="signup-screen">
+			<form
+				class="form-generate-report ng-pristine ng-invalid ng-invalid-required"
+				method="post" name="register" novalidate="">
+				<div class="row-">
+					<div class="col-md-4"></div>
+					<div class="col-md-4">
+						<h3 class="dashboard-chart-title">{{chart.name}}</h3>
+					</div>
+					<div class="col-md-4"></div>
+				</div>
+				<canvas id="pie" class="chart chart-pie" chart-data="chart.data"
+					chart-labels="chart.labels" chart-options="chart.options"
+					chart-colors="chart.colors">
                 </canvas>
-            </form>
-        </div>
-    </div>
+			</form>
+		</div>
+	</div>
 </div>
