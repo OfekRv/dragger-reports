@@ -161,14 +161,23 @@ angular
                                     chartName = name;
                                   },
                                   allowOutsideClick: false
-                                }).then(() => {
+                                }).then((result) => {
+                                	if(result.dismiss && result.dismiss ==='cancel'){
+                                		return}
+                                
                                     $scope.chart.name = chartName;
+                                    $http(
+                                            {
+                                                method : 'PUT',
+                                                url : 'api/charts/updateChartName?chartId=' + $scope.chart.id,
+                                                data: $scope.chart.name
+                                            })
                                      response.data.charts.push($scope.chart);
 
                                      $http(
                                      {
                                          method : 'PUT',
-                                         url : 'api/dashboard/1/addChart/' + $scope.chart.id,
+                                         url : 'api/dashboard/1/addChart/' + $scope.chart.id
                                      }).then(
                                      function successCallback(response){
                                          if (!response) {
@@ -260,7 +269,7 @@ angular
                         {
                             columns.push(groupBy.data._links.self.href);
                         })
-                        var name = "כמות ה" + $scope.selectedSource.text + "עבור" + $scope.selectedColumn.text;
+                        var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
 						$http({
 							method : 'POST',
 							url : 'api/charts',

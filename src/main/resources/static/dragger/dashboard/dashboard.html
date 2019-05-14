@@ -6,7 +6,7 @@
                 <div class="row-">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <h3 class="dashboard-chart-title">{{chart.name}}</h3>
+                        <h3 class="dashboard-chart-title">{{chart.id + ' ' + chart.name}}</h3>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
@@ -16,34 +16,30 @@
                             chart-options="chart.options" chart-colors="chart.colors">
                     </canvas>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <ol class="chart-legend">
                         <div ng-repeat="color in chart.colors">
-                            <!--<div class="col-md-10">-->
                             <span class="chart-legend-label">{{chart.labels[$index]}} ({{chart.data[$index]}})</span>
-                            <!--<div class="col-md-2">-->
                             <li><span
                                     style="background-color: {{color.pointBackgroundColor}}"></span>
                             </li>
-                            <!--</div>-->
-                            <!--</div>-->
                         </div>
                     </ol>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>
 </div>
 <div class="row-"></div>
 <div class="row">
-    <div class="col-md-4 signup dashboard-card" ng-repeat="chart in models.lists['Charts']| limitTo:3:3">
+    <div class="col-md-4 signup dashboard-card" ng-repeat="chart in models.lists['Charts']| limitTo:100:3">
         <div class="signup-screen">
             <form class="form-generate-report ng-pristine ng-invalid ng-invalid-required" method="post" name="register"
                   novalidate="">
                 <div class="row-">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <h3 class="dashboard-chart-title">name</h3>
+                        <h3 class="dashboard-chart-title">{{chart.id + ' ' + chart.name}}</h3>
                     </div>
                     <div class="col-md-4"></div>
                 </div>

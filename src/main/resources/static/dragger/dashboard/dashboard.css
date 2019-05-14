@@ -42,7 +42,7 @@
  * Show selected elements in green
  */
 .simpleDemo ul[dnd-list] li.selected {
-    background-color: #dff0d8;
+    background-color: #ae52d4;
     color: #3c763d;
 }
 
@@ -247,7 +247,6 @@ label {
 }
 .btn:hover {
     color: white;
-    background-color: #0859C1;
     box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
 }
 .btn.btn-link {
