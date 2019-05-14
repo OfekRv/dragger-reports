@@ -4,18 +4,26 @@ angular
 				"dashboardController",
 				function($scope, $http) {
 
-					$scope.removeChart = function(indexOfChart, item) {
-					if(confirm("אתה בטוח שברצונך למחוק את הדוח?"))
-                    {
+					$scope.removeChart = function(indexOfChart, chart) {
+
+					Swal.fire({
+                      title: 'אתה בטוח שברצונך להסיר את התרשים מהלוח?',
+                      text: "",
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      cancelButtonText: 'בטל',
+                      confirmButtonText: 'מחק'
+                    }).then((result) => {
+                      if (result.value) {
                         $http({method : 'DELETE',
-                            url : 'api/dashboards/1',
-                            data : {
-                                dashboard:1,
-                                chartToRemove:item
-                            }
+                            url : 'api/dashboard/1/removeChart/' + chart.id
                         }).then(function successCallback(response){
                         $scope.models.lists['Charts'].splice(indexOfChart,1);});
-                        };
+                      }
+                    })
+
                     }
 
                     $scope.initialize = function(){

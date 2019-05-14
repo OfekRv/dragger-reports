@@ -5,6 +5,12 @@
 			<form
 				class="form-generate-report ng-pristine ng-invalid ng-invalid-required"
 				method="post" name="register" novalidate="">
+				<div class="row text-left">
+					<button class="btn" ng-click="removeChart($index,chart)">
+						X
+						<!--<span class="glyphicon glyphicon-remove"></span>-->
+					</button>
+				</div>
 				<div class="row-">
 					<div class="col-md-4"></div>
 					<div class="col-md-4">
@@ -35,7 +41,7 @@
 <div class="row-"></div>
 <div class="row">
 	<div class="col-md-4 signup dashboard-card"
-		ng-repeat="chart in models.lists['Charts']| limitTo:100:3">
+		ng-repeat="chart in models.lists['Charts']| limitTo:3:3">
 		<div class="signup-screen">
 			<form
 				class="form-generate-report ng-pristine ng-invalid ng-invalid-required"

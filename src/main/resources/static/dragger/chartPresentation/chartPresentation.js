@@ -150,6 +150,7 @@ angular
                                 Swal.fire({
                                   title: 'בחר שם לתרשים',
                                   input: 'text',
+                                  inputValue:$scope.chart.name,
                                   inputAttributes: {
                                     autocapitalize: 'off'
                                   },
@@ -235,6 +236,8 @@ angular
 						var columns = [];
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
+                        var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+                        var countSources = [];
 
 						if(!$scope.selectedColumn.selected)
                         {
@@ -248,33 +251,27 @@ angular
 						    alert("יש לבחור מקור");
 						    return;
 						}
-                        countColumnsPromises.push($scope.getColumn($scope.selectedSource.data));
+
+                        countSources.push($scope.selectedSource.data._links.self.href);
 
                         $q.all(groupBysPromises).then(function(groupBysResponse){
-                        $q.all(countColumnsPromises).then(function(countColumnsResponse){
                         var groupBys = [];
-                        var countColumns = [];
 
                         groupBysResponse.forEach(function(groupBy)
                         {
                             groupBys.push(groupBy.data._links.self.href);
                         })
 
-                        countColumnsResponse.forEach(function(countColumn)
-                        {
-                            countColumns.push(countColumn._links.self.href);
-                        })
-
                         groupBysResponse.forEach(function(groupBy)
                         {
                             columns.push(groupBy.data._links.self.href);
                         })
-                        var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+
 						$http({
 							method : 'POST',
 							url : 'api/charts',
 							data : {
-								query : {columns, countColumns, groupBys},
+								query : {columns, countSources, groupBys},
 								name: name
 							}
 						}).then(function successCallback(response) {
@@ -324,7 +321,6 @@ angular
                                 });
 						}, function errorCallback(response) {
 							alert("נכשל בבניית התרשים");
-						});
 						});
 						});
 					}

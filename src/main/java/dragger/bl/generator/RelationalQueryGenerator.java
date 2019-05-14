@@ -51,10 +51,9 @@ public class RelationalQueryGenerator implements QueryGenerator {
 		Collection<QuerySource> sources = query.getSources();
 		QuerySource baseSource;
 		if (isCountQuery(query)) {
-			QueryColumn countColumn = query.getCountColumns().stream().findFirst().get();
+			QueryColumn countColumn = query.getCountSources().stream().findFirst().get().getIdColumn();
 			rawQuery.add(generateRawClause(SELECT + rawAndNamedCountColumn(countColumn) + SEPERATOR, SEPERATOR,
 					query.getColumns(), this::rawAndNamedColumn));
-			baseSource = countColumn.getSource();
 		} else {
 			if (showDuplicates) {
 				rawQuery.add(generateRawClause(SELECT, SEPERATOR, query.getColumns(), this::rawAndNamedColumn));
@@ -62,9 +61,9 @@ public class RelationalQueryGenerator implements QueryGenerator {
 				rawQuery.add(generateRawClause(SELECT + SPACE + DISTINCT, SEPERATOR, query.getColumns(),
 						this::rawAndNamedColumn));
 			}
-
-			baseSource = getBaseSourceFromQuery(query);
 		}
+
+		baseSource = getBaseSourceFromQuery(query);
 
 		rawQuery.add(generateRawClause(FROM, SEPERATOR, asList(baseSource), this::rawAndNamedSource));
 
@@ -127,7 +126,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private boolean isCountQuery(Query query) {
-		return !(query.getCountColumns() == null || query.getCountColumns().isEmpty());
+		return !(query.getCountSources() == null || query.getCountSources().isEmpty());
 	}
 
 	private boolean containsFilters(Collection<ReportQueryFilter> filters) {
@@ -143,7 +142,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private String rawAndNamedCountColumn(QueryColumn col) {
-		return "COUNT(" + columnWithSource(col) + ")";
+		return "COUNT(" + DISTINCT + SPACE + columnWithSource(col) + ")";
 	}
 
 	private String rawAndNamedColumn(QueryColumn col) {
@@ -199,7 +198,7 @@ public class RelationalQueryGenerator implements QueryGenerator {
 	}
 
 	private QuerySource getBaseSourceFromQuery(Query query) {
-		QuerySource baseSource = isCountQuery(query) ? query.getCountColumns().stream().findFirst().get().getSource()
+		QuerySource baseSource = isCountQuery(query) ? query.getCountSources().stream().findFirst().get()
 				: query.getSources().stream().findFirst().get();
 		return baseSource;
 	}

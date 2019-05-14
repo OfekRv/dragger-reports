@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,4 +46,9 @@ public class QuerySource {
 
 	@Column(nullable = false)
 	private boolean isVisible;
+
+	@JsonIgnore
+	public QueryColumn getIdColumn() {
+		return columns.stream().filter(col -> col.isId()).findFirst().orElse(columns.stream().findFirst().get());
+	}
 }

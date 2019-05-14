@@ -46,7 +46,7 @@
                         <span>כמות ה</span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
                         עבור <span class="selectedColumn"
-                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
+                                   ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
                 <div class="col-md-3"></div>
@@ -55,11 +55,17 @@
                 <div class="col-md-2">
                     <ol class="chart-legend">
                         <div class="row legend-row" ng-repeat="color in chart.colors">
-                            <div class="col-md-10"><span class="chart-legend-label">{{chart.labels[$index]}} ({{chart.data[$index]}})</span>
-                                <div class="col-md-2">
-                                    <li><span
-                                            style="background-color: {{color.pointBackgroundColor}}"></span>
-                                    </li>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="chart-legend-label">{{chart.labels[$index]}}</span>
+                                    </div>
+                                    <div class="col-md-4" ng-if="!chart.emptyPie">
+                                        ({{chart.data[$index]}})
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span style="background-color: {{color.pointBackgroundColor}}"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,24 +73,26 @@
                 </div>
                 <div class="col-md-10">
                     <canvas id="pie" class="chart chart-pie"
-                            chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options" chart-colors="chart.colors">
+                            chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"
+                            chart-colors="chart.colors">
                     </canvas>
                 </div>
             </div>
             <div class="row padding-row">
             </div>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-2">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
                     <button ng-disabled="form-build-report.$invalid" type="button"
                             ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
                     </button>
                 </div>
-                <div class="col-md-2">
-                    <button ng-disabled="chart.emptyPie" type="button"
-                            ng-click="addChartToDashboard()" class="btn btn-success save-chart-button">שמור</button>
-                </div>
                 <div class="col-md-4">
+                    <button ng-disabled="chart.emptyPie" type="button"
+                            ng-click="addChartToDashboard()" class="btn btn-success save-chart-button">הוסף למועדפים
+                    </button>
+                </div>
+                <div class="col-md-2">
                 </div>
             </div>
         </div>

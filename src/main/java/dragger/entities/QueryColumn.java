@@ -44,6 +44,9 @@ public class QueryColumn {
 
 	@Column(nullable = false)
 	private JDBCType dataType;
+	
+	@Column(nullable = false)
+	private boolean isId;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, optional = false)
 	@JoinColumn(name = "sourceId")
