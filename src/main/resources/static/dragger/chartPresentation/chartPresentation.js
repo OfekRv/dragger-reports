@@ -12,10 +12,7 @@ angular
 				        colors: ['#565cc1'],
 				        self: null
 				};
-// $scope.data = [];
-// $scope.labels = [];
-// $scope.colors = [];
-// $scope.chartId = 0;
+
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -263,12 +260,13 @@ angular
                         {
                             columns.push(groupBy.data._links.self.href);
                         })
-
+                        var name = "כמות ה" + $scope.selectedSource.text + "עבור" + $scope.selectedColumn;
 						$http({
 							method : 'POST',
 							url : 'api/charts',
 							data : {
-								query : {columns, countColumns, groupBys}
+								query : {columns, countColumns, groupBys},
+								name: name
 							}
 						}).then(function successCallback(response) {
 						    if(!response.data.id)

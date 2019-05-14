@@ -39,6 +39,7 @@ public class DashboardController {
 		Dashboard dashboard = findDashboardById(dashboardId);
 		Chart chartToAdd = findChartById(chartId);
 		dashboard.getCharts().add(chartToAdd);
+		dashboardRepository.save(dashboard);
 	}
 
 	private Dashboard findDashboardById(long dashboardId) throws DraggerException {
