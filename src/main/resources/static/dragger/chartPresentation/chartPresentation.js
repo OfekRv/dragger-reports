@@ -260,7 +260,7 @@ angular
                         {
                             columns.push(groupBy.data._links.self.href);
                         })
-                        var name = "כמות ה" + $scope.selectedSource.text + "עבור" + $scope.selectedColumn;
+                        var name = "כמות ה" + $scope.selectedSource.text + "עבור" + $scope.selectedColumn.text;
 						$http({
 							method : 'POST',
 							url : 'api/charts',
