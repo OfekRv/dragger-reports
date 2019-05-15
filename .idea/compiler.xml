@@ -12,7 +12,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="DraggerReports" target="1.8" />
-      <module name="maven-archiver" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

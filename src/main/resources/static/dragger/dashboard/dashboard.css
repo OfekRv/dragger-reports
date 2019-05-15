@@ -384,6 +384,7 @@ label {
 .dashboard-card
 {
     padding: 0px 5px 5px 5px;
+    height: 50vh
 }
 
 .legend-row-dash
@@ -399,4 +400,9 @@ label {
   .card {
     display: inline-block;
   }
+}
+
+.remove-chart-from-dashboard
+{
+    background-color:#f54447db;
 }
