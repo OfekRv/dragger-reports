@@ -88,7 +88,7 @@
                     </button>
                 </div>
                 <div class="col-md-4">
-                    <button ng-disabled="chart.emptyPie" type="button"
+                    <button ng-disabled="(!chart.allowAddition)&& !(selectedSource.selected && selectedColumn.selected)" type="button"
                             ng-click="addChartToDashboard()" class="btn btn-success save-chart-button">הוסף למועדפים
                     </button>
                 </div>

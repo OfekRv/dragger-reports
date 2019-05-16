@@ -62,7 +62,8 @@
 				'navigation',
 				function($rootScope, $location, $http) {
 					return {
-						template : '<li ng-repeat="option in options" ng-class="{active: isActive(option)}">'
+						template : '<li class="dragger-logo"><a ng-href=#!/dashboard></a></li>'+
+						'<li ng-repeat="option in options" ng-class="{active: isActive(option)}">'
 								+ '    <a ng-href="{{option.href}}">{{option.label}}</a>'
 								+ '</li>',
 						link : function(scope, element, attr) {

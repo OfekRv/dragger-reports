@@ -5,13 +5,12 @@
 			<form
 				class="form-generate-report ng-pristine ng-invalid ng-invalid-required"
 				method="post" name="register" novalidate="">
-				<div class="row text-right">
-					<button class="btn remove-chart-from-dashboard" ng-click="removeChart($index,chart)">
-						<span class="glyphicon glyphicon-remove"></span>
-					</button>
-				</div>
-				<div class="row-">
-					<div class="col-md-1"></div>
+				<div class="row">
+					<div class="col-md-1">
+                        <button class="btn remove-chart-from-dashboard" ng-click="removeChart($index,chart)">
+                            <span class="glyphicon glyphicon-remove remove-chart-from-dashboard-glyphicon"></span>
+                        </button>
+                    </div>
 					<div class="col-md-10">
 						<h3 class="dashboard-chart-title">{{chart.name}}</h3>
 					</div>

@@ -405,4 +405,9 @@ label {
 .remove-chart-from-dashboard
 {
     background-color:#f54447db;
+    padding: 5px 7px;
+}
+
+.glyphicon.glyphicon-remove.remove-chart-from-dashboard-glyphicon {
+    font-size: 15px;
 }

@@ -6,10 +6,11 @@ angular
 				$scope.chart = {
 				        id:0,
 				        name:'',
-				        emptyPie: true,
-				        labels: ['לא נבחר מידע להצגה'],
+				        labels: [''],
 				        data: [],
 				        colors: ['#565cc1'],
+				        emptyPie: true,
+				        allowAddition: false,
 				        self: null
 				};
 
@@ -190,7 +191,8 @@ angular
                                        {
                                          Swal.fire({
                                            title: "התרשים נוסף בהצלחה!"
-                                         })
+                                         });
+                                         $scope.chart.allowAddition = false;
                                        }
                                        });
                                     });
@@ -225,6 +227,10 @@ angular
                                                     response) {
                                                 if (response.data == "false") {
                                                     alert("המקור והעמודה שבחרת לא מקושרים");
+                                                }
+                                                else
+                                                {
+                                                    allowAddition = true;
                                                 }
                                             });
                                     });
