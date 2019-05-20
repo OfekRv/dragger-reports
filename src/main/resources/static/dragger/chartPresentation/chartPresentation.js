@@ -10,10 +10,10 @@ angular
 				        data: [],
 				        colors: ['#565cc1'],
 				        emptyPie: true,
-				        allowAddition: false,
 				        self: null
 				};
 
+				$scope.lastBuild = {selectedSource: null,selectedColumn: null,allowAddition: false};
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -45,6 +45,7 @@ angular
                             $scope.selectedSource.data = null;
                             $scope.selectedSource.text = '[...]';
                             $scope.selectedSource.selected = false;
+                            $scope.lastBuild.allowAddition = false;
                             return;
                         }
 
@@ -60,6 +61,15 @@ angular
                             }
                         })
 
+                        if($scope.selectedSource && $scope.lastBuild.selectedSource && $scope.selectedSource.data._links.self.href === $scope.lastBuild.selectedSource._links.self.href)
+                        {
+                            $scope.lastBuild.allowAddition = true;
+                        }
+                        else
+                        {
+                            $scope.lastBuild.allowAddition = false;
+                        }
+
                         $scope.isLinked();
                     }
 
@@ -71,6 +81,7 @@ angular
                             $scope.selectedColumn.data = null;
                             $scope.selectedColumn.text = '[...]';
                             $scope.selectedColumn.selected = false;
+                            $scope.lastBuild.allowAddition = false;
                             return;
                         }
 
@@ -91,6 +102,15 @@ angular
                                 })
                             }
                         })
+
+                        if($scope.selectedColumn && $scope.lastBuild.selectedColumn && $scope.selectedColumn.data.data.columnId === $scope.lastBuild.selectedColumn.data.columnId)
+                        {
+                            $scope.lastBuild.allowAddition = true;
+                        }
+                        else
+                        {
+                            $scope.lastBuild.allowAddition = false;
+                        }
 
                         $scope.isLinked();
                     }
@@ -192,7 +212,6 @@ angular
                                          Swal.fire({
                                            title: "התרשים נוסף בהצלחה!"
                                          });
-                                         $scope.chart.allowAddition = false;
                                        }
                                        });
                                     });
@@ -225,12 +244,8 @@ angular
                                     .then(
                                             function successCallback(
                                                     response) {
-                                                if (response.data == "false") {
+                                                if (response.data === false) {
                                                     alert("המקור והעמודה שבחרת לא מקושרים");
-                                                }
-                                                else
-                                                {
-                                                    allowAddition = true;
                                                 }
                                             });
                                     });
@@ -300,6 +315,9 @@ angular
                                 $scope.chart.data = [];
                                 $scope.chart.colors = [];
                                 $scope.chart.emptyPie = true;
+                                $scope.lastBuild.allowAddition = true;
+                                $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
+                                $scope.lastBuild.selectedSource = $scope.selectedSource.data;
 
                                 if(response.data.length > 0 )
                                 {

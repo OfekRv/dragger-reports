@@ -19,7 +19,6 @@
                         </div>
                     </div>
                     <ul dnd-list="models.lists['Sources']"
-                        class="scrollable-sources-only-area"
                         dnd-external-sources="true" style="direction:rtl"
                         ng-mouseover="selectedSource.hovered = true"
                         ng-mouseleave="selectedSource.hovered = false">
@@ -88,7 +87,7 @@
                     </button>
                 </div>
                 <div class="col-md-4">
-                    <button ng-disabled="(!chart.allowAddition)&& !(selectedSource.selected && selectedColumn.selected)" type="button"
+                    <button ng-disabled="(!lastBuild.allowAddition)" type="button"
                             ng-click="addChartToDashboard()" class="btn btn-success save-chart-button">הוסף למועדפים
                     </button>
                 </div>

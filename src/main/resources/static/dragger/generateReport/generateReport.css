@@ -303,7 +303,7 @@ option {
 }
 
 .loading-icon {
-	margin-left: 70px
+
 }
 
 .options-row {
@@ -349,7 +349,7 @@ html, body {
   height: 25px;
   border-radius: 100px;
   background-color: #ddd;
-  margin: 15px -40px;
+  margin: 15px 0px;
   overflow: hidden;
   box-shadow: inset 0 0 2px 1px rgba(0,0,0,.05);
 }
