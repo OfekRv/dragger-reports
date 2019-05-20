@@ -61,15 +61,7 @@ angular
                             }
                         })
 
-                        if($scope.selectedSource && $scope.lastBuild.selectedSource && $scope.selectedSource.data._links.self.href === $scope.lastBuild.selectedSource._links.self.href)
-                        {
-                            $scope.lastBuild.allowAddition = true;
-                        }
-                        else
-                        {
-                            $scope.lastBuild.allowAddition = false;
-                        }
-
+                        $scope.validateChartAddition();
                         $scope.isLinked();
                     }
 
@@ -103,7 +95,14 @@ angular
                             }
                         })
 
-                        if($scope.selectedColumn && $scope.lastBuild.selectedColumn && $scope.selectedColumn.data.data.columnId === $scope.lastBuild.selectedColumn.data.columnId)
+                        $scope.validateChartAddition();
+                        $scope.isLinked();
+                    }
+
+                    $scope.validateChartAddition = function()
+                    {
+                        if($scope.selectedColumn && $scope.lastBuild.selectedColumn && $scope.selectedColumn.data.data.columnId === $scope.lastBuild.selectedColumn.data.columnId &&
+                            ($scope.selectedSource && $scope.lastBuild.selectedSource && $scope.selectedSource.data._links.self.href === $scope.lastBuild.selectedSource._links.self.href))
                         {
                             $scope.lastBuild.allowAddition = true;
                         }
@@ -111,8 +110,6 @@ angular
                         {
                             $scope.lastBuild.allowAddition = false;
                         }
-
-                        $scope.isLinked();
                     }
 
                     $scope.filterSourcesList =function(sourceName, source)
