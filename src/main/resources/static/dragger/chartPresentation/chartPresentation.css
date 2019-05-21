@@ -538,6 +538,11 @@ margin-top: 50px;
         width: 20px;
         height: 20px;
         border-radius: 5px;
+        margin-right: 15px;
+    }
+
+    .chart-legend li span {
+        padding-right: 0px;
     }
 
     .legend-row
@@ -555,4 +560,9 @@ margin-top: 50px;
     .save-chart-button
     {
         font-size: xx-large;
+    }
+
+    .chart-legend-count
+    {
+        padding-right: 0px;
     }
