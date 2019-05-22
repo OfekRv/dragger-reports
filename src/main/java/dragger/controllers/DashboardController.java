@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dragger.entities.Chart;
 import dragger.entities.Dashboard;
+import dragger.entities.charts.Chart;
 import dragger.exceptions.DraggerException;
 import dragger.repositories.ChartRepository;
 import dragger.repositories.DashboardRepository;

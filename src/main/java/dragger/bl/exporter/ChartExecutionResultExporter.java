@@ -1,6 +1,6 @@
 package dragger.bl.exporter;
 
-import dragger.entities.Chart;
+import dragger.entities.charts.Chart;
 import dragger.entities.charts.ChartResult;
 import dragger.exceptions.DraggerExportException;
 
