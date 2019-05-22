@@ -10,8 +10,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
-import dragger.contracts.ChartResult;
 import dragger.entities.Chart;
+import dragger.entities.charts.ChartColumnResult;
+import dragger.entities.charts.ChartResult;
 import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,10 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 	private QueryGenerator generator;
 	@Inject
 	private QueryExecutor executor;
+	@Inject
+	private ChartExecutionResultExporter executionResultExporter;
 
-	public Collection<ChartResult> export(Chart chartQuery) throws DraggerExportException {
+	public Collection<ChartColumnResult> export(Chart chartQuery) throws DraggerExportException {
 		SqlRowSet results;
 
 		log.info("executing chart query (id = " + chartQuery.getId() + ")");
@@ -40,7 +43,7 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 			throw new DraggerExportException("Could not generate the chart query (id = " + chartQuery.getId() + ")", e);
 		}
 
-		Collection<ChartResult> chartResults = new ArrayList<>();
+		Collection<ChartColumnResult> chartResults = new ArrayList<>();
 		while (results.next()) {
 
 			long count = results.getLong(COUNT_COLUMN_INDEX);
@@ -50,10 +53,12 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 				label = EMPTY;
 			}
 
-			chartResults.add(new ChartResult(label.toString(), count));
+			chartResults.add(new ChartColumnResult(label.toString(), count));
 		}
 
 		log.info("chart query (id = " + chartQuery.getId() + ")" + " executed successfully");
+		executionResultExporter.export(new ChartResult(chartResults), chartQuery);
+
 		return chartResults;
 	}
 }

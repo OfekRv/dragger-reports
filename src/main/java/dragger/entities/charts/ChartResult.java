@@ -1,4 +1,6 @@
-package dragger.contracts;
+package dragger.entities.charts;
+
+import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +12,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChartResult {
-	private String label;
-	private long count;
+	Collection<ChartColumnResult> results;
 }

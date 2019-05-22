@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ChartQueryExporter;
-import dragger.contracts.ChartResult;
 import dragger.entities.Chart;
+import dragger.entities.charts.ChartColumnResult;
 import dragger.exceptions.DraggerException;
 import dragger.repositories.ChartRepository;
 
@@ -27,7 +27,7 @@ public class ChartController {
 	private ChartQueryExporter exporter;
 
 	@GetMapping("api/charts/executeCountChartQuery")
-	public Collection<ChartResult> executeCountChartQuery(@RequestParam long chartId) throws DraggerException {
+	public Collection<ChartColumnResult> executeCountChartQuery(@RequestParam long chartId) throws DraggerException {
 		return exporter.export(findChartById(chartId));
 	}
 
@@ -38,10 +38,10 @@ public class ChartController {
 	}
 
 	private Chart findChartById(long chartId) throws DraggerException {
-		Optional<Chart> requestedCHart = chartRepository.findById(chartId);
+		Optional<Chart> requestedChart = chartRepository.findById(chartId);
 
-		if (requestedCHart.isPresent()) {
-			return requestedCHart.get();
+		if (requestedChart.isPresent()) {
+			return requestedChart.get();
 		}
 
 		throw new DraggerException("Chart id:" + chartId + " not found");
