@@ -3,15 +3,17 @@ angular
 		.controller(
 				"chartPresentationController",
 				function($scope, $http,$q) {
-				$scope.labels = [];
-                $scope.data = [];
-                $scope.chartId = 0;
-                $scope.labels.push("אין מידע זמין כרגע");
-                $scope.data.push(0);
-                $scope.labels = ['לא נבחר מידע להצגה'];
-                $scope.data = [1];
-                $scope.colors = ['#565cc1'];
-                $scope.emptyPie = false;
+				$scope.chart = {
+				        id:0,
+				        name:'',
+				        labels: [''],
+				        data: [],
+				        colors: ['#565cc1'],
+				        emptyPie: true,
+				        self: null
+				};
+
+				$scope.lastBuild = {selectedSource: null,selectedColumn: null,allowAddition: false};
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
 
@@ -43,6 +45,7 @@ angular
                             $scope.selectedSource.data = null;
                             $scope.selectedSource.text = '[...]';
                             $scope.selectedSource.selected = false;
+                            $scope.lastBuild.allowAddition = false;
                             return;
                         }
 
@@ -58,6 +61,7 @@ angular
                             }
                         })
 
+                        $scope.validateChartAddition();
                         $scope.isLinked();
                     }
 
@@ -69,6 +73,7 @@ angular
                             $scope.selectedColumn.data = null;
                             $scope.selectedColumn.text = '[...]';
                             $scope.selectedColumn.selected = false;
+                            $scope.lastBuild.allowAddition = false;
                             return;
                         }
 
@@ -90,7 +95,21 @@ angular
                             }
                         })
 
+                        $scope.validateChartAddition();
                         $scope.isLinked();
+                    }
+
+                    $scope.validateChartAddition = function()
+                    {
+                        if($scope.selectedColumn && $scope.lastBuild.selectedColumn && $scope.selectedColumn.data.data.columnId === $scope.lastBuild.selectedColumn.data.columnId &&
+                            ($scope.selectedSource && $scope.lastBuild.selectedSource && $scope.selectedSource.data._links.self.href === $scope.lastBuild.selectedSource._links.self.href))
+                        {
+                            $scope.lastBuild.allowAddition = true;
+                        }
+                        else
+                        {
+                            $scope.lastBuild.allowAddition = false;
+                        }
                     }
 
                     $scope.filterSourcesList =function(sourceName, source)
@@ -136,6 +155,83 @@ angular
                             );
                     };
 
+                    $scope.addChartToDashboard = function()
+                    {
+                        $http(
+                            {
+                                method : 'GET',
+                                url : 'api/dashboards/1'
+                            })
+                            .then(
+                                function successCallback(response){
+                                var chartName;
+                                Swal.fire({
+                                  title: 'בחר שם לתרשים',
+                                  input: 'text',
+                                  inputValue:$scope.chart.name,
+                                  inputAttributes: {
+                                    autocapitalize: 'off'
+                                  },
+                                  showCancelButton: true,
+                                  confirmButtonText: 'הוסף',
+                                  cancelButtonText: 'בטל',
+                                  showLoaderOnConfirm: false,
+                                  preConfirm: (name) => {
+                                    chartName = name;
+                                  },
+                                  allowOutsideClick: false
+                                }).then((result) => {
+                                	if(result.dismiss && result.dismiss ==='cancel'){
+                                		return}
+                                    var chartAlreadyAddedToDashboard = false;
+                                    $scope.chart.name = chartName;
+                                    $http(
+                                            {
+                                                method : 'PUT',
+                                                url : 'api/charts/updateChartName?chartId=' + $scope.chart.id,
+                                                data: $scope.chart.name
+                                            })
+                                     response.data.charts.forEach(function(chart)
+                                     {
+                                        if(chart.id === $scope.chart.id)
+                                        {
+                                            chartAlreadyAddedToDashboard = true;
+                                        }
+                                     });
+
+                                     if(!chartAlreadyAddedToDashboard)
+                                     {
+                                         response.data.charts.push($scope.chart);
+
+                                         $http(
+                                         {
+                                             method : 'PUT',
+                                             url : 'api/dashboard/1/addChart/' + $scope.chart.id
+                                         }).then(
+                                         function successCallback(response){
+                                             if (!response) {
+                                             Swal.fire({
+                                               title: "הוספת התרשים כשלה"
+                                             })
+                                           }
+                                           else
+                                           {
+                                             Swal.fire({
+                                               title: "התרשים נוסף בהצלחה!"
+                                             });
+                                           }
+                                           });
+                                       }
+                                       else
+                                       {
+                                           Swal.fire({
+                                              title: "שם התרשים שונה!"
+                                            });
+                                       }
+                                    });
+                                    });
+                    };
+
                     $scope.isLinked = function()
                     {
                         if ($scope.selectedSource.selected && $scope.selectedColumn.selected) {
@@ -162,7 +258,7 @@ angular
                                     .then(
                                             function successCallback(
                                                     response) {
-                                                if (response.data == "false") {
+                                                if (response.data === false) {
                                                     alert("המקור והעמודה שבחרת לא מקושרים");
                                                 }
                                             });
@@ -175,6 +271,8 @@ angular
 						var columns = [];
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
+                        var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+                        var countSources = [];
 
 						if(!$scope.selectedColumn.selected)
                         {
@@ -188,22 +286,15 @@ angular
 						    alert("יש לבחור מקור");
 						    return;
 						}
-                        countColumnsPromises.push($scope.getColumn($scope.selectedSource.data));
+
+                        countSources.push($scope.selectedSource.data._links.self.href);
 
                         $q.all(groupBysPromises).then(function(groupBysResponse){
-                        $q.all(countColumnsPromises).then(function(countColumnsResponse){
                         var groupBys = [];
-                        var countColumns = [];
-                        var countSources = [];
 
                         groupBysResponse.forEach(function(groupBy)
                         {
                             groupBys.push(groupBy.data._links.self.href);
-                        })
-
-                        countColumnsResponse.forEach(function(countColumn)
-                        {
-                            countColumns.push(countColumn._links.self.href);
                         })
 
                         groupBysResponse.forEach(function(groupBy)
@@ -211,42 +302,56 @@ angular
                             columns.push(groupBy.data._links.self.href);
                         })
 
-                        countSources.push($scope.selectedSource.data._links.self.href);
-                        
 						$http({
 							method : 'POST',
 							url : 'api/charts',
 							data : {
-								query : {columns, countSources, groupBys}
+								query : {columns, countSources, groupBys},
+								name: name
 							}
 						}).then(function successCallback(response) {
+						    if(!response.data.id)
+						    {
+                                 alert("בניית התרשים כשלה")
+                                 return;
+						    }
+						    else
+						    {
+						        $scope.chart = response.data;
+						    }
+
                             $http({
                                 method : 'GET',
-                                url : 'api/charts/executeCountChartQuery?chartId=' + response.data.id
+                                url : 'api/charts/executeCountChartQuery?chartId=' + $scope.chart.id
                                 }).then(
                                 function successCallback(response) {
-                                $scope.labels = [];
-                                $scope.data = [];
+                                $scope.chart.labels = [];
+                                $scope.chart.data = [];
+                                $scope.chart.colors = [];
+                                $scope.chart.emptyPie = true;
+                                $scope.lastBuild.allowAddition = true;
+                                $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
+                                $scope.lastBuild.selectedSource = $scope.selectedSource.data;
 
                                 if(response.data.length > 0 )
                                 {
-                                    $scope.emptyPie = true;
+                                    $scope.chart.emptyPie = false;
                                 }
                                 else
                                 {
-                                    $scope.colors = ['#565cc1'];
+                                    $scope.chart.colors = ['#565cc1'];
                                     return;
                                 }
 
                                 response.data.forEach(function(slice,index)
                                 {
-                                    $scope.labels.push(slice.label);
-                                    $scope.data.push(slice.count);
+                                    $scope.chart.labels.push(slice.label);
+                                    $scope.chart.data.push(slice.count);
                                 })
 
-                                if($scope.colors.length > $scope.labels.length)
+                                if($scope.chart.colors.length > $scope.chart.labels.length)
                                 {
-                                    $scope.colors = $scope.colors.slice(0, $scope.labels.length - 1);
+                                    $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
                                 }
                                 },
                                 function failureCallback(response) { console.log("couldn't retrieve chart data");
@@ -254,7 +359,6 @@ angular
                                 });
 						}, function errorCallback(response) {
 							alert("נכשל בבניית התרשים");
-						});
 						});
 						});
 					}
