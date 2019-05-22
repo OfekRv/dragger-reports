@@ -10,7 +10,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
-import dragger.entities.Chart;
+import dragger.entities.charts.Chart;
 import dragger.entities.charts.ChartColumnResult;
 import dragger.entities.charts.ChartResult;
 import dragger.exceptions.DraggerException;

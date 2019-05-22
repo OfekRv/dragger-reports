@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ChartQueryExporter;
-import dragger.entities.Chart;
+import dragger.entities.charts.Chart;
 import dragger.entities.charts.ChartColumnResult;
 import dragger.exceptions.DraggerException;
 import dragger.repositories.ChartRepository;

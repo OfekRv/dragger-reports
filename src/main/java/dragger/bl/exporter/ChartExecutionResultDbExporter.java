@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import dragger.entities.Chart;
+import dragger.entities.charts.Chart;
 import dragger.entities.charts.ChartExecutionResult;
 import dragger.entities.charts.ChartExecutionResultId;
 import dragger.entities.charts.ChartResult;
