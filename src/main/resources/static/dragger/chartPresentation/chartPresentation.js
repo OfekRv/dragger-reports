@@ -183,7 +183,7 @@ angular
                                 }).then((result) => {
                                 	if(result.dismiss && result.dismiss ==='cancel'){
                                 		return}
-                                
+                                    var chartAlreadyAddedToDashboard = false;
                                     $scope.chart.name = chartName;
                                     $http(
                                             {
@@ -191,26 +191,43 @@ angular
                                                 url : 'api/charts/updateChartName?chartId=' + $scope.chart.id,
                                                 data: $scope.chart.name
                                             })
-                                     response.data.charts.push($scope.chart);
-
-                                     $http(
+                                     response.data.charts.forEach(function(chart)
                                      {
-                                         method : 'PUT',
-                                         url : 'api/dashboard/1/addChart/' + $scope.chart.id
-                                     }).then(
-                                     function successCallback(response){
-                                         if (!response) {
-                                         Swal.fire({
-                                           title: "הוספת התרשים כשלה"
-                                         })
+                                        if(chart.id === $scope.chart.id)
+                                        {
+                                            chartAlreadyAddedToDashboard = true;
+                                        }
+                                     });
+
+                                     if(!chartAlreadyAddedToDashboard)
+                                     {
+                                         response.data.charts.push($scope.chart);
+
+                                         $http(
+                                         {
+                                             method : 'PUT',
+                                             url : 'api/dashboard/1/addChart/' + $scope.chart.id
+                                         }).then(
+                                         function successCallback(response){
+                                             if (!response) {
+                                             Swal.fire({
+                                               title: "הוספת התרשים כשלה"
+                                             })
+                                           }
+                                           else
+                                           {
+                                             Swal.fire({
+                                               title: "התרשים נוסף בהצלחה!"
+                                             });
+                                           }
+                                           });
                                        }
                                        else
                                        {
-                                         Swal.fire({
-                                           title: "התרשים נוסף בהצלחה!"
-                                         });
+                                           Swal.fire({
+                                              title: "שם התרשים שונה!"
+                                            });
                                        }
-                                       });
                                     });
                                     });
                     };
