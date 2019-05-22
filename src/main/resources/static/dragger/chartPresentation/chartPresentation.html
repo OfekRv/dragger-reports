@@ -19,7 +19,6 @@
                         </div>
                     </div>
                     <ul dnd-list="models.lists['Sources']"
-                        class="scrollable-sources-only-area"
                         dnd-external-sources="true" style="direction:rtl"
                         ng-mouseover="selectedSource.hovered = true"
                         ng-mouseleave="selectedSource.hovered = false">
@@ -46,20 +45,26 @@
                         <span>כמות ה</span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
                         עבור <span class="selectedColumn"
-                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
+                                   ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
                 <div class="col-md-3"></div>
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <ol class="chart-legend" ng-if="emptyPie">
-                        <div class="row legend-row" ng-repeat="color in colors">
-                            <div class="col-md-10"><span class="chart-legend-label">{{labels[$index]}} ({{data[$index]}})</span>
+                    <ol class="chart-legend" ng-if="!chart.emptyPie">
+                        <div class="row legend-row" ng-repeat="color in chart.colors">
+                            <div class="row">
                                 <div class="col-md-2">
-                                    <li><span
-                                            style="background-color: {{color.pointBackgroundColor}}"></span>
+                                    <li><span class="color-box"
+                                              style="background-color: {{color.pointBackgroundColor}}"></span>
                                     </li>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="chart-legend-label">{{chart.labels[$index]}}</span>
+                                </div>
+                                <div class="col-md-4 chart-legend-count">
+                                    ({{chart.data[$index]}})
                                 </div>
                             </div>
                         </div>
@@ -67,20 +72,23 @@
                 </div>
                 <div class="col-md-10">
                     <canvas id="pie" class="chart chart-pie"
-                            chart-data="data" chart-labels="labels" chart-options="options" chart-colors="colors">
+                            chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"
+                            chart-colors="chart.colors">
                     </canvas>
                 </div>
             </div>
-            <div class="row padding-row">
-            </div>
+            <div class="row padding-row"></div>
             <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-2">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
                     <button ng-disabled="form-build-report.$invalid" type="button"
                             ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
                     </button>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
+                    <button ng-disabled="(!lastBuild.allowAddition)" type="button"
+                            ng-click="addChartToDashboard()" class="btn btn-success save-chart-button">הוסף למועדפים
+                    </button>
                 </div>
             </div>
         </div>

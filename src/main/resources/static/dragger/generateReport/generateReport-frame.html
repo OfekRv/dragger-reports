@@ -60,7 +60,7 @@
                     </div>
                     <div class="row"
                          ng-if="!form-generate-report.$invalid && selectedReport !== null">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="label-duplicates">הצג כפילויות</label>
                             <div class="toggle">
                                 <input type="checkbox" ng-model="duplicates.showDuplicates" class="check">
@@ -68,8 +68,8 @@
                                 <b class="b track"></b>
                             </div>
                         </div>
-                        <div class="col-md-5"></div>
-                        <div class="col-md-3">
+                        <div ng-class="{'col-md-6': filters.length > 0, 'col-md-5': filters.length == 0}"></div>
+                        <div ng-class="{'col-md-3': filters.length > 0, 'col-md-4': filters.length == 0}">
                             <button class="waves-effect waves-light add-filter"
                                     ng-click="addFilter()">הוסף סינון
                             </button>
@@ -85,104 +85,124 @@
 
                         <div ng-if="loading" class='loading-icon' id="stock-preview"
                              ng-class="{'tip-on':config.size>50}" class="has-tips">
-                            <div class="inner rel">
-                                <div
-                                        ng-attr-style="width:{{config.size}}px;height:{{config.size}}px"
-                                        class="center" style="width: 50px; height: 50px">
-                                    <div
-                                            ng-attr-style="width:{{config.size}}px;height:{{config.size}}px;background:{{config.background || 'none'}}"
-                                            class="inner" style="width: 50px; height: 50px;">
-                                        <div id="stock-preview-box" ld-spinner-preview=""
-                                             ng-config="config" ng-ctrl="demo" ng-mod="mod"
-                                             ng-class="{'loading':demo.show != 3}"
-                                             style="width: 100%; height: 100%; margin: 0; padding: 0;"
-                                             class="ng-isolate-scope">
-                                            <div class="watermark ng-scope"></div>
-                                            <div class="lds-svg ng-scope">
-                                                <svg class="lds-polar" width="100%" height="100%"
-                                                     viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                                                    <g
-                                                            transform="translate(50 50)">
-                                                        <g
-                                                                transform="scale(0.513166 0.513166)">
-                                                            <path
-                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-                                                                    transform="rotate(0 0 0)" stroke="none"
-                                                                    fill="#0051a2"></path>
-                                                            <animateTransform
-                                                                    attributeName="transform" type="scale"
-                                                                    values="0.5071284133216483;0.9315512156745535;0.029952709708421073;0.21606142907835552;0.5071284133216483"
-                                                                    keyTimes="0;0.25;0.5;0.75;1" dur="1s"
-                                                                    repeatCount="indefinite"></animateTransform>
-                                                        </g>
-                                                        <g
-                                                                transform="scale(0.423705 0.423705)">
-                                                            <path
-                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-                                                                    transform="rotate(60 0 0)" stroke="none"
-                                                                    fill="#1b75be"></path>
-                                                            <animateTransform
-                                                                    attributeName="transform" type="scale"
-                                                                    values="0.6387136413426893;0.12835960899366938;0.7648134752034541;0.47139195182464877;0.6387136413426893"
-                                                                    keyTimes="0;0.25;0.5;0.75;1" dur="1s"
-                                                                    repeatCount="indefinite"></animateTransform>
-                                                        </g>
-                                                        <g
-                                                                transform="scale(0.296554 0.296554)">
-                                                            <path
-                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-                                                                    transform="rotate(120 0 0)" stroke="none"
-                                                                    fill="#408ee0"></path>
-                                                            <animateTransform
-                                                                    attributeName="transform" type="scale"
-                                                                    values="0.9105138146432981;0.7534654592981122;0.20300922232021298;0.5038690593513933;0.39575540620603944;0.9105138146432981"
-                                                                    keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"
-                                                                    repeatCount="indefinite"></animateTransform>
-                                                        </g>
-                                                        <g
-                                                                transform="scale(0.709356 0.709356)">
-                                                            <path
-                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-                                                                    transform="rotate(180 0 0)" stroke="none"
-                                                                    fill="#89bff8"></path>
-                                                            <animateTransform
-                                                                    attributeName="transform" type="scale"
-                                                                    values="0.3068625850908189;0.8566994902932236;0.3068625850908189"
-                                                                    keyTimes="0;0.5;1" dur="1s"
-                                                                    repeatCount="indefinite"></animateTransform>
-                                                        </g>
-                                                        <g
-                                                                transform="scale(0.444344 0.444344)">
-                                                            <path
-                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-                                                                    transform="rotate(240 0 0)" stroke="none"
-                                                                    fill="#0051a2"></path>
-                                                            <animateTransform
-                                                                    attributeName="transform" type="scale"
-                                                                    values="0.7142884994456251;0.6240405166239827;0.47708363053310465;0.31010416959051446;0.1401733235360183;0.48039112106121384;0.7142884994456251"
-                                                                    keyTimes="0;0.16666666666666666;0.3333333333333333;0.5;0.6666666666666666;0.8333333333333334;1"
-                                                                    dur="1s"
-                                                                    repeatCount="indefinite"></animateTransform>
-                                                        </g>
-                                                        <g
-                                                                transform="scale(0.693601 0.693601)">
-                                                            <path
-                                                                    d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"
-                                                                    transform="rotate(300 0 0)" stroke="none"
-                                                                    fill="#1b75be"></path>
-                                                            <animateTransform
-                                                                    attributeName="transform" type="scale"
-                                                                    values="0.8975576586085571;0.46391227668925844;0.7406255868987136;0.10395707138762693;0.5099701434565767;0.8975576586085571"
-                                                                    keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"
-                                                                    repeatCount="indefinite"></animateTransform>
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="inner rel"><div ng-attr-style="width:{{config.size}}px;height:{{config.size}}px" class="center" style="width:85px;height:85px"><div ng-attr-style="width:{{config.size}}px;height:{{config.size}}px;background:{{config.background || 'none'}}" class="inner" style="width:85px;height:85px;background:#ffffff"><div id="stock-preview-box" ld-spinner-preview="" ng-config="config" ng-ctrl="demo" ng-mod="mod" ng-class="{'loading':demo.show != 3}" style="width:100%;height:100%;margin:0;padding:0;" class="ng-isolate-scope"><div class="watermark ng-scope"></div><div class="lds-svg ng-scope">
+                                <svg class="lds-polar" width="25%" height="25%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><g transform="translate(50 50)"><g transform="scale(0.348423 0.348423)">
+                                <path d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004" transform="rotate(0 0 0)" stroke="none" fill="#1b75be"></path>
+                                <animateTransform attributeName="transform" type="scale" values="0.031947697947247285;0.3551500596187944;0.33200058669889043;0.031947697947247285" keyTimes="0;0.3333333333333333;0.6666666666666666;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                            </g><g transform="scale(0.785073 0.785073)">
+                                <path d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004" transform="rotate(60 0 0)" stroke="none" fill="#89bff8"></path>
+                                <animateTransform attributeName="transform" type="scale" values="0.10894513734220618;0.360493805085298;0.8766709068709643;0.26997906052589415;0.38742738722786885;0.10894513734220618" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                            </g><g transform="scale(0.547076 0.547076)">
+                                <path d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004" transform="rotate(120 0 0)" stroke="none" fill="#0051a2"></path>
+                                <animateTransform attributeName="transform" type="scale" values="0.09258155674445123;0.6208225861698651;0.09258155674445123" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                            </g><g transform="scale(0.273846 0.273846)">
+                                <path d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004" transform="rotate(180 0 0)" stroke="none" fill="#408ee0"></path>
+                                <animateTransform attributeName="transform" type="scale" values="0.618891733126012;0.758307111117882;0.24789747546058846;0.41976538281814524;0.9998356662796369;0.618891733126012" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                            </g><g transform="scale(0.399882 0.399882)">
+                                <path d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004" transform="rotate(240 0 0)" stroke="none" fill="#1b75be"></path>
+                                <animateTransform attributeName="transform" type="scale" values="0.8004277606828042;0.6332154419564923;0.3621175610485304;0.6122450928384563;0.29832199452730707;0.8004277606828042" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                            </g><g transform="scale(0.665982 0.665982)">
+                                <path d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004" transform="rotate(300 0 0)" stroke="none" fill="#89bff8"></path>
+                                <animateTransform attributeName="transform" type="scale" values="0.8473194390732288;0.6562557561898088;0.6697497879217443;0.33596265405583825;0.8473194390732288" keyTimes="0;0.25;0.5;0.75;1" dur="1s" repeatCount="indefinite"></animateTransform>
+                            </g></g></svg></div></div></div></div></div>
+                            <!--<div class="inner rel">-->
+                                <!--<div-->
+                                        <!--ng-attr-style="width:{{config.size}}px;height:{{config.size}}px"-->
+                                        <!--class="center" style="width: 50px; height: 50px">-->
+                                    <!--<div-->
+                                            <!--ng-attr-style="width:{{config.size}}px;height:{{config.size}}px;background:{{config.background || 'none'}}"-->
+                                            <!--class="inner" style="width: 50px; height: 50px;">-->
+                                        <!--<div id="stock-preview-box" ld-spinner-preview=""-->
+                                             <!--ng-config="config" ng-ctrl="demo" ng-mod="mod"-->
+                                             <!--ng-class="{'loading':demo.show != 3}"-->
+                                             <!--style="width: 100%; height: 100%; margin: 0; padding: 0;"-->
+                                             <!--class="ng-isolate-scope">-->
+                                            <!--<div class="watermark ng-scope"></div>-->
+                                            <!--<div class="lds-svg ng-scope">-->
+                                                <!--<svg class="lds-polar" width="100%" height="100%"-->
+                                                     <!--viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">-->
+                                                    <!--<g-->
+                                                            <!--transform="translate(30 30)">-->
+                                                        <!--<g-->
+                                                                <!--transform="scale(0.513166 0.513166)">-->
+                                                            <!--<path-->
+                                                                    <!--d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"-->
+                                                                    <!--transform="rotate(0 0 0)" stroke="none"-->
+                                                                    <!--fill="#0051a2"></path>-->
+                                                            <!--<animateTransform-->
+                                                                    <!--attributeName="transform" type="scale"-->
+                                                                    <!--values="0.5071284133216483;0.9315512156745535;0.029952709708421073;0.21606142907835552;0.5071284133216483"-->
+                                                                    <!--keyTimes="0;0.25;0.5;0.75;1" dur="1s"-->
+                                                                    <!--repeatCount="indefinite"></animateTransform>-->
+                                                        <!--</g>-->
+                                                        <!--<g-->
+                                                                <!--transform="scale(0.423705 0.423705)">-->
+                                                            <!--<path-->
+                                                                    <!--d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"-->
+                                                                    <!--transform="rotate(60 0 0)" stroke="none"-->
+                                                                    <!--fill="#1b75be"></path>-->
+                                                            <!--<animateTransform-->
+                                                                    <!--attributeName="transform" type="scale"-->
+                                                                    <!--values="0.6387136413426893;0.12835960899366938;0.7648134752034541;0.47139195182464877;0.6387136413426893"-->
+                                                                    <!--keyTimes="0;0.25;0.5;0.75;1" dur="1s"-->
+                                                                    <!--repeatCount="indefinite"></animateTransform>-->
+                                                        <!--</g>-->
+                                                        <!--<g-->
+                                                                <!--transform="scale(0.296554 0.296554)">-->
+                                                            <!--<path-->
+                                                                    <!--d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"-->
+                                                                    <!--transform="rotate(120 0 0)" stroke="none"-->
+                                                                    <!--fill="#408ee0"></path>-->
+                                                            <!--<animateTransform-->
+                                                                    <!--attributeName="transform" type="scale"-->
+                                                                    <!--values="0.9105138146432981;0.7534654592981122;0.20300922232021298;0.5038690593513933;0.39575540620603944;0.9105138146432981"-->
+                                                                    <!--keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"-->
+                                                                    <!--repeatCount="indefinite"></animateTransform>-->
+                                                        <!--</g>-->
+                                                        <!--<g-->
+                                                                <!--transform="scale(0.709356 0.709356)">-->
+                                                            <!--<path-->
+                                                                    <!--d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"-->
+                                                                    <!--transform="rotate(180 0 0)" stroke="none"-->
+                                                                    <!--fill="#89bff8"></path>-->
+                                                            <!--<animateTransform-->
+                                                                    <!--attributeName="transform" type="scale"-->
+                                                                    <!--values="0.3068625850908189;0.8566994902932236;0.3068625850908189"-->
+                                                                    <!--keyTimes="0;0.5;1" dur="1s"-->
+                                                                    <!--repeatCount="indefinite"></animateTransform>-->
+                                                        <!--</g>-->
+                                                        <!--<g-->
+                                                                <!--transform="scale(0.444344 0.444344)">-->
+                                                            <!--<path-->
+                                                                    <!--d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"-->
+                                                                    <!--transform="rotate(240 0 0)" stroke="none"-->
+                                                                    <!--fill="#0051a2"></path>-->
+                                                            <!--<animateTransform-->
+                                                                    <!--attributeName="transform" type="scale"-->
+                                                                    <!--values="0.7142884994456251;0.6240405166239827;0.47708363053310465;0.31010416959051446;0.1401733235360183;0.48039112106121384;0.7142884994456251"-->
+                                                                    <!--keyTimes="0;0.16666666666666666;0.3333333333333333;0.5;0.6666666666666666;0.8333333333333334;1"-->
+                                                                    <!--dur="1s"-->
+                                                                    <!--repeatCount="indefinite"></animateTransform>-->
+                                                        <!--</g>-->
+                                                        <!--<g-->
+                                                                <!--transform="scale(0.693601 0.693601)">-->
+                                                            <!--<path-->
+                                                                    <!--d="M0 0L0 -40A40 40 0 0 1 34.64101615137754 -20.000000000000004"-->
+                                                                    <!--transform="rotate(300 0 0)" stroke="none"-->
+                                                                    <!--fill="#1b75be"></path>-->
+                                                            <!--<animateTransform-->
+                                                                    <!--attributeName="transform" type="scale"-->
+                                                                    <!--values="0.8975576586085571;0.46391227668925844;0.7406255868987136;0.10395707138762693;0.5099701434565767;0.8975576586085571"-->
+                                                                    <!--keyTimes="0;0.2;0.4;0.6;0.8;1" dur="1s"-->
+                                                                    <!--repeatCount="indefinite"></animateTransform>-->
+                                                        <!--</g>-->
+                                                    <!--</g>-->
+                                                <!--</svg>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div style="margin-top: -3px" class="hover-tip bottom"></div>
                         </div>
                     </button>
