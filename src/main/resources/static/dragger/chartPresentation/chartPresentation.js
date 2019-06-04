@@ -382,7 +382,7 @@ angular
 
                         $scope.chartFilters.forEach(function(filter)
                         {
-                            filters.push({ column: filter.column,filterId:"api/filters/3",value: filter.value})
+                            filters.push({filterId:filter.filter.id, column: filter.column,value: filter.value})
                         });
 
                         countSources.push($scope.selectedSource.data._links.self.href);
