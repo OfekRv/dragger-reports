@@ -329,7 +329,7 @@ angular
 						var groupBysPromises = [];
                         var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
                         var countSources = [];
-                        var filters = $scope.chartFilters;
+                        var filters = [];
 
 						if(!$scope.selectedColumn.selected)
                         {
@@ -343,6 +343,47 @@ angular
 						    alert("יש לבחור מקור");
 						    return;
 						}
+
+                        var validationCheck = true;
+						$scope.chartFilters.forEach(function(filter, index) {
+                        if ($scope.dataTypes[filter.column.dataType].multivalue) {
+                            filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+                        } else {
+                            filter.value = filter.valueObj;
+                        }
+
+                        if (!filter.filter) {
+                            validationCheck = false;
+                            alert("האופרטור בשורה "
+                                    + (index + 1)
+                                    + "לא אמור להיות ריק ");
+                            return;
+                        } else if (!filter.column) {
+                            validationCheck = false;
+                            alert("העמודה בשורה "
+                                    + (index + 1)
+                                    + "לא אמור להיות ריקה ");
+                            return;
+                        } else if (!filter.value) {
+                            validationCheck = false;
+                            alert(" הערך בשורה"
+                                    + (index + 1)
+                                    + "לא אמור להיות ריק ");
+                            return;
+                        }
+                        filter.columnId = filter.column.columnId;
+                        filter.filterId = filter.filter.id;
+                    });
+
+						if (!validationCheck) {
+						    return;
+						}
+
+
+                        $scope.chartFilters.forEach(function(filter)
+                        {
+                            filters.push({ column: filter.column,filterId:"api/filters/3",value: filter.value})
+                        });
 
                         countSources.push($scope.selectedSource.data._links.self.href);
 

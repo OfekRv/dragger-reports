@@ -44,7 +44,7 @@
                         <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג</span>
                         <span>כמות ה</span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
-                        עבור  <span class="selectedColumn"
+                        עבור <span class="selectedColumn"
                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                     </h2>
                 </div>
@@ -81,18 +81,21 @@
             <div class="row">
                 <div class="col-md-4">
                     <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createChart()" class="btn done build-chart-button">בנה תרשים</button>
+                            ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
+                    </button>
                 </div>
                 <div class="col-md-4">
                     <button ng-disabled="(!lastBuild.allowAddition)" type="button"
-                            ng-click="addChartToDashboard()" class="btn done build-chart-button">הוסף למועדפים</button>
+                            ng-click="addChartToDashboard()" class="btn done build-chart-button">הוסף למועדפים
+                    </button>
                 </div>
                 <div class="col-md-4">
                     <button class="waves-effect waves-light add-filter"
-                            ng-click="addFilter()">הוסף סינון</button>
+                            ng-click="addFilter()">הוסף סינון
+                    </button>
                 </div>
             </div>
-            <div class="row" ng-if = "chartFilters.length > 0">
+            <div class="row" ng-if="chartFilters.length > 0">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <div id="signup">
@@ -106,7 +109,8 @@
                                                     ng-options="column as column.name for column in chartFilterColumns track by column.columnId"
                                                     ng-model="filter.column" ng-change="changeColumn($index)"
                                                     required>
-                                            </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                                            </select> <span class="select-highlight"></span> <span
+                                                class="select-bar"></span>
                                             <label class="select-label" ng-if="$index == 0">עמודה</label>
                                         </div>
                                     </div>
@@ -115,23 +119,28 @@
                                             <select class="select-text"
                                                     ng-options="operator as operator.name for operator in operators track by operator.id"
                                                     ng-model="filter.filter" required>
-                                            </select> <span class="select-highlight"></span> <span class="select-bar"></span>
+                                            </select> <span class="select-highlight"></span> <span
+                                                class="select-bar"></span>
                                             <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
                                             <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
-                                                   id="columnValueDropDown{{$index}}"/><label
-                                                class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
+                                                   id="columnValueDropDown{{$index}}"/>
+                                            <label
+                                                class="build-report-name-label" dir="rtl"
+                                                ng-if="$index == 0">ערך</label>
                                             <span class="input-group-btn">
-                                <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}" type="button"><span
+                                                <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}"
+                                        type="button"><span
                                         class="caret"></span></button>
                                 </span>
                                         </div>
 
                                         <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
-                                            <input class="column-value" type="{{dataTypes[filter.column.dataType].name}}"
+                                            <input class="column-value"
+                                                   type="{{dataTypes[filter.column.dataType].name}}"
                                                    ng-model="filter.valueObj" required> <span
                                                 class="highlight"></span> <span class="bar"></span><label
                                                 class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
