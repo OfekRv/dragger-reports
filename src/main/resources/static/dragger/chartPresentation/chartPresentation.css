@@ -552,3 +552,9 @@ margin-top: 50px;
         direction:rtl;
         left: -10px;
     }
+
+
+    .filter-row-padding-chart
+    {
+        padding-top:20px;
+    }

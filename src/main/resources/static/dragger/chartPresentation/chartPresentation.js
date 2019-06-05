@@ -330,12 +330,14 @@ angular
                         var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
                         var countSources = [];
                         var filters = [];
+                        var filterPromises = [];
 
 						if(!$scope.selectedColumn.selected)
                         {
                             alert("יש לבחור עמודה");
                             return;
                         }
+
                         groupBysPromises.push($scope.selectedColumn.data);
 
 						if(!$scope.selectedSource.selected)
@@ -379,10 +381,9 @@ angular
 						    return;
 						}
 
-
                         $scope.chartFilters.forEach(function(filter)
                         {
-                            filters.push({filterId:filter.filter.id, column: filter.column,value: filter.value})
+                            filters.push({filterId:filter.filter.id, column: filter.column._links.self.href,value: filter.value,chart:null})
                         });
 
                         countSources.push($scope.selectedSource.data._links.self.href);
@@ -393,10 +394,6 @@ angular
                         groupBysResponse.forEach(function(groupBy)
                         {
                             groupBys.push(groupBy.data._links.self.href);
-                        })
-
-                        groupBysResponse.forEach(function(groupBy)
-                        {
                             columns.push(groupBy.data._links.self.href);
                         })
 
@@ -405,10 +402,10 @@ angular
 							url : 'api/charts',
 							data : {
 								query : {columns, countSources, groupBys},
-								filters: filters,
 								name: name
 							}
 						}).then(function successCallback(response) {
+
 						    if(!response.data.id)
 						    {
                                  alert("בניית התרשים כשלה")
@@ -419,49 +416,72 @@ angular
 						        $scope.chart = response.data;
 						    }
 
-                            $http({
-                                method : 'GET',
-                                url : 'api/charts/executeCountChartQuery?chartId=' + $scope.chart.id
-                                }).then(
-                                function successCallback(response) {
-                                $scope.chart.labels = [];
-                                $scope.chart.data = [];
-                                $scope.chart.colors = [];
-                                $scope.chart.emptyPie = true;
-                                $scope.lastBuild.allowAddition = true;
-                                $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
-                                $scope.lastBuild.selectedSource = $scope.selectedSource.data;
+						    if(filters.length > 0)
+						    {
+						        filters.forEach(function(filter)
+						        {
+						            filter.chart = response.data._links.self.href;
+						            filterPromises.push($http({
+                                         method : 'POST',
+                                         url : 'api/chartQueryFilters',
+                                         data : filter
+                                     }));
+						        })
 
-                                if(response.data.length > 0 )
-                                {
-                                    $scope.chart.emptyPie = false;
-                                }
-                                else
-                                {
-                                    $scope.chart.colors = ['#565cc1'];
-                                    return;
-                                }
-
-                                response.data.forEach(function(slice,index)
-                                {
-                                    $scope.chart.labels.push(slice.label);
-                                    $scope.chart.data.push(slice.count);
-                                })
-
-                                if($scope.chart.colors.length > $scope.chart.labels.length)
-                                {
-                                    $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
-                                }
-                                },
-                                function failureCallback(response) { console.log("couldn't retrieve chart data");
-                                return;
-                                });
+						    $q.all(filterPromises).then(function successCallback(response) {
+                                $scope.executeChartQuery();
+						    });
+						    }
+						    else
+						    {
+						        $scope.executeChartQuery();
+						    }
 						}, function errorCallback(response) {
-							alert("נכשל בבניית התרשים");
+							alert("בניית התרשים כשלה");
 						});
 						});
-					}
+}
 
+                    $scope.executeChartQuery = function()
+                    {
+                    $http({
+                        method : 'GET',
+                        url : 'api/charts/executeCountChartQuery?chartId=' + $scope.chart.id
+                        }).then(
+                        function successCallback(response) {
+                        $scope.chart.labels = [];
+                        $scope.chart.data = [];
+                        $scope.chart.colors = [];
+                        $scope.chart.emptyPie = true;
+                        $scope.lastBuild.allowAddition = true;
+                        $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
+                        $scope.lastBuild.selectedSource = $scope.selectedSource.data;
+
+                        if(response.data.length > 0 )
+                        {
+                        $scope.chart.emptyPie = false;
+                        }
+                        else
+                        {
+                        $scope.chart.colors = ['#565cc1'];
+                        return;
+                        }
+
+                        response.data.forEach(function(slice,index)
+                        {
+                        $scope.chart.labels.push(slice.label);
+                        $scope.chart.data.push(slice.count);
+                        })
+
+                        if($scope.chart.colors.length > $scope.chart.labels.length)
+                        {
+                        $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
+                        }
+                        },
+                        function failureCallback(response) { console.log("couldn't retrieve chart data");
+                        return;
+                        });
+                    }
 					$scope.models = {
 						selected : null,
 						lists : {
