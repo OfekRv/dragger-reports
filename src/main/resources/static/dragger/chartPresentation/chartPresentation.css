@@ -419,7 +419,7 @@ label {
 
 .build-chart-button
 {
-    font-size: xx-large;
+    font-size: x-large;
     padding-right:5px;
     padding-left:5px;
 }
@@ -556,5 +556,16 @@ margin-top: 50px;
 
     .filter-row-padding-chart
     {
-        padding-top:20px;
+        padding-bottom:20px;
+    }
+
+    .filter-button
+    {
+        font-size: x-large;
+        margin-top: 0px;
+    }
+
+    .center-button
+    {
+        text-align:center;
     }

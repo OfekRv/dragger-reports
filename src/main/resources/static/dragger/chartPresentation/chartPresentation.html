@@ -78,23 +78,6 @@
                 </div>
             </div>
             <div class="row padding-row"></div>
-            <div class="row">
-                <div class="col-md-4">
-                    <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <button ng-disabled="(!lastBuild.allowAddition)" type="button"
-                            ng-click="addChartToDashboard()" class="btn done build-chart-button">הוסף למועדפים
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <button class="waves-effect waves-light add-filter"
-                            ng-click="addFilter()">הוסף סינון
-                    </button>
-                </div>
-            </div>
             <div class="row filter-row-padding-chart" ng-if="chartFilters.length > 0">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
@@ -129,12 +112,13 @@
                                             <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
                                                    id="columnValueDropDown{{$index}}"/>
                                             <label
-                                                class="build-report-name-label" dir="rtl"
-                                                ng-if="$index == 0">ערך</label>
+                                                    class="build-report-name-label" dir="rtl"
+                                                    ng-if="$index == 0">ערך</label>
                                             <span class="input-group-btn">
-                                                <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}"
-                                        type="button"><span
-                                        class="caret"></span></button>
+                                                <button class="dropdown-btn dropdown-button-suggestions"
+                                                        id="dropdown-btn{{$index}}"
+                                                        type="button"><span
+                                                        class="caret"></span></button>
                                 </span>
                                         </div>
 
@@ -155,6 +139,29 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4 center-butto">
+                            <button ng-disabled="form-build-report.$invalid" type="button"
+                                    ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
+                            </button>
+                        </div>
+                        <div class="col-md-4 center-button">
+                            <button ng-disabled="(!lastBuild.allowAddition)" type="button"
+                                    ng-click="addChartToDashboard()" class="btn done build-chart-button">הוסף למועדפים
+                            </button>
+                        </div>
+                        <div class="col-md-4 center-button">
+                            <button class="waves-effect waves-light add-filter filter-button"
+                                    ng-click="addFilter()">הוסף סינון
+                            </button>
                         </div>
                     </div>
                 </div>
