@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import dragger.bl.generator.QueryGenerator;
 import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
+import dragger.entities.SourceConnection;
 import dragger.repositories.QueryColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,41 +50,33 @@ public class ChartController {
     }
 
     @GetMapping("api/charts/filterColumnsSuggestion")
-    public Collection<QueryColumn> findFilterColumnsSuggestion(@RequestBody Collection<Long> columns) throws DraggerException {
-        ArrayList suggestions = new ArrayList();
+    public Collection<Long> findFilterColumnsSuggestion(@RequestParam Collection<Long> columns) throws DraggerException {
+        ArrayList<Long> suggestions = new ArrayList();
 
-        generator.findConnectionsBetweenSources(getSources(getColumnFromIds(columns)))
-                .stream().forEach(sourceConnection -> suggestions.addAll(sourceConnection.getEdges()));
+        for(SourceConnection connection : generator.findConnectionsBetweenSources(getColumnFromIds(columns).stream()
+                .map(QueryColumn::getSource).collect(Collectors.toList())))
+        {
+            connection.getEdges().stream().filter(queryColumn -> queryColumn.getSource().isVisible())
+                    .forEach(queryColumn ->
+                        suggestions.addAll(queryColumn.getSource().getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible())
+                        .map(QueryColumn::getColumnId).distinct().collect(Collectors.toList())));
+        }
 
         return suggestions;
-    }
-
-    private Collection<QuerySource> getSources(Collection<QueryColumn> columns) {
-        Collection<QuerySource> sources = new ArrayList<>();
-        columns.forEach(column -> {
-            if (!sources.contains(column.getSource())) {
-                sources.add(column.getSource());
-            }
-        });
-        return sources;
     }
 
     private Collection<QueryColumn> getColumnFromIds(Collection<Long> columnsResources) throws DraggerException {
         Collection<QueryColumn> columns = new ArrayList<>();
 
         for (Long columnId : columnsResources) {
-            columns.add(findColumnById(columnId));
+            Optional<QueryColumn> requestedColumn = columnRepository.findById(columnId);
+
+            if (!requestedColumn.isPresent()) {
+                throw new DraggerException("Column id:" + columnId + " not found");
+            }
+
+            columns.add(requestedColumn.get());
         }
         return columns;
-    }
-
-    private QueryColumn findColumnById(long columnId) throws DraggerException {
-        Optional<QueryColumn> requestedColumn = columnRepository.findById(columnId);
-
-        if (requestedColumn.isPresent()) {
-            return requestedColumn.get();
-        }
-
-        throw new DraggerException("Column id:" + columnId + " not found");
     }
 }

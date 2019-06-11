@@ -114,6 +114,7 @@ angular
                             }
                         })
 
+                        $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
                         $scope.isLinked();
                     }
@@ -148,12 +149,42 @@ angular
                             }
                         })
 
-                        $scope.chartFilterColumns = [];
-                        $scope.chartFilterColumns.push($scope.selectedColumn.data.data);
-
+                        $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
                         $scope.isLinked();
                     }
+
+                    $scope.fetchFilterSuggestions = function()
+                    {
+                        if($scope.selectedSource.selected && $scope.selectedColumn.selected)
+                        {
+                            $scope.chartFilterColumns = [];
+                            var requestParams = '?columns=' + $scope.selectedColumn.data.data.columnId + '&columns=';
+                            $scope.getColumn($scope.selectedSource.data)
+                            .then(function successCallback(response){
+                            requestParams += response.columnId;
+                            $http({
+                                method : 'GET',
+                                url : 'api/charts/filterColumnsSuggestion' + requestParams
+                            })
+                            .then(
+                                function successCallback(response){
+                                    var columnsForSuggestionPromises = [];
+                                    response.data.forEach(function(columnId){
+                                        columnsForSuggestionPromises.push($http({method: 'GET', url: 'api/queryColumns/'+columnId}));
+                                        });
+                                    $q.all(columnsForSuggestionPromises).then(function(columns)
+                                    {
+                                        columns.forEach(function(column)
+                                        {
+                                            $scope.chartFilterColumns.push(column.data);
+                                        });
+                                    });
+
+                                });
+                                });
+                        }
+                    };
 
                     $scope.validateChartAddition = function()
                     {
