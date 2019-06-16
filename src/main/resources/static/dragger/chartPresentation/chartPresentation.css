@@ -569,3 +569,15 @@ margin-top: 50px;
     {
         text-align:center;
     }
+
+    .is-current-date-label
+    {
+        direction: rtl;
+        margin-top: -10px;
+    }
+
+    .is-current-date-checkbox
+    {
+
+        margin-top: 5px;
+    }

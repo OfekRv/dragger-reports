@@ -79,7 +79,7 @@
             </div>
             <div class="row padding-row"></div>
             <div class="row filter-row-padding-chart" ng-if="chartFilters.length > 0">
-                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
                 <div class="col-md-8">
                     <div id="signup">
                         <div class="signup-screen">
@@ -97,7 +97,7 @@
                                             <label class="select-label" ng-if="$index == 0">עמודה</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div ng-class="{'col-md-4': dataTypes[filter.column.dataType].name !== 'DATE','col-md-2': dataTypes[filter.column.dataType].name === 'DATE'}">
                                         <div class="select">
                                             <select class="select-text"
                                                     ng-options="operator as operator.name for operator in operators track by operator.id"
@@ -107,7 +107,7 @@
                                             <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
                                             <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
                                                    id="columnValueDropDown{{$index}}"/>
@@ -130,7 +130,11 @@
                                                 class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div ng-if="dataTypes[filter.column.dataType].name === 'DATE'" class="col-md-2">
+                                        <label class="is-current-date-label">האם התאריך הנוכחי:</label>
+                                            <input class="is-current-date-checkbox" type="checkbox" ng-model="filter.isCurrentDate">
+                                    </div>
+                                    <div class="col-md-1">
                                         <button type="button" class="remove-column-button"
                                                 ng-click="removeFilter($index, column)">
                                             <img class="remove-report-icon"
@@ -142,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
             </div>
             <div class="row">
                 <div class="col-md-2"></div>

@@ -13,6 +13,7 @@ angular
 				        self: null
 				};
 
+
                 $scope.chartFilterColumns = [];
                 $scope.filters = [];
                 $scope.operators = [];
@@ -62,7 +63,8 @@ angular
                         "valueObj" : null,
                         "selectValue" : null,
                         "filter" : null,
-                        "column" : null
+                        "column" : null,
+                        isCurrentDate: null
                     });
                 };
 
@@ -377,38 +379,7 @@ angular
 						    return;
 						}
 
-                        var validationCheck = true;
-						$scope.chartFilters.forEach(function(filter, index) {
-                        if ($scope.dataTypes[filter.column.dataType].multivalue) {
-                            filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
-                        } else {
-                            filter.value = filter.valueObj;
-                        }
-
-                        if (!filter.filter) {
-                            validationCheck = false;
-                            alert("האופרטור בשורה "
-                                    + (index + 1)
-                                    + "לא אמור להיות ריק ");
-                            return;
-                        } else if (!filter.column) {
-                            validationCheck = false;
-                            alert("העמודה בשורה "
-                                    + (index + 1)
-                                    + "לא אמור להיות ריקה ");
-                            return;
-                        } else if (!filter.value) {
-                            validationCheck = false;
-                            alert(" הערך בשורה"
-                                    + (index + 1)
-                                    + "לא אמור להיות ריק ");
-                            return;
-                        }
-                        filter.columnId = filter.column.columnId;
-                        filter.filterId = filter.filter.id;
-                    });
-
-						if (!validationCheck) {
+						if (!$scope.filtersValidation()) {
 						    return;
 						}
 
@@ -472,6 +443,48 @@ angular
 						});
 						});
 }
+
+                    $scope.filtersValidation = function()
+                    {
+                        var validationCheck = true;
+                            $scope.chartFilters.forEach(function(filter, index) {
+                            if ($scope.dataTypes[filter.column.dataType].multivalue)
+                            {
+                                filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+                            }
+                            else if($scope.dataTypes[filter.column.dataType].name === 'DATE' && filter.isCurrentDate)
+                            {
+                                filter.value = "current_date";
+                            }
+                                else{
+                                filter.value = filter.valueObj;
+                            }
+
+                            if (!filter.filter) {
+                                validationCheck = false;
+                                alert("האופרטור בשורה "
+                                        + (index + 1)
+                                        + "לא אמור להיות ריק ");
+                                return;
+                            } else if (!filter.column) {
+                                validationCheck = false;
+                                alert("העמודה בשורה "
+                                        + (index + 1)
+                                        + "לא אמור להיות ריקה ");
+                                return;
+                            } else if (!filter.value) {
+                                validationCheck = false;
+                                alert(" הערך בשורה"
+                                        + (index + 1)
+                                        + "לא אמור להיות ריק ");
+                                return;
+                            }
+                            filter.columnId = filter.column.columnId;
+                            filter.filterId = filter.filter.id;
+                        });
+
+                        return validationCheck;
+                    };
 
                     $scope.executeChartQuery = function()
                     {
