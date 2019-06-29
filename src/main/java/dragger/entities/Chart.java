@@ -19,25 +19,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "drg_filters")
+@Table(name = "drg_charts")
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Filter {
+public class Chart {
 	@Id
-	@SequenceGenerator(name = "filter_seq", sequenceName = "filter_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "filter_seq")
+	@SequenceGenerator(name = "chart_seq", sequenceName = "chart_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "chart_seq")
 	private long id;
 
-	@Column(nullable = false, unique = true)
-	private String name;
-
 	@Column(nullable = false)
-	private String rawFilter;
+	private Query query;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "column_id", nullable = true)
-	private Collection<ChartQueryFilter> chartFilters;
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "chartId")
+	private Collection<ChartQueryFilter> filters;
 }

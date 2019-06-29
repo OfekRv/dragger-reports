@@ -41,7 +41,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <h2 class="chart-title">
-                        <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג </span>
+                        <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג</span>
                         <span>כמות ה</span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
                         עבור <span class="selectedColumn"
@@ -78,18 +78,98 @@
                 </div>
             </div>
             <div class="row padding-row"></div>
+            <div class="row filter-row-padding-chart" ng-if="chartFilters.length > 0">
+                <div class="col-md-1"></div>
+                <div class="col-md-8">
+                    <div id="signup">
+                        <div class="signup-screen">
+                            <form class="form-generate-report" method="post" name="register"
+                                  novalidate>
+                                <div class="row filter-row-padding" ng-repeat="filter in chartFilters">
+                                    <div class="col-md-3">
+                                        <div class="select">
+                                            <select class="select-text"
+                                                    ng-options="column as column.name for column in chartFilterColumns track by column.columnId"
+                                                    ng-model="filter.column" ng-change="changeColumn($index)"
+                                                    required>
+                                            </select> <span class="select-highlight"></span> <span
+                                                class="select-bar"></span>
+                                            <label class="select-label" ng-if="$index == 0">עמודה</label>
+                                        </div>
+                                    </div>
+                                    <div ng-class="{'col-md-4': dataTypes[filter.column.dataType].name !== 'DATE','col-md-2': dataTypes[filter.column.dataType].name === 'DATE'}">
+                                        <div class="select">
+                                            <select class="select-text"
+                                                    ng-options="operator as operator.name for operator in operators track by operator.id"
+                                                    ng-model="filter.filter" required>
+                                            </select> <span class="select-highlight"></span> <span
+                                                class="select-bar"></span>
+                                            <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
+                                            <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
+                                                   id="columnValueDropDown{{$index}}"/>
+                                            <label
+                                                    class="build-report-name-label" dir="rtl"
+                                                    ng-if="$index == 0">ערך</label>
+                                            <span class="input-group-btn">
+                                                <button class="dropdown-btn dropdown-button-suggestions"
+                                                        id="dropdown-btn{{$index}}"
+                                                        type="button"><span
+                                                        class="caret"></span></button>
+                                </span>
+                                        </div>
+
+                                        <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
+                                            <input class="column-value"
+                                                   type="{{dataTypes[filter.column.dataType].name}}"
+                                                   ng-model="filter.valueObj" required> <span
+                                                class="highlight"></span> <span class="bar"></span><label
+                                                class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
+                                        </div>
+                                    </div>
+                                    <div ng-if="dataTypes[filter.column.dataType].name === 'DATE'" class="col-md-2">
+                                        <label class="is-current-date-label">האם התאריך הנוכחי:</label>
+                                            <input class="is-current-date-checkbox" type="checkbox" ng-model="filter.isCurrentDate">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="remove-column-button"
+                                                ng-click="removeFilter($index, column)">
+                                            <img class="remove-report-icon"
+                                                 src="dragger/buildReport/trash_icon.png">
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
-                    </button>
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4 center-butto">
+                            <button ng-disabled="form-build-report.$invalid" type="button"
+                                    ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
+                            </button>
+                        </div>
+                        <div class="col-md-4 center-button">
+                            <button ng-disabled="(!lastBuild.allowAddition)" type="button"
+                                    ng-click="addChartToDashboard()" class="btn done build-chart-button">הוסף למועדפים
+                            </button>
+                        </div>
+                        <div class="col-md-4 center-button">
+                            <button class="waves-effect waves-light add-filter filter-button"
+                                    ng-click="addFilter()">הוסף סינון
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <button ng-disabled="(!lastBuild.allowAddition)" type="button"
-                            ng-click="addChartToDashboard()" class="btn btn-success save-chart-button">הוסף למועדפים
-                    </button>
-                </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
         <div class="col-md-2">

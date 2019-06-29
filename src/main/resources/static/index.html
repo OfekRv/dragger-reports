@@ -1,90 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dragger Reports</title>
+<meta charset="UTF-8">
+<title>Dragger Reports</title>
 
-    <script src="node_modules/angular/angular.min.js"></script>
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="angular-drag-and-drop-lists.js"></script>
-    <link
-            rel="stylesheet"
-            href="node_modules\bootstrap3-rtl\dist\bootstrap-rtl-min.css">
-    <script
-            src="node_modules\bootstrap3-rtl\demo\bootstrap.min.js"></script>
-    <link rel="stylesheet" href="dragger/framework/vendor/prism.css">
-    <link rel="stylesheet" href="dragger/framework/dragger-framework.css">
+<script src="angular-1.2.16/angular.min.js"></script>
+<script src="angular-drag-and-drop-lists.js"></script>
+	<link
+			rel="stylesheet"
+			href="bootstrap-3.3.7/bootstrap.min.css">
+	<link
+			rel="stylesheet"
+			href="bootstrap-3.3.7/bootstrap-theme.min.css">
+	<script
+			src="bootstrap-3.3.7/bootstrap.min.js"></script>
+<link rel="stylesheet" href="dragger/framework/vendor/prism.css">
+<link rel="stylesheet" href="dragger/framework/dragger-framework.css">
+<link rel="stylesheet" type="text/css"
+	href="dragger/buildReport/buildReport.css" />
+<link rel="stylesheet" type="text/css"
+	href="dragger/manageReports/manageReports.css" />
+<link rel="stylesheet" type="text/css"
+	href="dragger/generateReport/generateReport.css" />
+<link rel="stylesheet" type="text/css"
+	href="dragger/generateReport/awesomplete-gh-pages/awesomplete.css" />
+<link rel="stylesheet" type="text/css"
+	href="dragger/createSource/createSource.css" />
+<link rel="stylesheet" type="text/css"
+	href="dragger/defineColumns/defineColumns.css" />
     <link rel="stylesheet" type="text/css"
-          href="dragger/buildReport/buildReport.css"/>
+          href="dragger/defineConnections/defineConnections.css" />
     <link rel="stylesheet" type="text/css"
-          href="dragger/manageReports/manageReports.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/generateReport/generateReport.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/generateReport/awesomplete-gh-pages/awesomplete.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/createSource/createSource.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/defineColumns/defineColumns.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/defineConnections/defineConnections.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/chartPresentation/chartPresentation.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/dashboard/dashboard.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="dragger/buildReport/trash_icon.png"/>
-    <link rel="stylesheet" href="node_modules/sweetalert2/dist/sweetalert2.min.css">
+          href="dragger/chartPresentation/chartPresentation.css" />
+<link rel="stylesheet" type="text/css"
+	href="dragger/buildReport/trash_icon.png" />
 
-    <link rel="stylesheet" href="node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff">
-    <link rel="stylesheet" href="node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff2">
-    <link rel="stylesheet" href="node_modules/bootstrap/fonts/glyphicons-halflings-regular.ttf">
-    <link rel="stylesheet" href="node_modules/bootstrap/fonts/glyphicons-halflings-regular.svg">
-    <link rel="stylesheet" href="node_modules/bootstrap/fonts/glyphicons-halflings-regular.eot">
-    <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="node_modules/angular-route/angular-route.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="dragger/framework/vendor/prism.js"></script>
-    <script src="angular-chart/dist/Chart.min.js"></script>
-    <script src="angular-chart/dist/Chart.js"></script>
-    <script src="angular-chart/dist/Chart.js"></script>
-    <script src="angular-chart/dist/angular-chart.min.js"></script>
-    <script src="dragger/generateReport/awesomplete-gh-pages/awesomplete.js"></script>
-    <script src="dragger/framework/dragger-framework.js"></script>
-    <script src="dragger/buildReport/buildReport.js"></script>
-    <script src="dragger/chartPresentation/chartPresentation.js"></script>
-    <script src="dragger/dashboard/dashboard.js"></script>
-    <script src="dragger/manageReports/manageReports.js"></script>
-    <script src="dragger/generateReport/generateReport.js"></script>
-    <script src="dragger/createSource/createSource.js"></script>
-    <script src="dragger/defineColumns/defineColumns.js"></script>
-    <script src="dragger/defineConnections/defineConnections.js"></script>
+<script src="angular-1.2.16/angular-route.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="dragger/framework/vendor/prism.js"></script>
+<script src="dragger/framework/dragger-framework.js"></script>
+<script src="dragger/buildReport/buildReport.js"></script>
+<script src="dragger/chartPresentation/chartPresentation.js"></script>
+<script src="dragger/manageReports/manageReports.js"></script>
+<script src="dragger/generateReport/generateReport.js"></script>
+<script src="dragger/createSource/createSource.js"></script>
+<script src="dragger/defineColumns/defineColumns.js"></script>
+<script src="dragger/defineConnections/defineConnections.js"></script>
+<script src="angular-chart/dist/Chart.min.js"></script>
+<script src="angular-chart/dist/Chart.js"></script>
+<script src="angular-chart/dist/angular-chart.min.js"></script>
+<script src="dragger/generateReport/awesomplete-gh-pages/awesomplete.js"></script>
 
 </head>
 <body ng-app="dragger">
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-    <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-        <!--<div class="navbar-header">-->
-            <!--<a class="navbar-brand" href="#/dashboard">-->
-                <!--<div class="dragger-logo"></div>-->
-            <!--</a>-->
-        <!--</div>-->
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav" navigation></ul>
-        </div>
-    <!--</nav>-->
-    </div>
-</div>
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#/generateReport"><div
+						class="dragger-logo"></div></a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav" navigation></ul>
+			</div>
+		</div>
+	</div>
 
-<div class="container">
-    <div ng-view></div>
-</div>
+	<div class="container">
+		<div ng-view></div>
+	</div>
 </body>
 </html>

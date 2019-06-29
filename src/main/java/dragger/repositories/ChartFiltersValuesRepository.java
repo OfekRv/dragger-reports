@@ -3,8 +3,8 @@ package dragger.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import dragger.entities.Chart;
+import dragger.entities.ChartQueryFilter;
 
 @Repository
-public interface ChartRepository extends JpaRepository<Chart, Long> {
+public interface ChartFiltersValuesRepository extends JpaRepository<ChartQueryFilter, Long> {
 }

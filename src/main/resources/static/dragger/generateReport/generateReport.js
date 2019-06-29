@@ -240,9 +240,9 @@ angular
 										data : $scope.filters,
 										responseType : 'arraybuffer'
 									})
-									.then(
-											function(data) {
-												var headers = data.headers();
+									.success(
+											function(data, status, headers) {
+												var headers = headers();
 
 												var fileNameHeader = headers['content-disposition']
 														.split(';')[1].trim()
@@ -256,7 +256,7 @@ angular
 														.createElement('a');
 												try {
 													var blob = new Blob(
-															[ data.data ],
+															[ data ],
 															{
 																type : contentType
 															});
@@ -282,7 +282,10 @@ angular
 													console.log(ex);
 												}
 												$scope.loading = false;
-											});
+											}).error(function(data) {
+										console.log(data);
+										$scope.loading = false;
+									});
 						}
 					}
 				});

@@ -2,6 +2,7 @@ package dragger.bl.exporter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -10,11 +11,13 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
-import dragger.entities.charts.Chart;
-import dragger.entities.charts.ChartColumnResult;
-import dragger.entities.charts.ChartResult;
+import dragger.contracts.ChartResult;
+import dragger.entities.Chart;
+import dragger.entities.ChartQueryFilter;
+import dragger.entities.ReportQueryFilter;
 import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
+import dragger.repositories.FilterRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,20 +33,22 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 	@Inject
 	private QueryExecutor executor;
 	@Inject
-	private ChartExecutionResultExporter executionResultExporter;
+	private FilterRepository filterRepository;
 
-	public Collection<ChartColumnResult> export(Chart chartQuery) throws DraggerExportException {
+	public Collection<ChartResult> export(Chart chartQuery, Collection<ChartQueryFilter> filters)
+			throws DraggerExportException {
 		SqlRowSet results;
 
 		log.info("executing chart query (id = " + chartQuery.getId() + ")");
 		try {
-			results = executor.executeQuery(generator.generate(chartQuery.getQuery(), null, SHOW_DUPLICATES));
+			results = executor.executeQuery(
+					generator.generate(chartQuery.getQuery(), convertToQueryFilters(filters), SHOW_DUPLICATES));
 		} catch (DraggerException e) {
 			log.error("execution of chart query (id = " + chartQuery.getId() + ")" + " failed");
 			throw new DraggerExportException("Could not generate the chart query (id = " + chartQuery.getId() + ")", e);
 		}
 
-		Collection<ChartColumnResult> chartResults = new ArrayList<>();
+		Collection<ChartResult> chartResults = new ArrayList<>();
 		while (results.next()) {
 
 			long count = results.getLong(COUNT_COLUMN_INDEX);
@@ -53,12 +58,19 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 				label = EMPTY;
 			}
 
-			chartResults.add(new ChartColumnResult(label.toString(), count));
+			chartResults.add(new ChartResult(label.toString(), count));
 		}
 
 		log.info("chart query (id = " + chartQuery.getId() + ")" + " executed successfully");
-		executionResultExporter.export(new ChartResult(chartResults), chartQuery);
-
 		return chartResults;
+	}
+
+	private Collection<ReportQueryFilter> convertToQueryFilters(Collection<ChartQueryFilter> filters) {
+		return filters.stream().map(chartFilter -> convertToQueryFilter(chartFilter)).collect(Collectors.toList());
+	}
+
+	private ReportQueryFilter convertToQueryFilter(ChartQueryFilter filter) {
+		return new ReportQueryFilter(filterRepository.findById(filter.getFilterId()).get(), filter.getColumn(),
+				filter.getValue());
 	}
 }

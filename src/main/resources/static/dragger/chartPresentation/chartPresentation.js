@@ -13,9 +13,64 @@ angular
 				        self: null
 				};
 
+
+                $scope.chartFilterColumns = [];
+                $scope.filters = [];
+                $scope.operators = [];
+                $scope.dataTypes = {
+                    VARCHAR : {
+                        name : "TEXT",
+                        multivalue : true,
+                        getValue : function() {
+                            return;
+                        }
+                    },
+                    NUMERIC : {
+                        name : "NUMBER",
+                        multivalue : false,
+                        getValue : function() {
+                            return;
+                        }
+                    },
+                    BOOLEAN : {
+                        multivalue : true,
+                        getValues : function() {
+                            return [ {
+                                name : 'TRUE',
+                                value : 'TRUE'
+                            }, {
+                                name : 'FALSE',
+                                value : 'FALSE'
+                            } ];
+                        }
+                    },
+                    DATE : {
+                        name : "DATE",
+                        multivalue : false,
+                        getValue : function() {
+                            return;
+                        }
+                    }
+                };
+
+                $scope.chartFilters = [];
 				$scope.lastBuild = {selectedSource: null,selectedColumn: null,allowAddition: false};
                 $scope.selectedSource = {text: '[...] ', selected:false};
                 $scope.selectedColumn = {text: '[...]', selected:false}
+
+                $scope.addFilter = function() {
+                    $scope.chartFilters.push({
+                        "valueObj" : null,
+                        "selectValue" : null,
+                        "filter" : null,
+                        "column" : null,
+                        isCurrentDate: null
+                    });
+                };
+
+                $scope.removeFilter = function(filterIndex) {
+                    $scope.chartFilters.splice(filterIndex, 1);
+                };
 
 				    $scope.filterSources =function(source)
                     {
@@ -61,6 +116,7 @@ angular
                             }
                         })
 
+                        $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
                         $scope.isLinked();
                     }
@@ -95,9 +151,42 @@ angular
                             }
                         })
 
+                        $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
                         $scope.isLinked();
                     }
+
+                    $scope.fetchFilterSuggestions = function()
+                    {
+                        if($scope.selectedSource.selected && $scope.selectedColumn.selected)
+                        {
+                            $scope.chartFilterColumns = [];
+                            var requestParams = '?columns=' + $scope.selectedColumn.data.data.columnId + '&columns=';
+                            $scope.getColumn($scope.selectedSource.data)
+                            .then(function successCallback(response){
+                            requestParams += response.columnId;
+                            $http({
+                                method : 'GET',
+                                url : 'api/charts/filterColumnsSuggestion' + requestParams
+                            })
+                            .then(
+                                function successCallback(response){
+                                    var columnsForSuggestionPromises = [];
+                                    response.data.forEach(function(columnId){
+                                        columnsForSuggestionPromises.push($http({method: 'GET', url: 'api/queryColumns/'+columnId}));
+                                        });
+                                    $q.all(columnsForSuggestionPromises).then(function(columns)
+                                    {
+                                        columns.forEach(function(column)
+                                        {
+                                            $scope.chartFilterColumns.push(column.data);
+                                        });
+                                    });
+
+                                });
+                                });
+                        }
+                    };
 
                     $scope.validateChartAddition = function()
                     {
@@ -273,12 +362,15 @@ angular
 						var groupBysPromises = [];
                         var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
                         var countSources = [];
+                        var filters = [];
+                        var filterPromises = [];
 
 						if(!$scope.selectedColumn.selected)
                         {
                             alert("יש לבחור עמודה");
                             return;
                         }
+
                         groupBysPromises.push($scope.selectedColumn.data);
 
 						if(!$scope.selectedSource.selected)
@@ -286,6 +378,15 @@ angular
 						    alert("יש לבחור מקור");
 						    return;
 						}
+
+						if (!$scope.filtersValidation()) {
+						    return;
+						}
+
+                        $scope.chartFilters.forEach(function(filter)
+                        {
+                            filters.push({filterId:filter.filter.id, column: filter.column._links.self.href,value: filter.value,chart:null})
+                        });
 
                         countSources.push($scope.selectedSource.data._links.self.href);
 
@@ -295,10 +396,6 @@ angular
                         groupBysResponse.forEach(function(groupBy)
                         {
                             groupBys.push(groupBy.data._links.self.href);
-                        })
-
-                        groupBysResponse.forEach(function(groupBy)
-                        {
                             columns.push(groupBy.data._links.self.href);
                         })
 
@@ -310,6 +407,7 @@ angular
 								name: name
 							}
 						}).then(function successCallback(response) {
+
 						    if(!response.data.id)
 						    {
                                  alert("בניית התרשים כשלה")
@@ -320,49 +418,114 @@ angular
 						        $scope.chart = response.data;
 						    }
 
-                            $http({
-                                method : 'GET',
-                                url : 'api/charts/executeCountChartQuery?chartId=' + $scope.chart.id
-                                }).then(
-                                function successCallback(response) {
-                                $scope.chart.labels = [];
-                                $scope.chart.data = [];
-                                $scope.chart.colors = [];
-                                $scope.chart.emptyPie = true;
-                                $scope.lastBuild.allowAddition = true;
-                                $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
-                                $scope.lastBuild.selectedSource = $scope.selectedSource.data;
+						    if(filters.length > 0)
+						    {
+						        filters.forEach(function(filter)
+						        {
+						            filter.chart = response.data._links.self.href;
+						            filterPromises.push($http({
+                                         method : 'POST',
+                                         url : 'api/chartQueryFilters',
+                                         data : filter
+                                     }));
+						        })
 
-                                if(response.data.length > 0 )
-                                {
-                                    $scope.chart.emptyPie = false;
-                                }
-                                else
-                                {
-                                    $scope.chart.colors = ['#565cc1'];
-                                    return;
-                                }
-
-                                response.data.forEach(function(slice,index)
-                                {
-                                    $scope.chart.labels.push(slice.label);
-                                    $scope.chart.data.push(slice.count);
-                                })
-
-                                if($scope.chart.colors.length > $scope.chart.labels.length)
-                                {
-                                    $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
-                                }
-                                },
-                                function failureCallback(response) { console.log("couldn't retrieve chart data");
-                                return;
-                                });
+						    $q.all(filterPromises).then(function successCallback(response) {
+                                $scope.executeChartQuery();
+						    });
+						    }
+						    else
+						    {
+						        $scope.executeChartQuery();
+						    }
 						}, function errorCallback(response) {
-							alert("נכשל בבניית התרשים");
+							alert("בניית התרשים כשלה");
 						});
 						});
-					}
+}
 
+                    $scope.filtersValidation = function()
+                    {
+                        var validationCheck = true;
+                            $scope.chartFilters.forEach(function(filter, index) {
+                            if ($scope.dataTypes[filter.column.dataType].multivalue)
+                            {
+                                filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+                            }
+                            else if($scope.dataTypes[filter.column.dataType].name === 'DATE' && filter.isCurrentDate)
+                            {
+                                filter.value = "current_date";
+                            }
+                                else{
+                                filter.value = filter.valueObj;
+                            }
+
+                            if (!filter.filter) {
+                                validationCheck = false;
+                                alert("האופרטור בשורה "
+                                        + (index + 1)
+                                        + "לא אמור להיות ריק ");
+                                return;
+                            } else if (!filter.column) {
+                                validationCheck = false;
+                                alert("העמודה בשורה "
+                                        + (index + 1)
+                                        + "לא אמור להיות ריקה ");
+                                return;
+                            } else if (!filter.value) {
+                                validationCheck = false;
+                                alert(" הערך בשורה"
+                                        + (index + 1)
+                                        + "לא אמור להיות ריק ");
+                                return;
+                            }
+                            filter.columnId = filter.column.columnId;
+                            filter.filterId = filter.filter.id;
+                        });
+
+                        return validationCheck;
+                    };
+
+                    $scope.executeChartQuery = function()
+                    {
+                    $http({
+                        method : 'GET',
+                        url : 'api/charts/executeCountChartQuery?chartId=' + $scope.chart.id
+                        }).then(
+                        function successCallback(response) {
+                        $scope.chart.labels = [];
+                        $scope.chart.data = [];
+                        $scope.chart.colors = [];
+                        $scope.chart.emptyPie = true;
+                        $scope.lastBuild.allowAddition = true;
+                        $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
+                        $scope.lastBuild.selectedSource = $scope.selectedSource.data;
+
+                        if(response.data.length > 0 )
+                        {
+                        $scope.chart.emptyPie = false;
+                        }
+                        else
+                        {
+                        $scope.chart.colors = ['#565cc1'];
+                        return;
+                        }
+
+                        response.data.forEach(function(slice,index)
+                        {
+                        $scope.chart.labels.push(slice.label);
+                        $scope.chart.data.push(slice.count);
+                        })
+
+                        if($scope.chart.colors.length > $scope.chart.labels.length)
+                        {
+                        $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
+                        }
+                        },
+                        function failureCallback(response) { console.log("couldn't retrieve chart data");
+                        return;
+                        });
+                    }
 					$scope.models = {
 						selected : null,
 						lists : {
@@ -444,4 +607,74 @@ angular
                                                             }
 														});
 									});
+
+					$scope.changeColumn = function(filterIndex)
+					{
+                        $scope.chartFilters[filterIndex].selectValue = null;
+                        if($scope.chartFilters[filterIndex].comboplete)
+                        {
+                            $scope.chartFilters[filterIndex].comboplete.destroy();
+                        }
+                        var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
+                            minChars: 0,
+                        });
+                        comboplete.maxItems = 1000000;
+                        $scope.chartFilters[filterIndex].comboplete = comboplete;
+
+                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
+                            if(comboplete._list.length === 0)
+                            {
+                                $http({
+                                    method : 'GET',
+                                    url : '/api/columns/suggestValues?columnId='
+                                    + $scope.chartFilters[filterIndex].column.columnId
+                                }).then(
+                                        function successCallback(response) {
+                                            comboplete._list = response.data;
+                                            if (comboplete.ul.childNodes.length === 0) {
+                                            comboplete.minChars = 0;
+                                            comboplete.evaluate();
+                                            }
+                                            else if (comboplete.ul.hasAttribute('hidden')) {
+                                                comboplete.open();
+                                            }
+                                            else {
+                                                comboplete.close();
+                                            }
+                                        },
+                                        function successCallback(response) {
+                                            alert("אין ערכים להצעה עבור עמודה זו");
+                                        });
+                            }
+
+                            if (comboplete.ul.childNodes.length === 0) {
+                                comboplete.minChars = 0;
+                                comboplete.evaluate();
+                            }
+                            else if (comboplete.ul.hasAttribute('hidden')) {
+                                comboplete.open();
+                            }
+                            else {
+                                comboplete.close();
+                            }
+                        });
+
+                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
+                                                        if (!comboplete.ul.hasAttribute('hidden')) {
+                                                                comboplete.close();
+                                                        }
+                                                    });
+                    }
+
+                    $http({
+                        method : 'GET',
+                        url : '/api/filters'
+                    }).then(
+                            function successCallback(response) {
+                                angular.forEach(
+                                        response.data._embedded.filters,
+                                        function(filter) {
+                                            $scope.operators.push(filter)
+                                        });
+                            });
 				});
