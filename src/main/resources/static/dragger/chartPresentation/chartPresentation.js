@@ -360,7 +360,7 @@ angular
 						var columns = [];
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
-                        var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+                        var name = $scope.generateNameForChart();
                         var countSources = [];
                         var filters = [];
                         var filterPromises = [];
@@ -416,6 +416,7 @@ angular
 						    else
 						    {
 						        $scope.chart = response.data;
+                                $scope.chart.name = name;
 						    }
 
 						    if(filters.length > 0)
@@ -443,6 +444,15 @@ angular
 						});
 						});
 }
+
+                    $scope.generateNameForChart = function()
+                    {
+                        var chartName = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+                        $scope.chartFilters.forEach(function(filter)
+                        {
+
+                        });
+                    };
 
                     $scope.filtersValidation = function()
                     {

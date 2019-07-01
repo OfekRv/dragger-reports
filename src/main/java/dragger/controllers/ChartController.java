@@ -50,12 +50,11 @@ public class ChartController {
     public Collection<Long> findFilterColumnsSuggestion(@RequestParam Collection<Long> columns) throws DraggerException {
         ArrayList<Long> suggestions = new ArrayList();
 
-        List<QuerySource> sourcesOfColumns = getColumnFromIds(columns).stream()
-                .map(QueryColumn::getSource).collect(Collectors.toList());
+        List<QuerySource> sourcesOfColumns = getColumnFromIds(columns).stream().map(QueryColumn::getSource).collect(Collectors.toList());
 
         if(sourcesOfColumns.get(0).getSourceId() == sourcesOfColumns.get(1).getSourceId())
         {
-//            suggestions.addAll(sourcesOfColumns.get(0).getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible()).map(QueryColumn::getColumnId));
+            suggestions.addAll(sourcesOfColumns.get(0).getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible()).map(QueryColumn::getColumnId).collect(Collectors.toList()));
         }
         else {
 
