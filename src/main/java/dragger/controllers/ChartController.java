@@ -1,9 +1,6 @@
 package dragger.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import dragger.bl.generator.QueryGenerator;
@@ -53,13 +50,21 @@ public class ChartController {
     public Collection<Long> findFilterColumnsSuggestion(@RequestParam Collection<Long> columns) throws DraggerException {
         ArrayList<Long> suggestions = new ArrayList();
 
-        for(SourceConnection connection : generator.findConnectionsBetweenSources(getColumnFromIds(columns).stream()
-                .map(QueryColumn::getSource).collect(Collectors.toList())))
+        List<QuerySource> sourcesOfColumns = getColumnFromIds(columns).stream()
+                .map(QueryColumn::getSource).collect(Collectors.toList());
+
+        if(sourcesOfColumns.get(0).getSourceId() == sourcesOfColumns.get(1).getSourceId())
         {
-            connection.getEdges().stream().filter(queryColumn -> queryColumn.getSource().isVisible())
-                    .forEach(queryColumn ->
-                        suggestions.addAll(queryColumn.getSource().getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible())
-                        .map(QueryColumn::getColumnId).distinct().collect(Collectors.toList())));
+//            suggestions.addAll(sourcesOfColumns.get(0).getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible()).map(QueryColumn::getColumnId));
+        }
+        else {
+
+            for (SourceConnection connection : generator.findConnectionsBetweenSources(sourcesOfColumns)) {
+                connection.getEdges().stream().filter(queryColumn -> queryColumn.getSource().isVisible())
+                        .forEach(queryColumn ->
+                                suggestions.addAll(queryColumn.getSource().getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible())
+                                        .map(QueryColumn::getColumnId).distinct().collect(Collectors.toList())));
+            }
         }
 
         return suggestions;
