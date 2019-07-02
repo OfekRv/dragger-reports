@@ -13,7 +13,7 @@ angular
 				        self: null
 				};
 
-
+                $scope.generatedFiltersDescriptionForChartName = '';
                 $scope.chartFilterColumns = [];
                 $scope.filters = [];
                 $scope.operators = [];
@@ -360,7 +360,7 @@ angular
 						var columns = [];
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
-                        var name = $scope.generateNameForChart();
+                        var name;
                         var countSources = [];
                         var filters = [];
                         var filterPromises = [];
@@ -398,6 +398,8 @@ angular
                             groupBys.push(groupBy.data._links.self.href);
                             columns.push(groupBy.data._links.self.href);
                         })
+
+                        name = $scope.generateNameForChart();
 
 						$http({
 							method : 'POST',
@@ -448,11 +450,32 @@ angular
                     $scope.generateNameForChart = function()
                     {
                         var chartName = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
-                        $scope.chartFilters.forEach(function(filter)
-                        {
 
-                        });
+                        $scope.generateFiltersDescriptionForChartName();
+                        chartName += $scope.generatedFiltersDescriptionForChartName;
+
+                        return chartName;
                     };
+
+                    $scope.generateFiltersDescriptionForChartName = function()
+                    {
+                        $scope.generatedFiltersDescriptionForChartName = '';
+
+                        if($scope.chartFilters.length > 0)
+                        {
+                            $scope.generatedFiltersDescriptionForChartName += ' מסונן ע"פ ';
+                        }
+
+                        $scope.chartFilters.forEach(function(filter, index)
+                        {
+                            $scope.generatedFiltersDescriptionForChartName += filter.column.name + " " + filter.filter.name +  filter.value;
+
+                            if(index < ($scope.chartFilters.length - 1))
+                            {
+                                $scope.generatedFiltersDescriptionForChartName += ",";
+                            }
+                        });
+                    }
 
                     $scope.filtersValidation = function()
                     {
