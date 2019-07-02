@@ -34,6 +34,9 @@ public class Chart {
 	@Column(nullable = false)
 	private Query query;
 
+	@Column(nullable = false)
+	private String name;
+
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "chartId")
 	private Collection<ChartQueryFilter> filters;
