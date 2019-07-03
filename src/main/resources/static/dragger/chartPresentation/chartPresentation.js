@@ -13,7 +13,7 @@ angular
 				        self: null
 				};
 
-
+                $scope.generatedFiltersDescriptionForChartName = '';
                 $scope.chartFilterColumns = [];
                 $scope.filters = [];
                 $scope.operators = [];
@@ -118,7 +118,10 @@ angular
 
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
-                        $scope.isLinked();
+                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        {
+                            $scope.isLinked();
+                        }
                     }
 
                     $scope.selectedColumnEvent = function(selectedColumn)
@@ -153,7 +156,11 @@ angular
 
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
-                        $scope.isLinked();
+
+                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        {
+                            $scope.isLinked();
+                        }
                     }
 
                     $scope.fetchFilterSuggestions = function()
@@ -360,7 +367,7 @@ angular
 						var columns = [];
 						var countColumnsPromises = [];
 						var groupBysPromises = [];
-                        var name = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+                        var name;
                         var countSources = [];
                         var filters = [];
                         var filterPromises = [];
@@ -399,6 +406,8 @@ angular
                             columns.push(groupBy.data._links.self.href);
                         })
 
+                        name = $scope.generateNameForChart();
+
 						$http({
 							method : 'POST',
 							url : 'api/charts',
@@ -416,6 +425,7 @@ angular
 						    else
 						    {
 						        $scope.chart = response.data;
+                                $scope.chart.name = name;
 						    }
 
 						    if(filters.length > 0)
@@ -443,6 +453,36 @@ angular
 						});
 						});
 }
+
+                    $scope.generateNameForChart = function()
+                    {
+                        var chartName = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+
+                        $scope.generateFiltersDescriptionForChartName();
+                        chartName += $scope.generatedFiltersDescriptionForChartName;
+
+                        return chartName;
+                    };
+
+                    $scope.generateFiltersDescriptionForChartName = function()
+                    {
+                        $scope.generatedFiltersDescriptionForChartName = '';
+
+                        if($scope.chartFilters.length > 0)
+                        {
+                            $scope.generatedFiltersDescriptionForChartName += ' מסונן ע"פ ';
+                        }
+
+                        $scope.chartFilters.forEach(function(filter, index)
+                        {
+                            $scope.generatedFiltersDescriptionForChartName += filter.column.name + " " + filter.filter.name +  filter.value;
+
+                            if(index < ($scope.chartFilters.length - 1))
+                            {
+                                $scope.generatedFiltersDescriptionForChartName += ",";
+                            }
+                        });
+                    }
 
                     $scope.filtersValidation = function()
                     {

@@ -272,8 +272,7 @@ option {
 	background-color: #55c34f;
 	color: white;
 	border: none;
-	margin-top: 10px;
-	padding: 10px 20px;
+ 	padding: 10px 20px;
 	border-radius: 3px;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
@@ -408,8 +407,7 @@ html, body {
 .label-duplicates
 {
 word-wrap: break-word;
-margin-top: 8px;
-margin-left: 20px;
+margin-top: -8px;
 font-size:16px;
 color:#696969;
 }

@@ -46,6 +46,7 @@
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
                         עבור <span class="selectedColumn"
                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
+                        <span class="filter-description-name">{{generatedFiltersDescriptionForChartName}}</span>
                     </h2>
                 </div>
                 <div class="col-md-3"></div>
@@ -80,7 +81,7 @@
             <div class="row padding-row"></div>
             <div class="row filter-row-padding-chart" ng-if="chartFilters.length > 0">
                 <div class="col-md-1"></div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div id="signup">
                         <div class="signup-screen">
                             <form class="form-generate-report" method="post" name="register"
@@ -97,7 +98,7 @@
                                             <label class="select-label" ng-if="$index == 0">עמודה</label>
                                         </div>
                                     </div>
-                                    <div ng-class="{'col-md-4': dataTypes[filter.column.dataType].name !== 'DATE','col-md-2': dataTypes[filter.column.dataType].name === 'DATE'}">
+                                    <div class="col-md-4">
                                         <div class="select">
                                             <select class="select-text"
                                                     ng-options="operator as operator.name for operator in operators track by operator.id"
@@ -117,8 +118,8 @@
                                             <span class="input-group-btn">
                                                 <button class="dropdown-btn dropdown-button-suggestions"
                                                         id="dropdown-btn{{$index}}"
-                                                        type="button"><span
-                                                        class="caret"></span></button>
+                                                        type="button">
+                                                    <span class="caret caret-adjustment"></span></button>
                                 </span>
                                         </div>
 
@@ -129,10 +130,6 @@
                                                 class="highlight"></span> <span class="bar"></span><label
                                                 class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
                                         </div>
-                                    </div>
-                                    <div ng-if="dataTypes[filter.column.dataType].name === 'DATE'" class="col-md-2">
-                                        <label class="is-current-date-label">האם התאריך הנוכחי:</label>
-                                            <input class="is-current-date-checkbox" type="checkbox" ng-model="filter.isCurrentDate">
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="remove-column-button"
@@ -152,7 +149,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-md-4 center-butto">
+                        <div class="col-md-4 center-button">
                             <button ng-disabled="form-build-report.$invalid" type="button"
                                     ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
                             </button>

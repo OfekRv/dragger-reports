@@ -1,4 +1,4 @@
-angular
+(function(){angular
 		.module("dragger", [ "ngRoute", "dndLists", "chart.js"])
 		.config(
 				function($routeProvider) {
@@ -14,6 +14,12 @@ angular
                                     {
                                         templateUrl : 'dragger/chartPresentation/chartPresentation.html',
                                         controller : 'chartPresentationController'
+                                    })
+                            .when(
+                                    '/dashboard',
+                                    {
+                                        templateUrl : 'dragger/dashboard/dashboard.html',
+                                        controller : 'dashboardController'
                                     })
 							.when(
 									'/generateReport',
@@ -56,7 +62,8 @@ angular
 				'navigation',
 				function($rootScope, $location, $http) {
 					return {
-						template : '<li ng-repeat="option in options" ng-class="{active: isActive(option)}">'
+						template : '<li class="dragger-logo"><a ng-href=#!/dashboard></a></li>'+
+						'<li ng-repeat="option in options" ng-class="{active: isActive(option)}">'
 								+ '    <a ng-href="{{option.href}}">{{option.label}}</a>'
 								+ '</li>',
 						link : function(scope, element, attr) {
@@ -68,30 +75,36 @@ angular
 								var isDevMode = response.data
 
 								if (isDevMode != "false") {
-									scope.options = [ {
+									scope.options = [{
+                                        label : "לוח",
+                                        href : "#!/dashboard"
+                                    }, {
                                         label : "הרצת דוח",
-                                        href : "#/generateReport"
+                                        href : "#!/generateReport"
                                     }, {
 										label : "בניית דוח",
-										href : "#/buildReport"
+										href : "#!/buildReport"
 									}, {
 										label : "ניהול דוחות",
-										href : "#/manageReports"
+										href : "#!/manageReports"
 									}, {
                                        label : "תרשים כמותי",
-                                       href : "#/chartPresentation"
-                                    },{
+                                       href : "#!/chartPresentation"
+                                    }, {
 										label : "Create Source",
-										href : "#/createSource"
+										href : "#!/createSource"
 									}, {
 										label : "Define Columns",
-										href : "#/defineColumns"
+										href : "#!/defineColumns"
 									}, {
 										label : "Define Connections",
-										href : "#/defineConnections"
+										href : "#!/defineConnections"
 									} ];
 								} else {
 									scope.options = [ {
+                                        label : "לוח",
+                                        href : "#/dashboard"
+                                    },{
 										label : "הרצת דוח",
 										href : "#/generateReport"
 									},  {
@@ -118,3 +131,4 @@ angular
 						}
 					};
 				});
+})();
