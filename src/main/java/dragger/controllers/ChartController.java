@@ -61,12 +61,12 @@ public class ChartController {
             for (SourceConnection connection : generator.findConnectionsBetweenSources(sourcesOfColumns)) {
                 connection.getEdges().stream().filter(queryColumn -> queryColumn.getSource().isVisible())
                         .forEach(queryColumn ->
-                                suggestions.addAll(queryColumn.getSource().getColumns().stream().filter(queryColumnToAdd -> queryColumnToAdd.isVisible())
-                                        .map(QueryColumn::getColumnId).distinct().collect(Collectors.toList())));
+                                suggestions.addAll(queryColumn.getSource().getColumns().stream()
+                                        .filter(queryColumnToAdd -> queryColumnToAdd.isVisible()).map(QueryColumn::getColumnId).collect(Collectors.toList())));
             }
         }
 
-        return suggestions;
+        return suggestions.stream().distinct().collect(Collectors.toList());
     }
 
     private Collection<QueryColumn> getColumnFromIds(Collection<Long> columnsResources) throws DraggerException {

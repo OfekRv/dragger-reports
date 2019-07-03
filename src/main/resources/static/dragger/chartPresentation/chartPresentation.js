@@ -118,7 +118,10 @@ angular
 
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
-                        $scope.isLinked();
+                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        {
+                            $scope.isLinked();
+                        }
                     }
 
                     $scope.selectedColumnEvent = function(selectedColumn)
@@ -153,7 +156,11 @@ angular
 
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
-                        $scope.isLinked();
+
+                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        {
+                            $scope.isLinked();
+                        }
                     }
 
                     $scope.fetchFilterSuggestions = function()

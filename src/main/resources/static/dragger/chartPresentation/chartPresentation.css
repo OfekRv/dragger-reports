@@ -592,3 +592,8 @@ margin-top: 50px;
 
         margin-top: 5px;
     }
+
+    .caret-adjustment
+    {
+        width: 10px;
+    }
