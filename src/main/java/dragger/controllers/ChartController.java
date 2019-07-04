@@ -7,16 +7,15 @@ import dragger.bl.generator.QueryGenerator;
 import dragger.entities.QueryColumn;
 import dragger.entities.QuerySource;
 import dragger.entities.SourceConnection;
+import dragger.entities.charts.Chart;
+import dragger.entities.charts.ChartColumnResult;
 import dragger.repositories.QueryColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dragger.bl.exporter.ChartQueryExporter;
-import dragger.contracts.ChartResult;
-import dragger.entities.Chart;
 import dragger.exceptions.DraggerControllerReportNotFoundException;
 import dragger.exceptions.DraggerException;
 import dragger.repositories.ChartRepository;
@@ -36,7 +35,7 @@ public class ChartController {
     private QueryGenerator generator;
 
     @GetMapping("api/charts/executeCountChartQuery")
-    public Collection<ChartResult> generateFilteredReport(@RequestParam long chartId) throws DraggerException {
+    public Collection<ChartColumnResult> generateFilteredReport(@RequestParam long chartId) throws DraggerException {
         Optional<Chart> requestedChart = chartRepository.findById(chartId);
 
         if (!requestedChart.isPresent()) {
