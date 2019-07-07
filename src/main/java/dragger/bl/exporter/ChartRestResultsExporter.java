@@ -33,6 +33,7 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 	private QueryExecutor executor;
 	@Inject
 	private ChartExecutionResultExporter executionResultExporter;
+	@Inject
 	private FilterRepository filterRepository;
 
 
