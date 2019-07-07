@@ -1,4 +1,4 @@
-package dragger.entities;
+package dragger.entities.charts;
 
 import java.util.Collection;
 
@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import dragger.entities.ChartQueryFilter;
+import dragger.entities.Query;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

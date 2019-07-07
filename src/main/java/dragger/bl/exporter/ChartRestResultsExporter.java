@@ -1,24 +1,23 @@
 package dragger.bl.exporter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.springframework.jdbc.support.rowset.SqlRowSet;
-
 import dragger.bl.executor.QueryExecutor;
 import dragger.bl.generator.QueryGenerator;
-import dragger.contracts.ChartResult;
-import dragger.entities.Chart;
 import dragger.entities.ChartQueryFilter;
 import dragger.entities.ReportQueryFilter;
+import dragger.entities.charts.Chart;
+import dragger.entities.charts.ChartColumnResult;
+import dragger.entities.charts.ChartResult;
 import dragger.exceptions.DraggerException;
 import dragger.exceptions.DraggerExportException;
 import dragger.repositories.FilterRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Named
@@ -33,9 +32,12 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 	@Inject
 	private QueryExecutor executor;
 	@Inject
+	private ChartExecutionResultExporter executionResultExporter;
+	@Inject
 	private FilterRepository filterRepository;
 
-	public Collection<ChartResult> export(Chart chartQuery, Collection<ChartQueryFilter> filters)
+
+	public Collection<ChartColumnResult> export(Chart chartQuery, Collection<ChartQueryFilter> filters)
 			throws DraggerExportException {
 		SqlRowSet results;
 
@@ -48,7 +50,7 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 			throw new DraggerExportException("Could not generate the chart query (id = " + chartQuery.getId() + ")", e);
 		}
 
-		Collection<ChartResult> chartResults = new ArrayList<>();
+		Collection<ChartColumnResult> chartResults = new ArrayList<>();
 		while (results.next()) {
 
 			long count = results.getLong(COUNT_COLUMN_INDEX);
@@ -58,10 +60,12 @@ public class ChartRestResultsExporter implements ChartQueryExporter {
 				label = EMPTY;
 			}
 
-			chartResults.add(new ChartResult(label.toString(), count));
+			chartResults.add(new ChartColumnResult(label.toString(), count));
 		}
 
 		log.info("chart query (id = " + chartQuery.getId() + ")" + " executed successfully");
+		executionResultExporter.export(new ChartResult(chartResults), chartQuery);
+
 		return chartResults;
 	}
 
