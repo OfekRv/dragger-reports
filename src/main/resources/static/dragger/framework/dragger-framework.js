@@ -1,5 +1,5 @@
 (function(){angular
-		.module("dragger", [ "ngRoute", "dndLists", "chart.js"])
+		.module("dragger", [ "ngRoute", "dndLists", "chart.js","ngMaterial"])
 		.config(
 				function($routeProvider) {
 					$routeProvider

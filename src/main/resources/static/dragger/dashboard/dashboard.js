@@ -2,7 +2,7 @@ angular
 		.module("dragger")
 		.controller(
 				"dashboardController",
-				function($scope, $http) {
+				function($scope, $http, $mdDialog) {
 
 					$scope.removeChart = function(indexOfChart, chart) {
 
@@ -27,7 +27,6 @@ angular
                     }
 
                     $scope.initialize = function(){
-
                         $scope.models = {
                             selected : null,
                             lists : {
@@ -43,25 +42,99 @@ angular
                         {
                         $http({
                             url : 'api/charts/executeCountChartQuery?chartId='+chart.id
-                        }).then(
-                                function successCallback(response) {
-
-                                            chart.labels = [];
-                                            chart.data = [];
-
-                                            response.data.forEach(function(slice,index)
-                                            {
-                                                chart.labels.push(slice.label);
-                                                chart.data.push(slice.count);
-                                            })
-
-                                                console.log(chart);
-                                                $scope.models.lists['Charts']
-                                                        .push(chart);
-                                });
+                        }).then(function(response){$scope.chartResultsSetting(response,chart);});
                             });
                         });
 					}
+
+
+                        $scope.chartResultsSetting = function (response, chart) {
+
+                                        chart.labels = [];
+                                        chart.data = [];
+
+                                        response.data.forEach(function(slice,index)
+                                        {
+                                            chart.labels.push(slice.label);
+                                            chart.data.push(slice.count);
+                                        })
+
+                                            chart.historyLineValue = 1;
+                                            $scope.models.lists['Charts']
+                                                    .push(chart);
+                            }
+
+                    $scope.openChartDialog = function(ev, chart)
+                    {
+                    console.log(angular.element(document.body));
+                        $mdDialog.show({
+                              controller: DialogController(chart),
+                              templateUrl: 'dragger/dashboard/chartDialog.tmpl.html',
+                              parent: angular.element(document.body),
+                              targetEvent: ev,
+                              clickOutsideToClose:true,
+                              fullscreen: false
+                            });
+                    };
+
+                    function DialogController(chart) {
+
+                        return ($scope, $mdDialog) =>
+                        {
+                        $scope.chart = chart;
+                        $scope.chart.historyLineValue = 1;//document.getElementsByClassName("md-thumb-text").value
+
+
+                        $scope.valueChanged = function()
+                        {
+                        document.getElementsByClassName("md-thumb-text")[0].lastChild.data=$scope.newDate(document.getElementsByClassName("md-thumb-text")[0].lastChild.data);
+
+                            $http({method:'GET',
+                                url : 'api/chartExecutionResults/23'
+                            }).then(function successCallback(response)
+                            {
+                                $scope.chartResultsSetting(response,$scope.chart);
+                            });
+                        };
+
+                        $scope.hide = function() {
+
+                          $mdDialog.hide();
+                        };
+
+                        $scope.cancel = function() {
+                          $mdDialog.cancel();
+                        };
+
+                        $scope.newDate = function(numDaysToSubtract){
+                        var day = new Date();
+                         day.setDate(day.getDate()-parseInt(numDaysToSubtract,10));
+                        var dd = day.getDate();
+                        var mm = day.getMonth()+1; //As January is 0.
+                        var yyyy = day.getFullYear();
+
+                        if(dd<10) dd='0'+dd;
+                        if(mm<10) mm='0'+mm;
+                        return (yyyy + '-' + mm + '-' + dd);
+                        };
+
+                        $scope.chartResultsSetting = function (response, chart) {
+
+                                chart.labels = [];
+                                chart.data = [];
+
+                                response.data.forEach(function(slice,index)
+                                {
+                                    chart.labels.push(slice.label);
+                                    chart.data.push(slice.count);
+                                })
+
+                                    chart.historyLineValue = 1;
+                                    $scope.models.lists['Charts']
+                                            .push(chart);
+                        }
+                      }
+                      }
 
 					$scope.initialize();
 				});

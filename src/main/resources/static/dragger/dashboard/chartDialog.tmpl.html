@@ -1,0 +1,24 @@
+<md-dialog aria-label="A" style="height:60em; width:70em;">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{chart.name}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/close.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" style="margin:auto; height:90%; width:90%;">
+                <canvas id="pie" class="chart chart-pie" chart-data="chart.data"
+                        chart-labels="chart.labels" chart-options="chart.options"
+                        chart-colors="chart.colors" style="margin-bottom:3em; margin-top:3em;">
+                </canvas>
+                <md-slider flex class="md-primary" md-discrete ng-model="chart.historyLineValue" ng-change="valueChanged()" step="1" min="1" max="7" style="margin-top:1br"
+                aria-label="md-primary"></md-slider>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
