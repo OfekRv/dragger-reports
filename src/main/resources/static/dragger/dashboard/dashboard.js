@@ -87,7 +87,7 @@ angular
 
                         $scope.valueChanged = function()
                         {
-                        document.getElementsByClassName("md-thumb-text")[0].lastChild.data=$scope.newDate(document.getElementsByClassName("md-thumb-text")[0].lastChild.data);
+                            document.getElementsByClassName("md-thumb-text")[0].innerHTML=$scope.newDate($scope.chart.historyLineValue);
 
                             $http({method:'GET',
                                 url : 'api/chartExecutionResults/23'
@@ -115,7 +115,7 @@ angular
 
                         if(dd<10) dd='0'+dd;
                         if(mm<10) mm='0'+mm;
-                        return (yyyy + '-' + mm + '-' + dd);
+                        return (dd + "/" + mm);
                         };
 
                         $scope.chartResultsSetting = function (response, chart) {
