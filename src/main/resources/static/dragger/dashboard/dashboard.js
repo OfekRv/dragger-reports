@@ -90,10 +90,16 @@ angular
                             document.getElementsByClassName("md-thumb-text")[0].innerHTML=$scope.newDate($scope.chart.historyLineValue);
 
                             $http({method:'GET',
-                                url : 'api/chartExecutionResults/23'
+                                url : 'api/chartExecutionResults/'+$scope.chart.id
                             }).then(function successCallback(response)
                             {
-                                $scope.chartResultsSetting(response,$scope.chart);
+                                response.forEach(function(result)
+                                {
+                                    if(result.id.executionDate === $scope.chart.historyLineValue)
+                                    {
+                                        $scope.chartResultsSetting(result.executionResult,$scope.chart);
+                                    }
+                                });
                             });
                         };
 
@@ -123,7 +129,7 @@ angular
                                 chart.labels = [];
                                 chart.data = [];
 
-                                response.data.forEach(function(slice,index)
+                                response.forEach(function(slice,index)
                                 {
                                     chart.labels.push(slice.label);
                                     chart.data.push(slice.count);
