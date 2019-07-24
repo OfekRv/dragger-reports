@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,7 +25,10 @@ public class ChartHistoryController {
 
     @GetMapping("api/chartExecutionResults/{chartId}")
     public Collection<ChartExecutionResult> generateFilteredReport(@PathVariable long chartId) throws DraggerException {
-        return executionResultRepository.findAll().stream().filter(result-> result.getId().getChart().getId() == chartId).collect(Collectors.toList());
+        List<ChartExecutionResult> collect = executionResultRepository.findAll().stream().filter(result -> result.getId().getChart().getId() == chartId).collect(Collectors.toList());
+
+        collect.stream().forEach(result -> result.getId().setChart(null));
+        return collect;
     }
 
 }

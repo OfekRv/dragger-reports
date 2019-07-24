@@ -69,7 +69,7 @@ angular
                     console.log(angular.element(document.body));
                         $mdDialog.show({
                               controller: DialogController(chart),
-                              templateUrl: 'dragger/dashboard/chartDialog.tmpl.html',
+                              templateUrl: 'dragger/dashboard/chartDialogg.tmpl.html',
                               parent: angular.element(document.body),
                               targetEvent: ev,
                               clickOutsideToClose:true,
@@ -81,27 +81,70 @@ angular
 
                         return ($scope, $mdDialog) =>
                         {
-                        $scope.chart = chart;
-                        $scope.chart.historyLineValue = 1;//document.getElementsByClassName("md-thumb-text").value
+                        $scope.timeLineChart = {id:chart.id,name: chart.name, labels: chart.labels, data: chart.data, options:chart.options};
+                        $scope.timeLineChart.historyLineValue = 1;
+                        $scope.weekCounter = 0;
+                        $scope.availableResults = true;
+                        $scope.datePicked = {isOpen: false, data:null};
+                        $scope.lastWeekResults = [];
 
-
-                        $scope.valueChanged = function()
+                        $scope.retrieveLastWeekResults = function()
                         {
-                            document.getElementsByClassName("md-thumb-text")[0].innerHTML=$scope.newDate($scope.chart.historyLineValue);
-
                             $http({method:'GET',
-                                url : 'api/chartExecutionResults/'+$scope.chart.id
+                                url : 'api/chartExecutionResults/'+$scope.timeLineChart.id
                             }).then(function successCallback(response)
                             {
-                                response.forEach(function(result)
-                                {
-                                    if(result.id.executionDate === $scope.chart.historyLineValue)
-                                    {
-                                        $scope.chartResultsSetting(result.executionResult,$scope.chart);
-                                    }
-                                });
+                                $scope.lastWeekResults = response.data;
                             });
                         };
+
+                        $scope.handleTimeLinePick = function()
+                        {
+                            var timeLineValue = $scope.newDate($scope.timeLineChart.historyLineValue - 1 + ($scope.weekCounter*7));
+                            document.getElementsByClassName("md-thumb-text")[0].innerHTML = $scope.newBackslashDate(timeLineValue);
+                            $scope.availableResults = false;
+                            $scope.lastWeekResults.forEach(function(result)
+                            {
+                                if(result.id.executionDate === $scope.newHyphenDate(timeLineValue))
+                                {
+                                    $scope.availableResults = true;
+                                    $scope.chartResultsSetting(result.executionResult,$scope.timeLineChart);
+                                }
+                            });
+                        }
+
+                        $scope.handleLabel = function()
+                        {
+                            var timeLineValue = $scope.newDate($scope.timeLineChart.historyLineValue - 1 + ($scope.weekCounter*7));
+                            document.getElementsByClassName("md-thumb-text")[0].innerHTML = $scope.newBackslashDate(timeLineValue);
+                        }
+
+                        $scope.nextPage = function()
+                        {
+                            $scope.weekCounter++;
+                            $scope.headline = $scope.currentWeekRange();
+                            $scope.handleTimeLinePick();
+                        }
+
+                        $scope.previousPage = function()
+                        {
+                            if($scope.weekCounter === 0)
+                            {
+                                return;
+                            }
+                            $scope.weekCounter--;
+                            $scope.headline = $scope.currentWeekRange();
+                            $scope.handleTimeLinePick();
+                        }
+
+                        $scope.datePicked = function()
+                        {
+                            var dayDifference = $scope.newDate(0) - new Date($scope.datePicked);
+                            $scope.timeLineChart.historyLineValue = dayDifference % 7 ;
+                            $scope.weekCounter = dayDifference / 7 ;
+                            $scope.headline = $scope.currentWeekRange();
+                            $scope.handleTimeLinePick();
+                        }
 
                         $scope.hide = function() {
 
@@ -115,6 +158,20 @@ angular
                         $scope.newDate = function(numDaysToSubtract){
                         var day = new Date();
                          day.setDate(day.getDate()-parseInt(numDaysToSubtract,10));
+                        return day;
+                        };
+
+                        $scope.newHyphenDate = function(day){
+                        var dd = day.getDate();
+                        var mm = day.getMonth()+1; //As January is 0.
+                        var yyyy = day.getFullYear();
+
+                        if(dd<10) dd='0'+dd;
+                        if(mm<10) mm='0'+mm;
+                        return (yyyy + "-" + mm +  "-" + dd);
+                        };
+
+                        $scope.newBackslashDate = function(day){
                         var dd = day.getDate();
                         var mm = day.getMonth()+1; //As January is 0.
                         var yyyy = day.getFullYear();
@@ -129,16 +186,20 @@ angular
                                 chart.labels = [];
                                 chart.data = [];
 
-                                response.forEach(function(slice,index)
+                                response.results.forEach(function(slice,index)
                                 {
                                     chart.labels.push(slice.label);
                                     chart.data.push(slice.count);
                                 })
-
-                                    chart.historyLineValue = 1;
-                                    $scope.models.lists['Charts']
-                                            .push(chart);
                         }
+
+                        $scope.currentWeekRange = function()
+                        {
+                            return $scope.newBackslashDate($scope.newDate(6 + ($scope.weekCounter*7))) + " - " + $scope.newBackslashDate($scope.newDate(0 + ($scope.weekCounter*7)));
+                        }
+
+                        $scope.retrieveLastWeekResults();
+                        $scope.headline = $scope.currentWeekRange();
                       }
                       }
 
