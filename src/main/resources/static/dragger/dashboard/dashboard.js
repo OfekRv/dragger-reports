@@ -59,9 +59,14 @@ angular
                                             chart.data.push(slice.count);
                                         })
 
-                                            chart.historyLineValue = 1;
-                                            $scope.models.lists['Charts']
-                                                    .push(chart);
+                                        chart.historyLineValue = 1;
+                                        $http({method:'GET',
+                                            url : 'api/charts/' + chart.id + '/filters'
+                                        }).then(function successCallback(response)
+                                        {
+                                            chart.hasFilterData = response.data._embedded.chartQueryFilters.length > 0;
+                                            $scope.models.lists['Charts']                                                                                                          .push(chart);
+                                        });
                             }
 
                     $scope.openChartDialog = function(ev, chart)
@@ -77,12 +82,74 @@ angular
                             });
                     };
 
+                     $scope.openFilterDetailsDialog = function(ev, chart)
+                        {
+                        console.log(angular.element(document.body));
+                            $mdDialog.show({
+                                  controller: FilterDetailsController(chart),
+                                  templateUrl: 'dragger/dashboard/filterDetailsDialogg.tmpl.html',
+                                  parent: angular.element(document.body),
+                                  targetEvent: ev,
+                                  clickOutsideToClose:true,
+                                  fullscreen: false
+                                });
+                        };
+
+                    function FilterDetailsController(chart) {
+                        return ($scope, $mdDialog) =>
+                        {
+                            $scope.chartDetails = {id: chart.id, name: chart.name};
+                            $scope.chartFilters = [];
+                            $scope.filters = [];
+
+                            $scope.loadFilters = function()
+                            {
+                                $http({method:'GET',
+                                    url : 'api/filters'
+                                }).then(function successCallback(response)
+                                {
+                                    response.data._embedded.filters.forEach(function(filter)
+                                   {
+                                       $scope.filters[filter.id] = filter.name;
+                                   });
+
+                                        $http({method:'GET',
+                                           url : 'api/charts/' + $scope.chartDetails.id + '/filters'
+                                       }).then(function successCallback(response)
+                                       {
+                                            response.data._embedded.chartQueryFilters.forEach(function(filter)
+                                            {
+                                           $http({method:'GET',
+                                               url : filter._links.column.href
+                                           }).then(function successCallback(response)
+                                           {
+                                                    filter.columnName = response.data.name;
+                                                    filter.filterName = $scope.filters[parseInt(filter.filterId)];
+                                                    $scope.chartFilters.push(filter);
+                                               });
+                                           });
+                                       });
+                                    });
+                            }
+
+                            $scope.hide = function() {
+                              $mdDialog.hide();
+                            };
+
+                            $scope.cancel = function() {
+                              $mdDialog.cancel();
+                            };
+
+
+                            $scope.loadFilters();
+                        }
+                    }
+
                     function DialogController(chart) {
 
                         return ($scope, $mdDialog) =>
                         {
-                        $scope.timeLineChart = {id:chart.id,name: chart.name, labels: chart.labels, data: chart.data, options:chart.options};
-                        $scope.timeLineChart.historyLineValue = 1;
+                        $scope.timeLineChart = {id:chart.id,name: chart.name, labels: chart.labels, data: chart.data, options:chart.options,historyLineValue : 1};
                         $scope.weekCounter = 0;
                         $scope.availableResults = true;
                         $scope.datePicked = {isOpen: false, data:null};
@@ -100,8 +167,7 @@ angular
 
                         $scope.handleTimeLinePick = function()
                         {
-                            var timeLineValue = $scope.newDate($scope.timeLineChart.historyLineValue - 1 + ($scope.weekCounter*7));
-                            document.getElementsByClassName("md-thumb-text")[0].innerHTML = $scope.newBackslashDate(timeLineValue);
+                            var timeLineValue = $scope.handleLabel();
                             $scope.availableResults = false;
                             $scope.lastWeekResults.forEach(function(result)
                             {
@@ -111,12 +177,14 @@ angular
                                     $scope.chartResultsSetting(result.executionResult,$scope.timeLineChart);
                                 }
                             });
+                            $scope.headline = $scope.currentWeekRange();
                         }
 
                         $scope.handleLabel = function()
                         {
                             var timeLineValue = $scope.newDate($scope.timeLineChart.historyLineValue - 1 + ($scope.weekCounter*7));
                             document.getElementsByClassName("md-thumb-text")[0].innerHTML = $scope.newBackslashDate(timeLineValue);
+                            return timeLineValue;
                         }
 
                         $scope.nextPage = function()
@@ -195,7 +263,9 @@ angular
 
                         $scope.currentWeekRange = function()
                         {
-                            return $scope.newBackslashDate($scope.newDate(6 + ($scope.weekCounter*7))) + " - " + $scope.newBackslashDate($scope.newDate(0 + ($scope.weekCounter*7)));
+                            return $scope.newBackslashDate($scope.newDate(6 + ($scope.weekCounter*7))) + " - "
+                            + $scope.newBackslashDate($scope.newDate(0 + ($scope.weekCounter*7))) + "(התאריך הנוכחי:"
+                            + $scope.newBackslashDate($scope.newDate(($scope.timeLineChart.historyLineValue - 1) + ($scope.weekCounter*7))) + ")";
                         }
 
                         $scope.retrieveLastWeekResults();

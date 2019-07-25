@@ -458,31 +458,10 @@ angular
                     {
                         var chartName = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
 
-                        $scope.generateFiltersDescriptionForChartName();
                         chartName += $scope.generatedFiltersDescriptionForChartName;
 
                         return chartName;
                     };
-
-                    $scope.generateFiltersDescriptionForChartName = function()
-                    {
-                        $scope.generatedFiltersDescriptionForChartName = '';
-
-                        if($scope.chartFilters.length > 0)
-                        {
-                            $scope.generatedFiltersDescriptionForChartName += ' מסונן ע"פ ';
-                        }
-
-                        $scope.chartFilters.forEach(function(filter, index)
-                        {
-                            $scope.generatedFiltersDescriptionForChartName += filter.column.name + " " + filter.filter.name +  filter.value;
-
-                            if(index < ($scope.chartFilters.length - 1))
-                            {
-                                $scope.generatedFiltersDescriptionForChartName += ",";
-                            }
-                        });
-                    }
 
                     $scope.filtersValidation = function()
                     {
