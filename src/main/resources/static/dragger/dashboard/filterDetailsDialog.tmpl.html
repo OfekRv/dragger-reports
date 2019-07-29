@@ -1,0 +1,25 @@
+<md-dialog aria-label="A" style="width:40em;">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{chartDetails.name}} - מסונן ע"פ:</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/close.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <md-grid-list
+                    md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+                    md-row-height-gt-md="1:1" md-row-height="2:2"
+                    md-gutter="12px" md-gutter-gt-sm="8px" >
+                <md-grid-tile md-colspan="6" ng-repeat="filter in chartFilters">
+                    <h4>{{filter.columnName + " " + filter.filterName + filter.value}}</h4>
+                </md-grid-tile>
+            </md-grid-list>
+        </md-dialog-content>
+
+    </form>
+</md-dialog>

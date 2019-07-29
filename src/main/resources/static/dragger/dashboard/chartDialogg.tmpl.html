@@ -17,12 +17,13 @@
                             chart-labels="timeLineChart.labels" chart-options="timeLineChart.options"
                             chart-colors="timeLineChart.colors" style="margin-bottom:3em; margin-top:3em;">
                     </canvas>
-                    <md-icon ng-if="!availableResults" md-svg-icon="img/icons/info.svg" style="width:30vh;height:30vh;">
+                    <md-icon ng-if="!availableResults" md-svg-icon="img/icons/info.svg" style="width:50vh;height:50vh;">
                         <h2 class="md-title">אין תוצאות עבור תאריך זה</h2>
                     </md-icon>
                 </div>
                 <md-slider flex class="md-primary" md-discrete ng-model="timeLineChart.historyLineValue"
                            ng-change="handleTimeLinePick()" step="1" min="1" max="7" week-counter="{{weekCounter}}"
+                            aria-label="inverted"
                            style="margin-top:3vh"
                            aria-label="md-primary"></md-slider>
                 <div style="text-align:center;">
@@ -34,7 +35,7 @@
                             <md-tooltip style="font-size:13px;">שבוע הבא</md-tooltip>
                             <md-icon md-svg-icon="img/icons/navigate_next.svg"></md-icon>
                         </md-button>
-                        <md-datepicker ng-model="pickedDate" md-placeholder="בחר תאריך" md-is-open="pickedDate.isOpen" ng-change=" "></md-datepicker>
+                        <md-datepicker ng-model="pickedDate" md-placeholder="בחר תאריך" ng-change="console.log('changed')" md-is-open="pickedDateOpen"></md-datepicker>
                         <md-button ng-disabled="weekCounter === 0" class="md-icon-button" aria-label="More"
                                    ng-mouseup="previousPage()">
                             <md-tooltip style="font-size:13px;">שבוע הקודם</md-tooltip>
@@ -44,6 +45,5 @@
                 </div>
             </div>
         </md-dialog-content>
-
     </form>
 </md-dialog>
