@@ -35,7 +35,7 @@
                             <md-tooltip style="font-size:13px;">שבוע הבא</md-tooltip>
                             <md-icon md-svg-icon="img/icons/navigate_next.svg"></md-icon>
                         </md-button>
-                        <md-datepicker ng-model="pickedDate" md-placeholder="בחר תאריך" ng-change="console.log('changed')" md-is-open="pickedDateOpen"></md-datepicker>
+                        <md-datepicker ng-model="pickedDate" md-placeholder="בחר תאריך" ng-change="console.log('changed')" md-max-date="maxDate" md-is-open="pickedDateOpen"></md-datepicker>
                         <md-button ng-disabled="weekCounter === 0" class="md-icon-button" aria-label="More"
                                    ng-mouseup="previousPage()">
                             <md-tooltip style="font-size:13px;">שבוע הקודם</md-tooltip>

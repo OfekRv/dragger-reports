@@ -154,12 +154,14 @@ angular
                         $scope.availableResults = true;
                         $scope.pickedDateOpen = false;
                         $scope.datePickerChanged = true;
+                        $scope.maxDate = new Date();
                         $scope.pickedDate = new Date();
                         $scope.weekResults = [];
                         $scope.$watch(function($scope) { return $scope.pickedDate },
                               function() {
                               if(!$scope.datePickerChanged)
                               {
+                                    $scope.datePickerChanged = !$scope.datePickerChanged;
                                     return;
                               }
 
@@ -167,22 +169,33 @@ angular
                                 todayDate.setHours(0,0,0,0);
                                 $scope.pickedDate.setHours(0,0,0,0);
                                 var dayDifference = $scope.diff_days(todayDate, $scope.pickedDate);
-                                    if(dayDifference >= 7)
+                                    if(Math.floor(dayDifference / 7 ) != $scope.weekCounter)
                                     {
-                                        $scope.retrieveWeekResults($scope.newHyphenDate($scope.pickedDate), true);
-                                        $scope.timeLineChart.historyLineValue = (dayDifference % 7) + 1;
+                                        $http({method:'GET',
+                                            url : 'api/chartExecutionResults/'+$scope.timeLineChart.id + '/' + $scope.newHyphenDate($scope.pickedDate)}).then(function(response){
+                                                $scope.weekResults = response.data;
+                                                $scope.loadNewChart();
+                                           });
+
                                         $scope.weekCounter = Math.floor(dayDifference / 7 );
+                                        $scope.headline = $scope.currentWeekRange();
                                     }
+                                    else
+                                    {
+                                        $scope.loadNewChart();
+                                    }
+
+                                    $scope.timeLineChart.historyLineValue = (dayDifference % 7) + 1;
                           });
 
-                        $scope.retrieveWeekResults = function(receivedDate, load)
+                        $scope.retrieveWeekResults = function(receivedDate, loadChart)
                         {
-                            $http({method:'GET',
+                            return $http({method:'GET',
                                 url : 'api/chartExecutionResults/'+$scope.timeLineChart.id + '/' + receivedDate
                             }).then(function successCallback(response)
                             {
                                 $scope.weekResults = response.data;
-                                if(load)
+                                if(loadChart)
                                 {
                                     $scope.loadNewChart();
                                 }
@@ -200,6 +213,7 @@ angular
                             var timeLineValue = $scope.newDate($scope.timeLineChart.historyLineValue - 1 + ($scope.weekCounter*7));
                             document.getElementsByClassName("md-thumb-text")[0].innerHTML = $scope.newBackslashDate(timeLineValue);
                             timeLineValue.setHours(0,0,0,0);
+                            $scope.datePickerChanged = false;
                             $scope.pickedDate = timeLineValue;
                             return timeLineValue;
                         }
@@ -225,7 +239,6 @@ angular
                             $scope.headline = $scope.currentWeekRange();
                             $scope.handleLabel();
                             $scope.retrieveWeekResults($scope.newHyphenDate($scope.pickedDate), true);
-                            $scope.datePickerChanged = true;
                         }
 
                         $scope.previousPage = function()
@@ -240,7 +253,6 @@ angular
                             $scope.headline = $scope.currentWeekRange();
                             $scope.handleLabel();
                             $scope.retrieveWeekResults($scope.newHyphenDate($scope.pickedDate), true);
-                            $scope.datePickerChanged = true;
                         }
 
                         $scope.hide = function() {
@@ -303,7 +315,7 @@ angular
                             + $scope.newBackslashDate($scope.newDate(0 + ($scope.weekCounter*7)));
                         }
 
-                        $scope.retrieveWeekResults($scope.newHyphenDate(new Date()), false);
+                        $scope.retrieveWeekResults($scope.newHyphenDate(new Date()), true);
                       }
                       }
 
