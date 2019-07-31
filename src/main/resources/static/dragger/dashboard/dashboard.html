@@ -23,6 +23,9 @@
                             chart-colors="chart.colors">
                     </canvas>
                 </div>
+                <md-button class="md-icon-button legend-button" aria-label="More" ng-mouseup="openLegendDialog($event, chart)">
+                    <md-icon md-svg-icon="img/icons/list.svg"></md-icon><md-tooltip style="font-size:13px;">מקרא</md-tooltip>
+                </md-button>
                 <md-button class="md-icon-button" aria-label="More" ng-mouseup="openChartDialog($event, chart)">
                     <md-icon md-svg-icon="img/icons/timeline.svg"></md-icon><md-tooltip style="font-size:13px;">ציר זמן</md-tooltip>
                 </md-button>

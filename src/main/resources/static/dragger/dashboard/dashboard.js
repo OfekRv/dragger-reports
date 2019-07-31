@@ -2,7 +2,7 @@ angular
 		.module("dragger")
 		.controller(
 				"dashboardController",
-				function($scope, $http, $mdDialog) {
+				function($scope, $http, $mdDialog, $mdPanel) {
 
 					$scope.removeChart = function(indexOfChart, chart) {
 
@@ -65,13 +65,12 @@ angular
                                         }).then(function successCallback(response)
                                         {
                                             chart.hasFilterData = response.data._embedded.chartQueryFilters.length > 0;
-                                            $scope.models.lists['Charts']                                                                                                          .push(chart);
+                                            $scope.models.lists['Charts'].push(chart);
                                         });
                             }
 
                     $scope.openChartDialog = function(ev, chart)
                     {
-                    console.log(angular.element(document.body));
                         $mdDialog.show({
                               controller: TimeLineController(chart),
                               templateUrl: 'dragger/dashboard/chartDialogg.tmpl.html',
@@ -84,7 +83,6 @@ angular
 
                      $scope.openFilterDetailsDialog = function(ev, chart)
                         {
-                        console.log(angular.element(document.body));
                             $mdDialog.show({
                                   controller: FilterDetailsController(chart),
                                   templateUrl: 'dragger/dashboard/filterDetailsDialog.tmpl.html',
@@ -94,6 +92,46 @@ angular
                                   fullscreen: false
                                 });
                         };
+
+                    $scope.openLegendDialog = function(ev, chart)
+                                            {
+                                                                      var position = $mdPanel.newPanelPosition()
+                                                                          .relativeTo('.legend-button')
+                                                                          .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
+
+                                                                      var config = {
+                                                                        attachTo: angular.element(document.body),
+                                                                        controller: LegendController(chart),
+                                                                        template: '<div class="demo-menu-example" ' +
+                                                                                          '     aria-label="Select your favorite dessert."' +
+                                                                                          '  <div class="demo-menu-item" ' +
+                                                                                          '       ng-repeat="label in chart.labels" ' +
+                                                                                          '    <h4>{{chart.data[$index]}}: {{label}}</h4> ' +
+                                                                                          '  </div>' +
+                                                                                          '</div>',
+                                                                        panelClass: 'demo-menu-example',
+                                                                        position: position,
+                                                                        locals: {
+                                                                              'chart': chart
+                                                                            },
+                                                                        openFrom: ev,
+                                                                        clickOutsideToClose: true,
+                                                                        escapeToClose: true,
+                                                                        focusOnOpen: false,
+                                                                        zIndex: 2
+                                                                      };
+
+                                                                      $mdPanel.open(config);
+                                            };
+
+                    function LegendController(chart)
+                    {
+                        return ($scope) =>
+                        {
+
+                            $scope.chart = {id: chart.id, name: chart.name, options: chart.options, colors : [], labels: chart.labels, data: chart.data};
+                        }
+                    }
 
                     function FilterDetailsController(chart) {
                         return ($scope, $mdDialog) =>
