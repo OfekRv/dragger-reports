@@ -8,7 +8,7 @@ angular
 				        name:'',
 				        labels: [''],
 				        data: [],
-				        colors: ['#565cc1'],
+//				        colors: ['#565cc1'],
 				        emptyPie: true,
 				        self: null
 				};
@@ -118,7 +118,7 @@ angular
 
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
-                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        if(($scope.selectedColumn.data && $scope.selectedSource.data) && $scope.selectedColumn.data.type != $scope.selectedSource.data.name)
                         {
                             $scope.isLinked();
                         }
@@ -157,7 +157,7 @@ angular
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
 
-                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        if(($scope.selectedColumn.data && $scope.selectedSource.data) && $scope.selectedColumn.data.type != $scope.selectedSource.data.name)
                         {
                             $scope.isLinked();
                         }
@@ -514,7 +514,6 @@ angular
                         function successCallback(response) {
                         $scope.chart.labels = [];
                         $scope.chart.data = [];
-                        $scope.chart.colors = [];
                         $scope.chart.emptyPie = true;
                         $scope.lastBuild.allowAddition = true;
                         $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
@@ -526,20 +525,18 @@ angular
                         }
                         else
                         {
-                        $scope.chart.colors = ['#565cc1'];
                         return;
                         }
 
                         response.data.forEach(function(slice,index)
                         {
-                        $scope.chart.labels.push(slice.label);
-                        $scope.chart.data.push(slice.count);
+                            if(slice.label !== '')
+                            {
+                                $scope.chart.labels.push(slice.label);
+                                $scope.chart.data.push(slice.count);
+                            }
                         })
 
-                        if($scope.chart.colors.length > $scope.chart.labels.length)
-                        {
-                        $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
-                        }
                         },
                         function failureCallback(response) { console.log("couldn't retrieve chart data");
                         return;

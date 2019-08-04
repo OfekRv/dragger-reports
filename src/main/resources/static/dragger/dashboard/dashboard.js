@@ -52,11 +52,15 @@ angular
 
                                         chart.labels = [];
                                         chart.data = [];
+                                        chart.colors = [];
 
                                         response.data.forEach(function(slice,index)
                                         {
-                                            chart.labels.push(slice.label);
-                                            chart.data.push(slice.count);
+                                            if(slice.label !== '')
+                                            {
+                                                chart.labels.push(slice.label);
+                                                chart.data.push(slice.count);
+                                            }
                                         })
 
                                         chart.historyLineValue = 1;
@@ -85,7 +89,7 @@ angular
                         {
                             $mdDialog.show({
                                   controller: FilterDetailsController(chart),
-                                  templateUrl: 'dragger/dashboard/filterDetailsDialog.tmpl.html',
+                                  templateUrl: 'dragger/dashboard/filterDetailsDialogg.tmpl.html',
                                   parent: angular.element(document.body),
                                   targetEvent: ev,
                                   clickOutsideToClose:true,
@@ -93,43 +97,49 @@ angular
                                 });
                         };
 
-                    $scope.openLegendDialog = function(ev, chart)
-                                            {
-                                                                      var position = $mdPanel.newPanelPosition()
-                                                                          .relativeTo('.legend-button')
-                                                                          .addPanelPosition($mdPanel.xPosition.ALIGN_START, $mdPanel.yPosition.BELOW);
+                    $scope.openLegendDialog = function(ev, chart,index)
+                    {
+                        var position = $mdPanel.newPanelPosition()
+                          .relativeTo('#legend-button' + index)
+                          .addPanelPosition($mdPanel.xPosition.CENTER, $mdPanel.yPosition.BELOW);
 
-                                                                      var config = {
-                                                                        attachTo: angular.element(document.body),
-                                                                        controller: LegendController(chart),
-                                                                        template: '<div class="demo-menu-example" ' +
-                                                                                          '     aria-label="Select your favorite dessert."' +
-                                                                                          '  <div class="demo-menu-item" ' +
-                                                                                          '       ng-repeat="label in chart.labels" ' +
-                                                                                          '    <h4>{{chart.data[$index]}}: {{label}}</h4> ' +
-                                                                                          '  </div>' +
-                                                                                          '</div>',
-                                                                        panelClass: 'demo-menu-example',
-                                                                        position: position,
-                                                                        locals: {
-                                                                              'chart': chart
-                                                                            },
-                                                                        openFrom: ev,
-                                                                        clickOutsideToClose: true,
-                                                                        escapeToClose: true,
-                                                                        focusOnOpen: false,
-                                                                        zIndex: 2
-                                                                      };
+                        var config = {
+                        attachTo: angular.element(document.body),
+                        controller: LegendController(chart),
+                        template: '<div class="demo-menu-example">' +
+                                          '  <div class="demo-menu-item" ' +
+                                          '       ng-repeat="label in chart.labels">' +
+                                          '<div class="legend-box" style="width:15px;height:15px;margin: 0px 5px;background:{{chart.colors[$index].pointBackgroundColor}}"></div>' +
+                                          '    {{chart.description[$index]}} ' +
+                                          '  </div>' +
+                                          '</div>',
+                        panelClass: 'demo-menu-example',
+                        position: position,
+                        locals: {
+                              'chart': chart
+                            },
+                        openFrom: ev,
+                        clickOutsideToClose: true,
+                        escapeToClose: true,
+                        focusOnOpen: false,
+                        zIndex: 2
+                        };
 
-                                                                      $mdPanel.open(config);
-                                            };
+                        $mdPanel.open(config);
+                    };
 
                     function LegendController(chart)
                     {
                         return ($scope) =>
                         {
+                            $scope.chart = {id: chart.id, name: chart.name, options: chart.options, colors : chart.colors, labels: chart.labels, data: chart.data,description: []};
 
-                            $scope.chart = {id: chart.id, name: chart.name, options: chart.options, colors : [], labels: chart.labels, data: chart.data};
+                            var counter = 0;
+                            $scope.chart.labels.forEach(function(label)
+                            {
+                                $scope.chart.description[counter] = label + ": " + $scope.chart.data[counter];
+                                counter++;
+                            })
                         }
                     }
 

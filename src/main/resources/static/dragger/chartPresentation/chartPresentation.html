@@ -72,7 +72,11 @@
                     </ol>
                 </div>
                 <div class="col-md-10">
-                    <canvas id="pie" class="chart chart-pie"
+                    <div ng-if="chart.labels.length === 0">
+                        <md-icon md-svg-icon="img/icons/info.svg" style="width:60vh;height:60vh;margin-right:100px">
+                        </md-icon>
+                    </div>
+                    <canvas id="pie" class="chart chart-pie" ng-if="chart.labels.length > 0"
                             chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"
                             chart-colors="chart.colors">
                     </canvas>
