@@ -11,14 +11,14 @@ import dragger.entities.charts.Chart;
 import dragger.entities.charts.ChartColumnResult;
 import dragger.repositories.QueryColumnRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import dragger.bl.exporter.ChartQueryExporter;
 import dragger.exceptions.DraggerControllerReportNotFoundException;
 import dragger.exceptions.DraggerException;
 import dragger.repositories.ChartRepository;
+
+import javax.transaction.Transactional;
 
 @RestController
 public class ChartController {
@@ -66,6 +66,22 @@ public class ChartController {
         }
 
         return suggestions.stream().distinct().collect(Collectors.toList());
+    }
+
+    @Transactional
+    @PutMapping("api/charts/updateChartName")
+    public void updateChartName(@RequestParam long chartId, @RequestBody String newName) throws DraggerException {
+        findChartById(chartId).setName(newName);
+    }
+
+    private Chart findChartById(long chartId) throws DraggerException {
+        Optional<Chart> requestedChart = chartRepository.findById(chartId);
+
+        if (requestedChart.isPresent()) {
+            return requestedChart.get();
+        }
+
+        throw new DraggerException("Chart id:" + chartId + " not found");
     }
 
     private Collection<QueryColumn> getColumnFromIds(Collection<Long> columnsResources) throws DraggerException {

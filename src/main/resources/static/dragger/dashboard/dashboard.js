@@ -77,7 +77,7 @@ angular
                     {
                         $mdDialog.show({
                               controller: TimeLineController(chart),
-                              templateUrl: 'dragger/dashboard/chartDialogg.tmpl.html',
+                              templateUrl: 'dragger/dashboard/chartDialog.tmpl.html',
                               parent: angular.element(document.body),
                               targetEvent: ev,
                               clickOutsideToClose:true,

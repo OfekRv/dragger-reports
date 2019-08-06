@@ -19,12 +19,12 @@
                     </canvas>
                     <md-icon ng-if="!availableResults" md-svg-icon="img/icons/info.svg" style="width:50vh;height:50vh;">
                     </md-icon>
-                    <h2 class="md-title">אין תוצאות עבור תאריך זה</h2>
+                    <h2 ng-if="!availableResults" class="md-title" style="margin: 0px;">אין תוצאות עבור תאריך זה</h2>
                 </div>
                 <md-slider flex class="md-primary" md-discrete ng-model="timeLineChart.historyLineValue"
                            ng-change="handleTimeLinePick()" step="1" min="1" max="7" week-counter="{{weekCounter}}"
                             aria-label="inverted"
-                           style="margin-top:3vh"
+                           style="margin-top:1vh"
                            aria-label="md-primary"></md-slider>
                 <div style="text-align:center;">
                     <h3 class="md-title">{{headline}}</h3>

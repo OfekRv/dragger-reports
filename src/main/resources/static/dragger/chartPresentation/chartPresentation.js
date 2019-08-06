@@ -8,7 +8,7 @@ angular
 				        name:'',
 				        labels: [''],
 				        data: [],
-//				        colors: ['#565cc1'],
+				        description: [],
 				        emptyPie: true,
 				        self: null
 				};
@@ -273,14 +273,13 @@ angular
                                   cancelButtonText: 'בטל',
                                   showLoaderOnConfirm: false,
                                   preConfirm: (name) => {
-                                    chartName = name;
+                                    $scope.chart.name = name;
                                   },
                                   allowOutsideClick: false
                                 }).then((result) => {
                                 	if(result.dismiss && result.dismiss ==='cancel'){
                                 		return}
                                     var chartAlreadyAddedToDashboard = false;
-                                    $scope.chart.name = chartName;
                                     $http(
                                             {
                                                 method : 'PUT',
@@ -505,6 +504,14 @@ angular
                         return validationCheck;
                     };
 
+                    $scope.generateColor = function()
+                    {
+                        h = 240;
+                        s = Math.floor(Math.random() * 100);
+                        l = Math.floor(Math.random() * 100);
+                        return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+                    }
+
                     $scope.executeChartQuery = function()
                     {
                     $http({
@@ -514,19 +521,19 @@ angular
                         function successCallback(response) {
                         $scope.chart.labels = [];
                         $scope.chart.data = [];
+                        $scope.chart.description = [];
+                        $scope.chart.colors = [];
                         $scope.chart.emptyPie = true;
                         $scope.lastBuild.allowAddition = true;
                         $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
                         $scope.lastBuild.selectedSource = $scope.selectedSource.data;
 
-                        if(response.data.length > 0 )
+                        if(response.data.length === 0 )
                         {
+                            return;
+                        }
+
                         $scope.chart.emptyPie = false;
-                        }
-                        else
-                        {
-                        return;
-                        }
 
                         response.data.forEach(function(slice,index)
                         {
@@ -534,6 +541,7 @@ angular
                             {
                                 $scope.chart.labels.push(slice.label);
                                 $scope.chart.data.push(slice.count);
+                                $scope.chart.description.push(slice.label + ": " + slice.count);
                             }
                         })
 
