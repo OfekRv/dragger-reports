@@ -8,7 +8,7 @@ angular
 				        name:'',
 				        labels: [''],
 				        data: [],
-				        colors: ['#565cc1'],
+				        description: [],
 				        emptyPie: true,
 				        self: null
 				};
@@ -118,7 +118,7 @@ angular
 
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
-                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        if(($scope.selectedColumn.data && $scope.selectedSource.data) && $scope.selectedColumn.data.type != $scope.selectedSource.data.name)
                         {
                             $scope.isLinked();
                         }
@@ -157,7 +157,7 @@ angular
                         $scope.fetchFilterSuggestions();
                         $scope.validateChartAddition();
 
-                        if($scope.selectedColumn.data.type != $scope.selectedSource.data.name)
+                        if(($scope.selectedColumn.data && $scope.selectedSource.data) && $scope.selectedColumn.data.type != $scope.selectedSource.data.name)
                         {
                             $scope.isLinked();
                         }
@@ -273,14 +273,13 @@ angular
                                   cancelButtonText: 'בטל',
                                   showLoaderOnConfirm: false,
                                   preConfirm: (name) => {
-                                    chartName = name;
+                                    $scope.chart.name = name;
                                   },
                                   allowOutsideClick: false
                                 }).then((result) => {
                                 	if(result.dismiss && result.dismiss ==='cancel'){
                                 		return}
                                     var chartAlreadyAddedToDashboard = false;
-                                    $scope.chart.name = chartName;
                                     $http(
                                             {
                                                 method : 'PUT',
@@ -458,31 +457,10 @@ angular
                     {
                         var chartName = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
 
-                        $scope.generateFiltersDescriptionForChartName();
                         chartName += $scope.generatedFiltersDescriptionForChartName;
 
                         return chartName;
                     };
-
-                    $scope.generateFiltersDescriptionForChartName = function()
-                    {
-                        $scope.generatedFiltersDescriptionForChartName = '';
-
-                        if($scope.chartFilters.length > 0)
-                        {
-                            $scope.generatedFiltersDescriptionForChartName += ' מסונן ע"פ ';
-                        }
-
-                        $scope.chartFilters.forEach(function(filter, index)
-                        {
-                            $scope.generatedFiltersDescriptionForChartName += filter.column.name + " " + filter.filter.name +  filter.value;
-
-                            if(index < ($scope.chartFilters.length - 1))
-                            {
-                                $scope.generatedFiltersDescriptionForChartName += ",";
-                            }
-                        });
-                    }
 
                     $scope.filtersValidation = function()
                     {
@@ -526,6 +504,14 @@ angular
                         return validationCheck;
                     };
 
+                    $scope.generateColor = function()
+                    {
+                        h = 240;
+                        s = Math.floor(Math.random() * 100);
+                        l = Math.floor(Math.random() * 100);
+                        return 'hsl(' + h + ', ' + s + '%, ' + l + '%)';
+                    }
+
                     $scope.executeChartQuery = function()
                     {
                     $http({
@@ -535,32 +521,30 @@ angular
                         function successCallback(response) {
                         $scope.chart.labels = [];
                         $scope.chart.data = [];
+                        $scope.chart.description = [];
                         $scope.chart.colors = [];
                         $scope.chart.emptyPie = true;
                         $scope.lastBuild.allowAddition = true;
                         $scope.lastBuild.selectedColumn = $scope.selectedColumn.data;
                         $scope.lastBuild.selectedSource = $scope.selectedSource.data;
 
-                        if(response.data.length > 0 )
+                        if(response.data.length === 0 )
                         {
+                            return;
+                        }
+
                         $scope.chart.emptyPie = false;
-                        }
-                        else
-                        {
-                        $scope.chart.colors = ['#565cc1'];
-                        return;
-                        }
 
                         response.data.forEach(function(slice,index)
                         {
-                        $scope.chart.labels.push(slice.label);
-                        $scope.chart.data.push(slice.count);
+                            if(slice.label !== '')
+                            {
+                                $scope.chart.labels.push(slice.label);
+                                $scope.chart.data.push(slice.count);
+                                $scope.chart.description.push(slice.label + ": " + slice.count);
+                            }
                         })
 
-                        if($scope.chart.colors.length > $scope.chart.labels.length)
-                        {
-                        $scope.chart.colors = $scope.chart.colors.slice(0, $scope.chart.labels.length - 1);
-                        }
                         },
                         function failureCallback(response) { console.log("couldn't retrieve chart data");
                         return;

@@ -597,3 +597,32 @@ margin-top: 50px;
     {
         width: 10px;
     }
+
+
+    div.chart-legend-window {
+      max-height: 400px;
+      width: 15em;
+      overflow: hidden;
+
+    }
+
+    .chart-legend-item {
+      align-items: center;
+      cursor: pointer;
+      display: flex;
+      height: 48px;
+      padding: 0 16px;
+      position: relative;
+      transition: background 0.15s linear;
+      width: auto;
+    }
+
+    /*div.chart-legend-item {
+                width: 40em;
+                overflow: hidden;
+                border: 1px solid #444;
+                margin: 3em;
+            }*/
+            div.chart-legend-window:hover {
+                overflow: auto;
+            }

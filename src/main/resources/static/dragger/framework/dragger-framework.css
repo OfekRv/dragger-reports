@@ -4,6 +4,11 @@ body {
     background-color: #d7dae2;
 }
 
+body,html{
+    background-color: #d7dae2;
+    overflow: initial;
+}
+
 .container
 {
     width:1700px

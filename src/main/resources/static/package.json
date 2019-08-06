@@ -4,6 +4,7 @@
   "main": "angular-drag-and-drop-lists.js",
   "dependencies": {
     "angular": "^1.6.0",
+    "angular-material": "^1.1.19",
     "angular-route": "^1.6.0",
     "bootstrap": "^3.3.7",
     "bootstrap3-rtl": "^1.1.0",

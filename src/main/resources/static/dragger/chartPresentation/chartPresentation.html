@@ -53,26 +53,20 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <ol class="chart-legend" ng-if="!chart.emptyPie">
-                        <div class="row legend-row" ng-repeat="color in chart.colors">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <li><span class="color-box"
-                                              style="background-color: {{color.pointBackgroundColor}}"></span>
-                                    </li>
-                                </div>
-                                <div class="col-md-6">
-                                    <span class="chart-legend-label">{{chart.labels[$index]}}</span>
-                                </div>
-                                <div class="col-md-4 chart-legend-count">
-                                    ({{chart.data[$index]}})
-                                </div>
-                            </div>
+                    <div class="chart-legend-window">
+                        <div class="chart-legend-item"
+                        ng-repeat="label in chart.labels">
+                        <div class="legend-box" style="width:15px;height:15px;margin: 0px 5px;background:{{chart.colors[$index].pointBackgroundColor}}"></div>
+                        {{chart.description[$index]}}
                         </div>
-                    </ol>
+                    </div>
                 </div>
                 <div class="col-md-10">
-                    <canvas id="pie" class="chart chart-pie"
+                    <div ng-if="chart.labels.length === 0">
+                        <md-icon md-svg-icon="img/icons/info.svg" style="width:60vh;height:60vh;margin-right:100px">
+                        </md-icon>
+                    </div>
+                    <canvas id="pie" class="chart chart-pie" ng-if="chart.labels.length > 0"
                             chart-data="chart.data" chart-labels="chart.labels" chart-options="chart.options"
                             chart-colors="chart.colors">
                     </canvas>
