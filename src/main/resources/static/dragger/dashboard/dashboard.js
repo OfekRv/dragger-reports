@@ -7,7 +7,7 @@ angular
 					$scope.removeChart = function(indexOfChart, chart) {
 
 					Swal.fire({
-                      title: 'אתה בטוח שברצונך להסיר את התרשים מהלוח?',
+                      title: 'את/ה בטוח/ה שברצונך להסיר את התרשים מהלוח?',
                       text: "",
                       type: 'warning',
                       showCancelButton: true,

@@ -97,7 +97,7 @@ angular
 																	response) {
 																var isLinked = response.data;
 																if (isLinked == "false") {
-																	alert("העמודה שאתה מנסה להוסיף לא יכולה להיות מקושרת לדוח");
+																	alert("העמודה שאת/ה מנסה להוסיף לא יכולה להיות מקושרת לדוח");
 																}
 															});
 										}

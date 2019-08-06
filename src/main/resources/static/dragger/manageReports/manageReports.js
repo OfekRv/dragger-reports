@@ -3,16 +3,32 @@ angular
 		.controller(
 				"manageReportsController",
 				function($scope, $http) {
-					$scope.dropCallback = function(index, item) {
-					if(confirm("אתה בטוח שברצונך למחוק את הדוח?"))
-                    {
-                            $http({
-                                method : 'DELETE',
+					$scope.removeReport = function(index, item) {
+                        Swal.fire({
+                          title: 'את/ה בטוח/ה שברצונך להסיר את הדוח?',
+                          text: "",
+                          type: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          cancelButtonText: 'בטל',
+                          confirmButtonText: 'מחק'
+                        }).then((result) => {
+                          if (result.value) {
+                            $http({method : 'DELETE',
                                 url : '/api/reports/'+ $scope.models.lists['Reports'][index].id
-                            }).then(function(){
-                                $scope.initialize();
-                            });
-                        };
+                            }).then(function successCallback(response){
+                            $scope.initialize();
+                          });
+                          }
+                        });
+//                            $http({
+//                                method : 'DELETE',
+//                                url : '/api/reports/'+ $scope.models.lists['Reports'][index].id
+//                            }).then(function(){
+//                                $scope.initialize();
+//                            });
+//                        };
                     }
 
                     $scope.initialize = function(){

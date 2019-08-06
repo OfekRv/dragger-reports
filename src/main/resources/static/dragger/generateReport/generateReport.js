@@ -2,7 +2,7 @@ angular
 		.module("dragger")
 		.controller(
 				"generateReportController",
-				function($scope, $http) {
+				function($scope, $http, $mdDialog) {
 					$scope.reports = [];
 					$scope.selectedReport = null;
 					$scope.loading = false;
@@ -121,7 +121,7 @@ angular
 						}
 					}
 
-					$scope.changeColumn = function(filterIndex) {
+					$scope.changeColumn = function(ev,filterIndex) {
 						$scope.filters[filterIndex].selectValue = null;
 						if($scope.filters[filterIndex].comboplete)
 						{
@@ -155,9 +155,18 @@ angular
                                             }
                                         },
                                         function successCallback(response) {
-                                            alert("אין ערכים להצעה עבור עמודה זו");
+                                        $mdDialog.show(
+                                              $mdDialog.alert()
+                                                .clickOutsideToClose(true)
+                                                .title('')
+                                                .textContent('אין ערכים להצעה עבור עמודה זו')
+                                                .ariaLabel('Alert Dialog Demo')
+                                                .ok('סבבה')
+                                                .targetEvent(ev));
                                         });
-                            }
+                                        }
+                            });
+
 
                             if (comboplete.ul.childNodes.length === 0) {
                                 comboplete.minChars = 0;
@@ -169,7 +178,7 @@ angular
                             else {
                                 comboplete.close();
                             }
-                        });
+
 
                         Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
                                                         if (!comboplete.ul.hasAttribute('hidden')) {
@@ -192,13 +201,14 @@ angular
 							report.columns.push(response);
 						})
 					}
-					$scope.downloadUrl = function() {
+
+					$scope.downloadUrl = function(ev) {
 						var validationCheck = true;
 						angular
 								.forEach(
 										$scope.filters,
 										function(filter, index) {
-											if ($scope.dataTypes[filter.column.dataType].multivalue) {
+											if (filter.column && $scope.dataTypes[filter.column.dataType].multivalue) {
 												filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
 											} else {
 												filter.value = filter.valueObj;
@@ -206,21 +216,45 @@ angular
 
 											if (!filter.filter) {
 												validationCheck = false;
-												alert("האופרטור בשורה "
+												$mdDialog.show(
+                                                      $mdDialog.alert()
+                                                        .clickOutsideToClose(true)
+                                                        .title('')
+                                                        .textContent(" האופרטור בשורה "
 														+ (index + 1)
-														+ "לא אמור להיות ריק ");
+														+ " לא אמור להיות ריק ")
+                                                        .ariaLabel('Alert Dialog Demo')
+                                                        .ok('סבבה')
+                                                        .targetEvent(ev)
+                                            );
 												return;
 											} else if (!filter.column) {
 												validationCheck = false;
-												alert("העמודה בשורה "
+												$mdDialog.show(
+                                                      $mdDialog.alert()
+                                                        .clickOutsideToClose(true)
+                                                        .title('')
+                                                        .textContent(" העמודה בשורה "
 														+ (index + 1)
-														+ "לא אמור להיות ריקה ");
+														+ " לא אמור להיות ריקה ")
+                                                        .ariaLabel('Alert Dialog Demo')
+                                                        .ok('סבבה')
+                                                        .targetEvent(ev)
+                                            );
 												return;
 											} else if (!filter.value) {
 												validationCheck = false;
-												alert(" הערך בשורה"
+												$mdDialog.show(
+                                                      $mdDialog.alert()
+                                                        .clickOutsideToClose(true)
+                                                        .title('')
+                                                        .textContent(" הערך בשורה"
 														+ (index + 1)
-														+ "לא אמור להיות ריק ");
+														+ " לא אמור להיות ריק ")
+                                                        .ariaLabel('Alert Dialog Demo')
+                                                        .ok('סבבה')
+                                                        .targetEvent(ev)
+                                            );
 												return;
 											}
 											filter.columnId = filter.column.columnId;

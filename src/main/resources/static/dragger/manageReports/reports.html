@@ -10,9 +10,9 @@
                 {{report.name}}
             </div>
             <div class="col-md-2">
-                <button type="button" class="remove-column-button" ng-click="dropCallback($index, report)">
-                    <img class="remove-report-icon" src="dragger/buildReport/trash_icon.png">
-                </button>
+                <md-button class="md-accent md-raised" style="background-color: #b86463;" ng-click="removeReport($index,report)">
+                    <md-icon md-svg-icon="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר דוח</md-tooltip>
+                </md-button>
             </div>
         </div>
     </li>

@@ -17,7 +17,7 @@
                             <div class="select">
                                 <select class="select-text"
                                         ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
-                                        ng-model="filter.column" ng-change="changeColumn($index)"
+                                        ng-model="filter.column" ng-change="changeColumn($event, $index)"
                                         required>
                                 </select> <span class="select-highlight"></span> <span class="select-bar"></span>
                                 <label class="select-label" ng-if="$index == 0">עמודה</label>
@@ -80,7 +80,7 @@
                 <div class="space-top text-center">
                     <button
                             ng-disabled="form-generate-report.$invalid || selectedReport === null || loading"
-                            ng-click="downloadUrl()"
+                            ng-click="downloadUrl($event)"
                             class="waves-effect waves-light btn generate-report">
                         <div ng-if="!loading">הרץ</div>
 
