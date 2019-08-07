@@ -126,11 +126,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1">
-                                        <button type="button" class="remove-column-button"
-                                                ng-click="removeFilter($index, column)">
-                                            <img class="remove-report-icon"
-                                                 src="dragger/buildReport/trash_icon.png">
-                                        </button>
+                                        <md-button class="md-fab md-mini" style="background-color: rgb(255,82,82);" ng-click="removeFilter($index)">
+                                            <md-icon md-svg-src="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
+                                        </md-button>
                                     </div>
                                 </div>
                             </form>
@@ -145,12 +143,12 @@
                     <div class="row">
                         <div class="col-md-4 center-button">
                             <button ng-disabled="form-build-report.$invalid" type="button"
-                                    ng-click="createChart()" class="btn done build-chart-button">בנה תרשים
+                                    ng-click="createChart($event)" class="btn done build-chart-button">בנה תרשים
                             </button>
                         </div>
                         <div class="col-md-4 center-button">
                             <button ng-disabled="(!lastBuild.allowAddition)" type="button"
-                                    ng-click="addChartToDashboard()" class="btn done build-chart-button">הוסף למועדפים
+                                    ng-click="addChartToDashboard($event)" class="btn done build-chart-button">הוסף למועדפים
                             </button>
                         </div>
                         <div class="col-md-4 center-button">

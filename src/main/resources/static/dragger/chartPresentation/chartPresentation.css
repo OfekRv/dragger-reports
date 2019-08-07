@@ -626,3 +626,9 @@ margin-top: 50px;
             div.chart-legend-window:hover {
                 overflow: auto;
             }
+
+
+    md-dialog .md-dialog-content
+    {
+        width: 400px
+    }

@@ -2,33 +2,24 @@ angular
 		.module("dragger")
 		.controller(
 				"manageReportsController",
-				function($scope, $http) {
-					$scope.removeReport = function(index, item) {
-                        Swal.fire({
-                          title: 'את/ה בטוח/ה שברצונך להסיר את הדוח?',
-                          text: "",
-                          type: 'warning',
-                          showCancelButton: true,
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: '#d33',
-                          cancelButtonText: 'בטל',
-                          confirmButtonText: 'מחק'
-                        }).then((result) => {
-                          if (result.value) {
-                            $http({method : 'DELETE',
-                                url : '/api/reports/'+ $scope.models.lists['Reports'][index].id
-                            }).then(function successCallback(response){
-                            $scope.initialize();
-                          });
-                          }
+				function($scope, $http, $mdDialog) {
+					$scope.removeReport = function(ev, item) {
+
+					var confirm = $mdDialog.confirm()
+                              .title('את/ה בטוח/ה שברצונך להסיר את הדוח?')
+                              .textContent('')
+                              .ariaLabel('Lucky day')
+                              .targetEvent(ev)
+                              .ok('הסר')
+                              .cancel('בטל');
+
+                        $mdDialog.show(confirm).then(function() {
+                          $http({method : 'DELETE',
+                                                          url : '/api/reports/'+ item.id
+                                                      }).then(function successCallback(response){
+                                                      $scope.initialize();
+                                                    });
                         });
-//                            $http({
-//                                method : 'DELETE',
-//                                url : '/api/reports/'+ $scope.models.lists['Reports'][index].id
-//                            }).then(function(){
-//                                $scope.initialize();
-//                            });
-//                        };
                     }
 
                     $scope.initialize = function(){

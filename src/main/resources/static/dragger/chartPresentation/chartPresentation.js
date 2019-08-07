@@ -2,7 +2,7 @@ angular
 		.module("dragger")
 		.controller(
 				"chartPresentationController",
-				function($scope, $http,$q) {
+				function($scope, $http,$q, $mdDialog) {
 				$scope.chart = {
 				        id:0,
 				        name:'',
@@ -251,7 +251,7 @@ angular
                             );
                     };
 
-                    $scope.addChartToDashboard = function()
+                    $scope.addChartToDashboard = function(ev)
                     {
                         $http(
                             {
@@ -261,6 +261,20 @@ angular
                             .then(
                                 function successCallback(response){
                                 var chartName;
+                                var confirm = $mdDialog.prompt()
+                                      .title("בחר שם לתרשים")
+                                      .textContent('')
+                                      .placeholder('שם תרשים')
+                                      .ariaLabel('Dog name')
+                                      .initialValue($scope.chart.name)
+                                      .targetEvent(ev)
+                                      .required(true)
+                                      .ok('הוסף')
+                                      .cancel('בטל');
+
+                                    $mdDialog.show(confirm).then(function(result) {
+                                      /*$scope.status = 'You decided to name your dog ' + result + '.';
+                                    });
                                 Swal.fire({
                                   title: 'בחר שם לתרשים',
                                   input: 'text',
@@ -276,7 +290,7 @@ angular
                                     $scope.chart.name = name;
                                   },
                                   allowOutsideClick: false
-                                }).then((result) => {
+                                }).then((result) => {*/
                                 	if(result.dismiss && result.dismiss ==='cancel'){
                                 		return}
                                     var chartAlreadyAddedToDashboard = false;
@@ -305,23 +319,41 @@ angular
                                          }).then(
                                          function successCallback(response){
                                              if (!response) {
-                                             Swal.fire({
-                                               title: "הוספת התרשים כשלה"
-                                             })
+                                             $mdDialog.show(
+                                               $mdDialog.alert()
+                                                 .clickOutsideToClose(true)
+                                                 .textContent('')
+                                                 .title("הוספת התרשים כשלה")
+                                                 .ariaLabel('Alert Dialog Demo')
+                                                 .ok('סבבה')
+                                                 .targetEvent(ev)
+                                                 );
                                            }
                                            else
                                            {
-                                             Swal.fire({
-                                               title: "התרשים נוסף בהצלחה!"
-                                             });
+                                             $mdDialog.show(
+                                               $mdDialog.alert()
+                                                 .clickOutsideToClose(true)
+                                                 .textContent('')
+                                                 .title("התרשים נוסף בהצלחה!")
+                                                 .ariaLabel('Alert Dialog Demo')
+                                                 .ok('סבבה')
+                                                 .targetEvent(ev)
+                                                 );
                                            }
                                            });
                                        }
                                        else
                                        {
-                                           Swal.fire({
-                                              title: "שם התרשים שונה!"
-                                            });
+                                           $mdDialog.show(
+                                             $mdDialog.alert()
+                                               .clickOutsideToClose(true)
+                                               .textContent('')
+                                               .title("שם התרשים שונה בהצלחה!")
+                                               .ariaLabel('Alert Dialog Demo')
+                                               .ok('סבבה')
+                                               .targetEvent(ev)
+                                               );
                                        }
                                     });
                                     });
@@ -354,14 +386,22 @@ angular
                                             function successCallback(
                                                     response) {
                                                 if (response.data === false) {
-                                                    alert("המקור והעמודה שבחרת לא מקושרים");
+                                                $mdDialog.show(
+                                                  $mdDialog.alert()
+                                                    .clickOutsideToClose(true)
+                                                    .textContent('')
+                                                    .title("המקור והעמודה שבחרת לא מקושרים")
+                                                    .ariaLabel('Alert Dialog Demo')
+                                                    .ok('סבבה')
+                                                    .targetEvent(ev)
+                                                    );
                                                 }
                                             });
                                     });
                         }
                     }
 
-					$scope.createChart = function()
+					$scope.createChart = function(ev)
 					{
 						var columns = [];
 						var countColumnsPromises = [];
@@ -373,7 +413,15 @@ angular
 
 						if(!$scope.selectedColumn.selected)
                         {
-                            alert("יש לבחור עמודה");
+                            $mdDialog.show(
+                              $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .textContent('')
+                                .title("יש לבחור עמודה")
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('סבבה')
+                                .targetEvent(ev)
+                                );
                             return;
                         }
 
@@ -381,11 +429,19 @@ angular
 
 						if(!$scope.selectedSource.selected)
 						{
-						    alert("יש לבחור מקור");
+						    $mdDialog.show(
+                              $mdDialog.alert()
+                                .clickOutsideToClose(true)
+                                .textContent('')
+                                .title("יש לבחור מקור")
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('סבבה')
+                                .targetEvent(ev)
+                                );
 						    return;
 						}
 
-						if (!$scope.filtersValidation()) {
+						if (!$scope.filtersValidation(ev)) {
 						    return;
 						}
 
@@ -418,7 +474,15 @@ angular
 
 						    if(!response.data.id)
 						    {
-                                 alert("בניית התרשים כשלה")
+						        $mdDialog.show(
+                                  $mdDialog.alert()
+                                    .clickOutsideToClose(true)
+                                    .textContent('')
+                                    .title("בניית התרשים כשלה")
+                                    .ariaLabel('Alert Dialog Demo')
+                                    .ok('סבבה')
+                                    .targetEvent(ev)
+                                    );
                                  return;
 						    }
 						    else
@@ -448,7 +512,15 @@ angular
 						        $scope.executeChartQuery();
 						    }
 						}, function errorCallback(response) {
-							alert("בניית התרשים כשלה");
+							$mdDialog.show(
+                                  $mdDialog.alert()
+                                    .clickOutsideToClose(true)
+                                    .textContent('')
+                                    .title("בניית התרשים כשלה")
+                                    .ariaLabel('Alert Dialog Demo')
+                                    .ok('סבבה')
+                                    .targetEvent(ev)
+                                    );
 						});
 						});
 }
@@ -462,39 +534,56 @@ angular
                         return chartName;
                     };
 
-                    $scope.filtersValidation = function()
+                    $scope.filtersValidation = function(ev)
                     {
                         var validationCheck = true;
                             $scope.chartFilters.forEach(function(filter, index) {
-                            if ($scope.dataTypes[filter.column.dataType].multivalue)
+                            if (filter.column && $scope.dataTypes[filter.column.dataType].multivalue)
                             {
                                 filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
-                            }
-                            else if($scope.dataTypes[filter.column.dataType].name === 'DATE' && filter.isCurrentDate)
-                            {
-                                filter.value = "current_date";
-                            }
-                                else{
-                                filter.value = filter.valueObj;
                             }
 
                             if (!filter.filter) {
                                 validationCheck = false;
-                                alert("האופרטור בשורה "
+                                $mdDialog.show(
+                                      $mdDialog.alert()
+                                        .clickOutsideToClose(true)
+                                        .textContent('')
+                                        .title(" האופרטור בשורה "
                                         + (index + 1)
-                                        + "לא אמור להיות ריק ");
+                                        + " לא אמור להיות ריק ")
+                                        .ariaLabel('Alert Dialog Demo')
+                                        .ok('סבבה')
+                                        .targetEvent(ev)
+                            );
                                 return;
                             } else if (!filter.column) {
                                 validationCheck = false;
-                                alert("העמודה בשורה "
+                                $mdDialog.show(
+                                      $mdDialog.alert()
+                                        .clickOutsideToClose(true)
+                                        .textContent('')
+                                        .title(" העמודה בשורה "
                                         + (index + 1)
-                                        + "לא אמור להיות ריקה ");
+                                        + " לא אמורה להיות ריקה ")
+                                        .ariaLabel('Alert Dialog Demo')
+                                        .ok('סבבה')
+                                        .targetEvent(ev)
+                            );
                                 return;
                             } else if (!filter.value) {
                                 validationCheck = false;
-                                alert(" הערך בשורה"
+                                $mdDialog.show(
+                                      $mdDialog.alert()
+                                        .clickOutsideToClose(true)
+                                        .textContent('')
+                                        .title(" הערך בשורה"
                                         + (index + 1)
-                                        + "לא אמור להיות ריק ");
+                                        + " לא אמור להיות ריק ")
+                                        .ariaLabel('Alert Dialog Demo')
+                                        .ok('סבבה')
+                                        .targetEvent(ev)
+                            );
                                 return;
                             }
                             filter.columnId = filter.column.columnId;

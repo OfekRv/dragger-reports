@@ -4,26 +4,22 @@ angular
 				"dashboardController",
 				function($scope, $http, $mdDialog, $mdPanel) {
 
-					$scope.removeChart = function(indexOfChart, chart) {
+					$scope.removeChart = function(ev,indexOfChart, chart) {
 
-					Swal.fire({
-                      title: 'את/ה בטוח/ה שברצונך להסיר את התרשים מהלוח?',
-                      text: "",
-                      type: 'warning',
-                      showCancelButton: true,
-                      confirmButtonColor: '#3085d6',
-                      cancelButtonColor: '#d33',
-                      cancelButtonText: 'בטל',
-                      confirmButtonText: 'מחק'
-                    }).then((result) => {
-                      if (result.value) {
-                        $http({method : 'DELETE',
-                            url : 'api/dashboard/1/removeChart/' + chart.id
-                        }).then(function successCallback(response){
-                        $scope.models.lists['Charts'].splice(indexOfChart,1);});
-                      }
-                    })
+                    var confirm = $mdDialog.confirm()
+                          .title('את/ה בטוח/ה שברצונך להסיר את התרשים מהלוח?')
+                          .textContent('')
+                          .ariaLabel('Lucky day')
+                          .targetEvent(ev)
+                          .ok('הסר')
+                          .cancel('בטל');
 
+                    $mdDialog.show(confirm).then(function() {
+                      $http({method : 'DELETE',
+                              url : 'api/dashboard/1/removeChart/' + chart.id
+                          }).then(function successCallback(response){
+                          $scope.models.lists['Charts'].splice(indexOfChart,1);});
+                    });
                     }
 
                     $scope.initialize = function(){
@@ -69,6 +65,15 @@ angular
                                         }).then(function successCallback(response)
                                         {
                                             chart.hasFilterData = response.data._embedded.chartQueryFilters.length > 0;
+                                            if(chart.name.length > 40)
+                                            {
+                                                chart.shortName = chart.name.substring(0, 40);
+                                            }
+                                            else
+                                            {
+                                                chart.shortName = chart.name;
+                                            }
+
                                             $scope.models.lists['Charts'].push(chart);
                                         });
                             }

@@ -236,7 +236,7 @@ angular
                                                         .title('')
                                                         .textContent(" העמודה בשורה "
 														+ (index + 1)
-														+ " לא אמור להיות ריקה ")
+														+ " לא אמורה להיות ריקה ")
                                                         .ariaLabel('Alert Dialog Demo')
                                                         .ok('סבבה')
                                                         .targetEvent(ev)

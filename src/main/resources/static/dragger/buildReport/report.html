@@ -10,14 +10,14 @@
         dnd-effect-allowed="move"
         dnd-moved="models.lists['Report'].splice($index, 1)"
         dnd-horizontal-list="true">
-        <div class="row">
+        <div class="row draggable-rtl-row">
             <div class="col-md-10">
-                {{column.data.name}}
+                <h4>{{column.data.name}}</h4>
             </div>
             <div class="col-md-2">
-                <button type="button" class="remove-column-button" ng-click="dropCallback($index, column)">
-                    <img class="remove-report-icon" src="dragger/buildReport/trash_icon.png">
-                </button>
+                <md-button class="md-fab md-mini" style="background-color: rgb(255,82,82);" ng-click="dropCallback($index, column)">
+                    <md-icon md-svg-icon="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר עמודה</md-tooltip>
+                </md-button>
             </div>
         </div>
     </li>

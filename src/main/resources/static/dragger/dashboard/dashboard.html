@@ -7,13 +7,14 @@
                     method="post" name="register" novalidate="">
                 <div class="row">
                     <div class="col-md-1">
-                        <md-button class="md-icon-button" aria-label="More" ng-mouseup="removeChart(index, chart)">
+                        <md-button class="md-icon-button" aria-label="More" ng-mouseup="removeChart($event, index, chart)">
 
                             <md-icon md-svg-icon="img/icons/close.svg"></md-icon>
                         </md-button>
                     </div>
                     <div class="col-md-10">
-                        <h3 class="dashboard-chart-title">{{chart.name}}</h3>
+                        <h3 class="dashboard-chart-title">{{chart.shortName}}</h3>
+                        <md-tooltip style="font-size:13px;" ng-if="chart.name.length > 40">{{chart.name}}</md-tooltip>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
