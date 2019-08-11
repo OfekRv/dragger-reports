@@ -2,7 +2,7 @@ angular
 		.module("dragger")
 		.controller(
 				"buildReportController",
-				function($scope, $http) {
+				function($scope, $http, $mdDialog) {
 				    $scope.filterSources =function(sourceName, source)
                     				    {
                     				        if(!(source && sourceName) || sourceName.includes('Report') || !source.visible)
@@ -36,13 +36,21 @@ angular
                     				        return column.data.visible;
                     				    };
 
-					$scope.createReport = function() {
+					$scope.createReport = function(ev) {
 						var columns = [];
 						var countColumns = [];
 						var groupBys = [];
 						if(!$scope.report || !$scope.report.name)
 						{
-						    alert("אנא מלא שם דוח");
+						    $mdDialog.show(
+                               $mdDialog.alert()
+                                 .clickOutsideToClose(true)
+                                 .textContent('')
+                                 .title("אנא מלא שם דוח")
+                                 .ariaLabel('Alert Dialog Demo')
+                                 .ok('סבבה')
+                                 .targetEvent(ev)
+                                 );
 						    return;
 						}
 						angular.forEach($scope.models.lists.Report, function(
@@ -58,9 +66,25 @@ angular
 								query : {columns, countColumns, groupBys}
 							}
 						}).then(function successCallback(response) {
-							alert("דוח נבנה בהצלחה!");
+							$mdDialog.show(
+                               $mdDialog.alert()
+                                 .clickOutsideToClose(true)
+                                 .textContent('')
+                                 .title("דוח נבנה בהצלחה")
+                                 .ariaLabel('Alert Dialog Demo')
+                                 .ok('סבבה')
+                                 .targetEvent(ev)
+                                 );
 						}, function errorCallback(response) {
-							alert("נכשל בבניית הדוח");
+							$mdDialog.show(
+                               $mdDialog.alert()
+                                 .clickOutsideToClose(true)
+                                 .textContent('')
+                                 .title("נכשל בבניית הדוח")
+                                 .ariaLabel('Alert Dialog Demo')
+                                 .ok('סבבה')
+                                 .targetEvent(ev)
+                                 );
 						});
 					}
 

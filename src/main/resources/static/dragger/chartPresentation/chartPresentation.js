@@ -273,24 +273,7 @@ angular
                                       .cancel('בטל');
 
                                     $mdDialog.show(confirm).then(function(result) {
-                                      /*$scope.status = 'You decided to name your dog ' + result + '.';
-                                    });
-                                Swal.fire({
-                                  title: 'בחר שם לתרשים',
-                                  input: 'text',
-                                  inputValue:$scope.chart.name,
-                                  inputAttributes: {
-                                    autocapitalize: 'off'
-                                  },
-                                  showCancelButton: true,
-                                  confirmButtonText: 'הוסף',
-                                  cancelButtonText: 'בטל',
-                                  showLoaderOnConfirm: false,
-                                  preConfirm: (name) => {
-                                    $scope.chart.name = name;
-                                  },
-                                  allowOutsideClick: false
-                                }).then((result) => {*/
+                                    $scope.chart.name = result;
                                 	if(result.dismiss && result.dismiss ==='cancel'){
                                 		return}
                                     var chartAlreadyAddedToDashboard = false;

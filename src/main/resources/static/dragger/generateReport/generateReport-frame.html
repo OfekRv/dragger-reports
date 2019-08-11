@@ -52,11 +52,9 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="remove-column-button"
-                                    ng-click="removeFilter($index, column)">
-                                <img class="remove-report-icon"
-                                     src="dragger/buildReport/trash_icon.png">
-                            </button>
+                            <md-button class="md-fab md-mini"  style="background-color: rgb(255,82,82);" ng-click="removeFilter($index, column)"">
+                                <md-icon md-svg-icon="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
+                            </md-button>
                         </div>
                     </div>
                     <div class="row"
