@@ -43,49 +43,46 @@
                             </md-input-container>
                         </div>
                         <div class="col-md-3">
-                            <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
-                                <md-input-container>
-                                    <label>ערך</label>
-                                    <md-select ng-model="filter.selectValue"
-                                               md-on-close="clearSearchTerm($index)"
-                                               data-md-container-class="selectdemoSelectHeader"
-                                               md-on-open="loadValues($index)">
-                                        <md-select-header class="demo-select-header">
-                                            <input ng-model="filter.searchTerm"
-                                                   type="text"
-                                                   placeholder="חפש ערך..."
-                                                   class="demo-header-searchbox md-text">
-                                        </md-select-header>
-                                        <!--{{filter.valueList}}-->
-                                            <md-option ng-value="value" ng-if="filterSearch(value, filter.searchTerm)" ng-repeat="value in filter.valueList">{{value}}</md-option>
-                                    </md-select>
-                                </md-input-container>
-                                <!--<input data-list="" ng-model="filter.selectValue" class="dropdown-input"
-                                       id="columnValueDropDown{{$index}}"/><label
-                                    class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
-                                <span class="input-group-btn">
-                                <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}"
-                                        type="button"><span
-                                        class="caret"></span></button>
-                                </span>-->
+                            <div class="input-group" ng-if="dataTypes[filter.column.dataType].multivalue">
+                                <md-content class="md-padding">
+                                    <md-autocomplete
+                                            md-no-cache="true"
+                                            md-selected-item="filter.selectValue"
+                                            md-search-text-change="filterSearch($index, filter.searchTerm)"
+                                            md-search-text="filter.searchTerm"
+                                            md-selected-item-change=""
+                                            md-items="value in filter.searchList"
+                                            md-item-text="value"
+                                            md-min-length="0">
+                                        <md-item-template>
+                                            <span md-highlight-text="filter.searchTerm.toLowerCase()" md-highlight-flags="g">{{value}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No states matching "{{filter.searchTerm}}" were found.
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-content>
                             </div>
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>ערך</label>
-                                    <input ng-model="filter.valueObj" type="{{dataTypes[filter.column.dataType].name}}">
+                                    <input ng-model="filter.rawValue" type="{{dataTypes[filter.column.dataType].name}}">
                                 </md-input-container>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <md-button class="md-fab md-mini"  style="background-color: rgb(255,82,82);" ng-click="removeFilter($index, column)">
-                                <md-icon md-svg-icon="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
+                            <md-button class="md-fab md-mini" style="background-color: rgb(255,82,82);"
+                                       ng-click="removeFilter($index, column)">
+                                <md-icon md-svg-icon="img/icons/trash.svg"></md-icon>
+                                <md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
                             </md-button>
                         </div>
                     </div>
                     <div class="row"
                          ng-if="!form-generate-report.$invalid && selectedReport !== null">
                         <div class="col-md-4">
-                            <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="duplicates.showDuplicates">
+                            <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink"
+                                       ng-model="duplicates.showDuplicates">
                                 הצג כפילויות
                             </md-switch>
                         </div>
@@ -120,7 +117,8 @@
                                              class="ng-isolate-scope">
                                             <div class="watermark ng-scope"></div>
                                             <div class="lds-svg ng-scope">
-                                                <svg class="lds-polar" width="50%" height="50%" style="margin-right: 50px;"
+                                                <svg class="lds-polar" width="50%" height="50%"
+                                                     style="margin-right: 50px;"
                                                      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                                                     <g
                                                             transform="translate(50 50)">

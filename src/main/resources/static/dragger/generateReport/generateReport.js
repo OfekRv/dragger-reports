@@ -75,8 +75,9 @@ angular
 
 					$scope.addFilter = function() {
 						$scope.filters.push({
-							"valueObj" : null,
+							"rawValue" : null,
 							"selectValue" : null,
+							"value" : null,
 							"filter" : null,
 							"column" : null,
 							"searchTerm" : null,
@@ -123,20 +124,22 @@ angular
 						}
 					}
 
-					$scope.filterSearch =function(value, searchTerm)
+					$scope.filterSearch =function(filterIndex, searchTerm)
                     {
-                        if((searchTerm === null || searchTerm === undefined) || (value === null || value === undefined))
+                        if(searchTerm === null || searchTerm === undefined)
                         {
                             $scope.searchTerm = '';
                             return false;
                         }
 
-                        if(value.toLowerCase().includes(searchTerm.toLowerCase()))
+                        $scope.filters[filterIndex].searchList = [];
+                        $scope.filters[filterIndex].valueList.forEach(function(value)
                         {
-                            return true;
-                        }
-
-                        return false;
+                            if(value.toLowerCase().includes(searchTerm.toLowerCase()))
+                            {
+                                $scope.filters[filterIndex].searchList.push(value);
+                            }
+                        })
                     }
 
 					$scope.clearSearchTerm = function(filterIndex)
@@ -144,7 +147,7 @@ angular
 					    $scope.filters[filterIndex].searchTerm = '';
 					}
 
-					$scope.loadValues = function(filterIndex)
+					$scope.loadValues = function(ev, filterIndex)
 					{
                                 $http({
                                     method : 'GET',
@@ -153,6 +156,7 @@ angular
                                 }).then(
                                         function successCallback(response) {
                                             $scope.filters[filterIndex].valueList = response.data;
+                                            $scope.filters[filterIndex].searchList = response.data;
                                         },
                                         function successCallback(response) {
                                         $mdDialog.show(
@@ -168,6 +172,7 @@ angular
 
 					$scope.changeColumn = function(ev,filterIndex) {
 						$scope.filters[filterIndex].selectValue = null;
+						$scope.loadValues(ev, filterIndex);
 //						if($scope.filters[filterIndex].comboplete)
 //						{
 //						    $scope.filters[filterIndex].comboplete.destroy();
@@ -226,9 +231,10 @@ angular
 										$scope.filters,
 										function(filter, index) {
 											if (filter.column && $scope.dataTypes[filter.column.dataType].multivalue) {
-												filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+//												filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+												filter.value = filter.selectValue;
 											} else {
-												filter.value = filter.valueObj;
+												filter.rawValue = filter.rawValue;
 											}
 
 											if (!filter.filter) {
