@@ -78,7 +78,9 @@ angular
 							"valueObj" : null,
 							"selectValue" : null,
 							"filter" : null,
-							"column" : null
+							"column" : null,
+							"searchTerm" : null,
+							"valueList": []
 						});
 						$scope.filtered = "Filtered";
 					};
@@ -121,38 +123,36 @@ angular
 						}
 					}
 
-					$scope.changeColumn = function(ev,filterIndex) {
-						$scope.filters[filterIndex].selectValue = null;
-						if($scope.filters[filterIndex].comboplete)
-						{
-						    $scope.filters[filterIndex].comboplete.destroy();
-						}
-                        var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
-                            minChars: 0,
-                        });
-                        comboplete.maxItems = 1000000;
-                        $scope.filters[filterIndex].comboplete = comboplete;
+					$scope.filterSearch =function(value, searchTerm)
+                    {
+                        if((searchTerm === null || searchTerm === undefined) || (value === null || value === undefined))
+                        {
+                            $scope.searchTerm = '';
+                            return false;
+                        }
 
-                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
-                            if(comboplete._list.length === 0)
-                            {
+                        if(value.toLowerCase().includes(searchTerm.toLowerCase()))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    }
+
+					$scope.clearSearchTerm = function(filterIndex)
+					{
+					    $scope.filters[filterIndex].searchTerm = '';
+					}
+
+					$scope.loadValues = function(filterIndex)
+					{
                                 $http({
                                     method : 'GET',
                                     url : '/api/columns/suggestValues?columnId='
                                     + $scope.filters[filterIndex].column.columnId
                                 }).then(
                                         function successCallback(response) {
-                                            comboplete._list = response.data;
-                                            if (comboplete.ul.childNodes.length === 0) {
-                                            comboplete.minChars = 0;
-                                            comboplete.evaluate();
-                                            }
-                                            else if (comboplete.ul.hasAttribute('hidden')) {
-                                                comboplete.open();
-                                            }
-                                            else {
-                                                comboplete.close();
-                                            }
+                                            $scope.filters[filterIndex].valueList = response.data;
                                         },
                                         function successCallback(response) {
                                         $mdDialog.show(
@@ -164,27 +164,44 @@ angular
                                                 .ok('סבבה')
                                                 .targetEvent(ev));
                                         });
-                                        }
-                            });
+					}
 
-
-                            if (comboplete.ul.childNodes.length === 0) {
-                                comboplete.minChars = 0;
-                                comboplete.evaluate();
-                            }
-                            else if (comboplete.ul.hasAttribute('hidden')) {
-                                comboplete.open();
-                            }
-                            else {
-                                comboplete.close();
-                            }
-
-
-                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
-                                                        if (!comboplete.ul.hasAttribute('hidden')) {
-                                                                comboplete.close();
-                                                        }
-                                                    });
+					$scope.changeColumn = function(ev,filterIndex) {
+						$scope.filters[filterIndex].selectValue = null;
+//						if($scope.filters[filterIndex].comboplete)
+//						{
+//						    $scope.filters[filterIndex].comboplete.destroy();
+//						}
+//                        var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
+//                            minChars: 0,
+//                        });
+//                        comboplete.maxItems = 1000000;
+//                        $scope.filters[filterIndex].comboplete = comboplete;
+//
+//                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
+//                            if(comboplete._list.length === 0)
+//                            {
+//                                        }
+//                            });
+//
+//
+//                            if (comboplete.ul.childNodes.length === 0) {
+//                                comboplete.minChars = 0;
+//                                comboplete.evaluate();
+//                            }
+//                            else if (comboplete.ul.hasAttribute('hidden')) {
+//                                comboplete.open();
+//                            }
+//                            else {
+//                                comboplete.close();
+//                            }
+//
+//
+//                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
+//                                                        if (!comboplete.ul.hasAttribute('hidden')) {
+//                                                                comboplete.close();
+//                                                        }
+//                                                    });
 					}
 
 					$scope.handleReportColumn = function(column, report) {

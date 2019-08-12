@@ -4,7 +4,7 @@
         <div class="signup-screen">
             <form class="form-generate-report" method="post" name="register"
                   novalidate>
-                <md-input-container stlye="width:100%;">
+                <md-input-container style="width:100%;">
                     <label>בחר דוח</label>
                     <md-select ng-model="selectedReport" ng-change="changeReport()">
                         <md-option disabled><em>...</em></md-option>
@@ -23,7 +23,7 @@
                 <div class="space-top text-center">
                     <div class="row filter-row-padding" ng-repeat="filter in filters">
                         <div class="col-md-3">
-                            <md-input-container stlye="width:100%">
+                            <md-input-container style="width:100%;">
                                 <label>עמודה</label>
                                 <md-select ng-model="filter.column" ng-change="changeColumn($event, $index)">
                                     <md-option ng-repeat="column in selectedReport.columns" ng-value="column">
@@ -33,7 +33,7 @@
                             </md-input-container>
                         </div>
                         <div class="col-md-3">
-                            <md-input-container stlye="width:100%">
+                            <md-input-container style="width:100%;">
                                 <label>יחס לוגי</label>
                                 <md-select ng-model="filter.filter">
                                     <md-option ng-repeat="operator in operators" ng-value="operator">
@@ -44,14 +44,30 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
-                                <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
+                                <md-input-container>
+                                    <label>ערך</label>
+                                    <md-select ng-model="filter.selectValue"
+                                               md-on-close="clearSearchTerm($index)"
+                                               data-md-container-class="selectdemoSelectHeader"
+                                               md-on-open="loadValues($index)">
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="filter.searchTerm"
+                                                   type="text"
+                                                   placeholder="חפש ערך..."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+                                        <!--{{filter.valueList}}-->
+                                            <md-option ng-value="value" ng-if="filterSearch(value, filter.searchTerm)" ng-repeat="value in filter.valueList">{{value}}</md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <!--<input data-list="" ng-model="filter.selectValue" class="dropdown-input"
                                        id="columnValueDropDown{{$index}}"/><label
                                     class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
                                 <span class="input-group-btn">
                                 <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}"
                                         type="button"><span
                                         class="caret"></span></button>
-                                </span>
+                                </span>-->
                             </div>
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <md-input-container class="md-block" flex-gt-sm>
@@ -61,7 +77,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <md-button class="md-fab md-mini"  style="background-color: rgb(255,82,82);" ng-click="removeFilter($index, column)"">
+                            <md-button class="md-fab md-mini"  style="background-color: rgb(255,82,82);" ng-click="removeFilter($index, column)">
                                 <md-icon md-svg-icon="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
                             </md-button>
                         </div>
