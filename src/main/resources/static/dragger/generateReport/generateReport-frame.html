@@ -4,9 +4,9 @@
         <div class="signup-screen">
             <form class="form-generate-report" method="post" name="register"
                   novalidate>
-                <md-input-container stlye="width:100%">
+                <md-input-container stlye="width:100%;">
                     <label>בחר דוח</label>
-                    <md-select ng-model="selectedReport">
+                    <md-select ng-model="selectedReport" ng-change="changeReport()">
                         <md-option disabled><em>...</em></md-option>
                         <md-option ng-repeat="report in reports" ng-value="report">
                             {{reports[$index].name}}
@@ -26,38 +26,21 @@
                             <md-input-container stlye="width:100%">
                                 <label>עמודה</label>
                                 <md-select ng-model="filter.column" ng-change="changeColumn($event, $index)">
-                                    <md-option disabled><em>...</em></md-option>
                                     <md-option ng-repeat="column in selectedReport.columns" ng-value="column">
                                         {{selectedReport.columns[$index].name}}
                                     </md-option>
                                 </md-select>
                             </md-input-container>
-                            <!--<div class="select">
-                                <select class="select-text"
-                                        ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
-                                        ng-model="filter.column" ng-change="changeColumn($event, $index)"
-                                        required>
-                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">עמודה</label>
-                            </div>-->
                         </div>
                         <div class="col-md-3">
-                            <!--<md-input-container stlye="width:100%">
-                                <label>בחר דוח</label>
-                                <md-select ng-model="selectedReport">
-                                    <md-option disabled><em>...</em></md-option>
-                                    <md-option ng-repeat="report in reports" ng-value="report">
-                                        {{reports[$index].name}}
+                            <md-input-container stlye="width:100%">
+                                <label>יחס לוגי</label>
+                                <md-select ng-model="filter.filter">
+                                    <md-option ng-repeat="operator in operators" ng-value="operator">
+                                        {{operators[$index].name}}
                                     </md-option>
                                 </md-select>
-                            </md-input-container>-->
-                            <!--<div class="select">
-                                <select class="select-text"
-                                        ng-options="operator as operator.name for operator in operators track by operator.id"
-                                        ng-model="filter.filter" required>
-                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
-                            </div>-->
+                            </md-input-container>
                         </div>
                         <div class="col-md-3">
                             <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
@@ -70,16 +53,11 @@
                                         class="caret"></span></button>
                                 </span>
                             </div>
-
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>ערך</label>
                                     <input ng-model="filter.valueObj" type="{{dataTypes[filter.column.dataType].name}}">
                                 </md-input-container>
-                                <!--<input class="column-value" type="{{dataTypes[filter.column.dataType].name}}"
-                                       ng-model="filter.valueObj" required> <span
-                                    class="highlight"></span> <span class="bar"></span><label
-                                    class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>-->
                             </div>
                         </div>
                         <div class="col-md-3">
