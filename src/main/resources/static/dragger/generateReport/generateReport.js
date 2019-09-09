@@ -4,7 +4,9 @@ angular
 				"generateReportController",
 				function($scope, $http, $mdDialog) {
 					$scope.reports = [];
+					$scope.reportsSearchResults = [];
 					$scope.selectedReport = null;
+					$scope.selectedReportSearchText = "";
 					$scope.loading = false;
 					$scope.duplicates = {
 						showDuplicates : false
@@ -59,6 +61,7 @@ angular
 										function(report) {
 											$scope.reports.push(report);
 										});
+										$scope.reportsSearchResults = $scope.reports;
 							});
 
 					$http({
@@ -124,7 +127,7 @@ angular
 						}
 					}
 
-					$scope.filterSearch =function(filterIndex, searchTerm)
+					$scope.filterSearch = function(filterIndex, searchTerm)
                     {
                         if(searchTerm === null || searchTerm === undefined)
                         {
@@ -138,6 +141,24 @@ angular
                             if(value.toLowerCase().includes(searchTerm.toLowerCase()))
                             {
                                 $scope.filters[filterIndex].searchList.push(value);
+                            }
+                        })
+                    }
+
+                    $scope.reportSearch = function(filterIndex, searchTerm)
+                    {
+                        if(searchTerm === null || searchTerm === undefined)
+                        {
+                            $scope.selectedReportSearchText = '';
+                            return false;
+                        }
+
+                        $scope.reportsSearchResults = [];
+                        $scope.reports.forEach(function(report)
+                        {
+                            if(report.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                            {
+                                $scope.reportsSearchResults.push(report);
                             }
                         })
                     }

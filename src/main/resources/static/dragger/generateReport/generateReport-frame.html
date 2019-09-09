@@ -4,14 +4,36 @@
         <div class="signup-screen">
             <form class="form-generate-report" method="post" name="register"
                   novalidate>
+
+                    <div class="input-group">
+                        <md-content class="md-padding">
+                            <md-autocomplete
+                                    md-no-cache="true"
+                                    md-clear-button="true"
+                                    md-selected-item="selectedReport"
+                                    md-search-text-change="reportSearch($index, selectedReportSearchText)"
+                                    md-search-text="selectedReportSearchText"
+                                    md-selected-item-change="changeReport()"
+                                    md-items="selectedReport in reportsSearchResults"
+                                    md-item-text="selectedReport.name"
+                                    md-min-length="0">
+                                <md-item-template>
+                                    <span md-highlight-text="selectedReportSearchText.toLowerCase()" md-highlight-flags="g">{{selectedReport.name}}</span>
+                                </md-item-template>
+                                <md-not-found>
+                                    לא נמצאו תוצאות עבור "{{selectedReportSearchText}}"
+                                </md-not-found>
+                            </md-autocomplete>
+                        </md-content>
+                    </div>
                 <md-input-container style="width:100%;">
                     <label>בחר דוח</label>
-                    <md-select ng-model="selectedReport" ng-change="changeReport()">
-                        <md-option disabled><em>...</em></md-option>
-                        <md-option ng-repeat="report in reports" ng-value="report">
-                            {{reports[$index].name}}
-                        </md-option>
-                    </md-select>
+                    <!--<md-select ng-model="selectedReport" ng-change="changeReport()">-->
+                        <!--<md-option disabled><em>...</em></md-option>-->
+                        <!--<md-option ng-repeat="report in reports" ng-value="report">-->
+                            <!--{{reports[$index].name}}-->
+                        <!--</md-option>-->
+                    <!--</md-select>-->
                 </md-input-container>
                 <!--<div class="select">
                     <select class="select-text"
@@ -59,7 +81,7 @@
                                             <span md-highlight-text="filter.searchTerm.toLowerCase()" md-highlight-flags="g">{{value}}</span>
                                         </md-item-template>
                                         <md-not-found>
-                                            No states matching "{{filter.searchTerm}}" were found.
+                                            לא נמצאו תוצאות עבור "{{filter.searchTerm}}"
                                         </md-not-found>
                                     </md-autocomplete>
                                 </md-content>
