@@ -74,7 +74,7 @@
 							}).then(function successCallback(response) {
 								var isDevMode = response.data
 
-								if (isDevMode != "false") {
+								if (isDevMode != false) {
 									scope.options = [{
                                         label : "לוח",
                                         href : "#!/dashboard"
