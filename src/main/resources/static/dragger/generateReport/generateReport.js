@@ -2,9 +2,11 @@ angular
 		.module("dragger")
 		.controller(
 				"generateReportController",
-				function($scope, $http) {
+				function($scope, $http, $mdDialog) {
 					$scope.reports = [];
+					$scope.reportsSearchResults = [];
 					$scope.selectedReport = null;
+					$scope.selectedReportSearchText = "";
 					$scope.loading = false;
 					$scope.duplicates = {
 						showDuplicates : false
@@ -59,6 +61,7 @@ angular
 										function(report) {
 											$scope.reports.push(report);
 										});
+										$scope.reportsSearchResults = $scope.reports;
 							});
 
 					$http({
@@ -75,10 +78,13 @@ angular
 
 					$scope.addFilter = function() {
 						$scope.filters.push({
-							"valueObj" : null,
+							"rawValue" : null,
 							"selectValue" : null,
+							"value" : null,
 							"filter" : null,
-							"column" : null
+							"column" : null,
+							"searchTerm" : null,
+							"valueList": []
 						});
 						$scope.filtered = "Filtered";
 					};
@@ -121,61 +127,107 @@ angular
 						}
 					}
 
-					$scope.changeColumn = function(filterIndex) {
-						$scope.filters[filterIndex].selectValue = null;
-						if($scope.filters[filterIndex].comboplete)
-						{
-						    $scope.filters[filterIndex].comboplete.destroy();
-						}
-                        var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
-                            minChars: 0,
-                        });
-                        comboplete.maxItems = 1000000;
-                        $scope.filters[filterIndex].comboplete = comboplete;
+					$scope.filterSearch = function(filterIndex, searchTerm)
+                    {
+                        if(searchTerm === null || searchTerm === undefined)
+                        {
+                            $scope.searchTerm = '';
+                            return false;
+                        }
 
-                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
-                            if(comboplete._list.length === 0)
+                        $scope.filters[filterIndex].searchList = [];
+                        $scope.filters[filterIndex].valueList.forEach(function(value)
+                        {
+                            if(value.toLowerCase().includes(searchTerm.toLowerCase()))
                             {
+                                $scope.filters[filterIndex].searchList.push(value);
+                            }
+                        })
+                    }
+
+                    $scope.reportSearch = function(filterIndex, searchTerm)
+                    {
+                        if(searchTerm === null || searchTerm === undefined)
+                        {
+                            $scope.selectedReportSearchText = '';
+                            return false;
+                        }
+
+                        $scope.reportsSearchResults = [];
+                        $scope.reports.forEach(function(report)
+                        {
+                            if(report.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                            {
+                                $scope.reportsSearchResults.push(report);
+                            }
+                        })
+                    }
+
+					$scope.clearSearchTerm = function(filterIndex)
+					{
+					    $scope.filters[filterIndex].searchTerm = '';
+					}
+
+					$scope.loadValues = function(ev, filterIndex)
+					{
                                 $http({
                                     method : 'GET',
                                     url : '/api/columns/suggestValues?columnId='
                                     + $scope.filters[filterIndex].column.columnId
                                 }).then(
                                         function successCallback(response) {
-                                            comboplete._list = response.data;
-                                            if (comboplete.ul.childNodes.length === 0) {
-                                            comboplete.minChars = 0;
-                                            comboplete.evaluate();
-                                            }
-                                            else if (comboplete.ul.hasAttribute('hidden')) {
-                                                comboplete.open();
-                                            }
-                                            else {
-                                                comboplete.close();
-                                            }
+                                            $scope.filters[filterIndex].valueList = response.data;
+                                            $scope.filters[filterIndex].searchList = response.data;
                                         },
                                         function successCallback(response) {
-                                            alert("אין ערכים להצעה עבור עמודה זו");
+                                        $mdDialog.show(
+                                              $mdDialog.alert()
+                                                .clickOutsideToClose(true)
+                                                .title('')
+                                                .textContent('אין ערכים להצעה עבור עמודה זו')
+                                                .ariaLabel('Alert Dialog Demo')
+                                                .ok('סבבה')
+                                                .targetEvent(ev));
                                         });
-                            }
+					}
 
-                            if (comboplete.ul.childNodes.length === 0) {
-                                comboplete.minChars = 0;
-                                comboplete.evaluate();
-                            }
-                            else if (comboplete.ul.hasAttribute('hidden')) {
-                                comboplete.open();
-                            }
-                            else {
-                                comboplete.close();
-                            }
-                        });
-
-                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
-                                                        if (!comboplete.ul.hasAttribute('hidden')) {
-                                                                comboplete.close();
-                                                        }
-                                                    });
+					$scope.changeColumn = function(ev,filterIndex) {
+						$scope.filters[filterIndex].selectValue = null;
+						$scope.loadValues(ev, filterIndex);
+//						if($scope.filters[filterIndex].comboplete)
+//						{
+//						    $scope.filters[filterIndex].comboplete.destroy();
+//						}
+//                        var comboplete = new Awesomplete('#columnValueDropDown' + filterIndex, {
+//                            minChars: 0,
+//                        });
+//                        comboplete.maxItems = 1000000;
+//                        $scope.filters[filterIndex].comboplete = comboplete;
+//
+//                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener("click", function() {
+//                            if(comboplete._list.length === 0)
+//                            {
+//                                        }
+//                            });
+//
+//
+//                            if (comboplete.ul.childNodes.length === 0) {
+//                                comboplete.minChars = 0;
+//                                comboplete.evaluate();
+//                            }
+//                            else if (comboplete.ul.hasAttribute('hidden')) {
+//                                comboplete.open();
+//                            }
+//                            else {
+//                                comboplete.close();
+//                            }
+//
+//
+//                        Awesomplete.$('#dropdown-btn' + filterIndex).addEventListener('focusout',function(){
+//                                                        if (!comboplete.ul.hasAttribute('hidden')) {
+//                                                                comboplete.close();
+//                                                        }
+//                                                    });
 					}
 
 					$scope.handleReportColumn = function(column, report) {
@@ -192,35 +244,61 @@ angular
 							report.columns.push(response);
 						})
 					}
-					$scope.downloadUrl = function() {
+
+					$scope.downloadUrl = function(ev) {
 						var validationCheck = true;
 						angular
 								.forEach(
 										$scope.filters,
 										function(filter, index) {
-											if ($scope.dataTypes[filter.column.dataType].multivalue) {
-												filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+											if (filter.column && $scope.dataTypes[filter.column.dataType].multivalue) {
+//												filter.value = Awesomplete.$("#columnValueDropDown"+index).value;
+												filter.value = filter.selectValue;
 											} else {
-												filter.value = filter.valueObj;
+												filter.rawValue = filter.rawValue;
 											}
 
 											if (!filter.filter) {
 												validationCheck = false;
-												alert("האופרטור בשורה "
+												$mdDialog.show(
+                                                      $mdDialog.alert()
+                                                        .clickOutsideToClose(true)
+                                                        .title('')
+                                                        .textContent(" האופרטור בשורה "
 														+ (index + 1)
-														+ "לא אמור להיות ריק ");
+														+ " לא אמור להיות ריק ")
+                                                        .ariaLabel('Alert Dialog Demo')
+                                                        .ok('סבבה')
+                                                        .targetEvent(ev)
+                                            );
 												return;
 											} else if (!filter.column) {
 												validationCheck = false;
-												alert("העמודה בשורה "
+												$mdDialog.show(
+                                                      $mdDialog.alert()
+                                                        .clickOutsideToClose(true)
+                                                        .title('')
+                                                        .textContent(" העמודה בשורה "
 														+ (index + 1)
-														+ "לא אמור להיות ריקה ");
+														+ " לא אמורה להיות ריקה ")
+                                                        .ariaLabel('Alert Dialog Demo')
+                                                        .ok('סבבה')
+                                                        .targetEvent(ev)
+                                            );
 												return;
 											} else if (!filter.value) {
 												validationCheck = false;
-												alert(" הערך בשורה"
+												$mdDialog.show(
+                                                      $mdDialog.alert()
+                                                        .clickOutsideToClose(true)
+                                                        .title('')
+                                                        .textContent(" הערך בשורה"
 														+ (index + 1)
-														+ "לא אמור להיות ריק ");
+														+ " לא אמור להיות ריק ")
+                                                        .ariaLabel('Alert Dialog Demo')
+                                                        .ok('סבבה')
+                                                        .targetEvent(ev)
+                                            );
 												return;
 											}
 											filter.columnId = filter.column.columnId;

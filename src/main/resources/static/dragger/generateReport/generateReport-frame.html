@@ -4,70 +4,110 @@
         <div class="signup-screen">
             <form class="form-generate-report" method="post" name="register"
                   novalidate>
-                <div class="select">
+
+                    <div class="input-group">
+                        <md-content class="md-padding">
+                            <md-autocomplete
+                                    md-no-cache="true"
+                                    md-clear-button="true"
+                                    md-selected-item="selectedReport"
+                                    md-search-text-change="reportSearch($index, selectedReportSearchText)"
+                                    md-search-text="selectedReportSearchText"
+                                    md-selected-item-change="changeReport()"
+                                    md-items="selectedReport in reportsSearchResults"
+                                    md-item-text="selectedReport.name"
+                                    md-min-length="0">
+                                <md-item-template>
+                                    <span md-highlight-text="selectedReportSearchText.toLowerCase()" md-highlight-flags="g">{{selectedReport.name}}</span>
+                                </md-item-template>
+                                <md-not-found>
+                                    לא נמצאו תוצאות עבור "{{selectedReportSearchText}}"
+                                </md-not-found>
+                            </md-autocomplete>
+                        </md-content>
+                    </div>
+                <md-input-container style="width:100%;">
+                    <label>בחר דוח</label>
+                    <!--<md-select ng-model="selectedReport" ng-change="changeReport()">-->
+                        <!--<md-option disabled><em>...</em></md-option>-->
+                        <!--<md-option ng-repeat="report in reports" ng-value="report">-->
+                            <!--{{reports[$index].name}}-->
+                        <!--</md-option>-->
+                    <!--</md-select>-->
+                </md-input-container>
+                <!--<div class="select">
                     <select class="select-text"
                             ng-options="report as report.name for report in reports track by report.id"
                             ng-model="selectedReport" ng-change="changeReport()" required>
                     </select> <span class="select-highlight"></span> <span class="select-bar"></span>
                     <label class="select-label">בחר דוח</label>
-                </div>
+                </div>-->
                 <div class="space-top text-center">
                     <div class="row filter-row-padding" ng-repeat="filter in filters">
                         <div class="col-md-3">
-                            <div class="select">
-                                <select class="select-text"
-                                        ng-options="column as column.name for column in selectedReport.columns track by column.columnId"
-                                        ng-model="filter.column" ng-change="changeColumn($index)"
-                                        required>
-                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">עמודה</label>
-                            </div>
+                            <md-input-container style="width:100%;">
+                                <label>עמודה</label>
+                                <md-select ng-model="filter.column" ng-change="changeColumn($event, $index)">
+                                    <md-option ng-repeat="column in selectedReport.columns" ng-value="column">
+                                        {{selectedReport.columns[$index].name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
                         </div>
                         <div class="col-md-3">
-                            <div class="select">
-                                <select class="select-text"
-                                        ng-options="operator as operator.name for operator in operators track by operator.id"
-                                        ng-model="filter.filter" required>
-                                </select> <span class="select-highlight"></span> <span class="select-bar"></span>
-                                <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
-                            </div>
+                            <md-input-container style="width:100%;">
+                                <label>יחס לוגי</label>
+                                <md-select ng-model="filter.filter">
+                                    <md-option ng-repeat="operator in operators" ng-value="operator">
+                                        {{operators[$index].name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
                         </div>
                         <div class="col-md-3">
-                            <div class="input-group" ng-show="dataTypes[filter.column.dataType].multivalue">
-                                <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
-                                       id="columnValueDropDown{{$index}}"/><label
-                                    class="build-report-name-label" dir="rtl" ng-if="$index == 0">ערך</label>
-                                <span class="input-group-btn">
-                                <button class="dropdown-btn dropdown-button-suggestions" id="dropdown-btn{{$index}}"
-                                        type="button"><span
-                                        class="caret"></span></button>
-                                </span>
+                            <div class="input-group" ng-if="dataTypes[filter.column.dataType].multivalue">
+                                <md-content class="md-padding">
+                                    <md-autocomplete
+                                            md-no-cache="true"
+                                            md-clear-button="true"
+                                            md-selected-item="filter.selectValue"
+                                            md-search-text-change="filterSearch($index, filter.searchTerm)"
+                                            md-search-text="filter.searchTerm"
+                                            md-selected-item-change=""
+                                            md-items="value in filter.searchList"
+                                            md-item-text="value"
+                                            md-min-length="0">
+                                        <md-item-template>
+                                            <span md-highlight-text="filter.searchTerm.toLowerCase()" md-highlight-flags="g">{{value}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            לא נמצאו תוצאות עבור "{{filter.searchTerm}}"
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-content>
                             </div>
-
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
-                                <input class="column-value" type="{{dataTypes[filter.column.dataType].name}}"
-                                       ng-model="filter.valueObj" required> <span
-                                    class="highlight"></span> <span class="bar"></span><label
-                                    class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>ערך</label>
+                                    <input ng-model="filter.rawValue" type="{{dataTypes[filter.column.dataType].name}}">
+                                </md-input-container>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="remove-column-button"
-                                    ng-click="removeFilter($index, column)">
-                                <img class="remove-report-icon"
-                                     src="dragger/buildReport/trash_icon.png">
-                            </button>
+                            <md-button class="md-fab md-mini" style="background-color: rgb(255,82,82);"
+                                       ng-click="removeFilter($index, column)">
+                                <md-icon md-svg-icon="img/icons/trash.svg"></md-icon>
+                                <md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
+                            </md-button>
                         </div>
                     </div>
                     <div class="row"
                          ng-if="!form-generate-report.$invalid && selectedReport !== null">
                         <div class="col-md-4">
-                            <label class="label-duplicates">הצג כפילויות</label>
-                            <div class="toggle">
-                                <input type="checkbox" ng-model="duplicates.showDuplicates" class="check">
-                                <b class="b switch"></b>
-                                <b class="b track"></b>
-                            </div>
+                            <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink"
+                                       ng-model="duplicates.showDuplicates">
+                                הצג כפילויות
+                            </md-switch>
                         </div>
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
@@ -80,7 +120,7 @@
                 <div class="space-top text-center">
                     <button
                             ng-disabled="form-generate-report.$invalid || selectedReport === null || loading"
-                            ng-click="downloadUrl()"
+                            ng-click="downloadUrl($event)"
                             class="waves-effect waves-light btn generate-report">
                         <div ng-if="!loading">הרץ</div>
 
@@ -100,7 +140,8 @@
                                              class="ng-isolate-scope">
                                             <div class="watermark ng-scope"></div>
                                             <div class="lds-svg ng-scope">
-                                                <svg class="lds-polar" width="50%" height="50%" style="margin-right: 50px;"
+                                                <svg class="lds-polar" width="50%" height="50%"
+                                                     style="margin-right: 50px;"
                                                      viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
                                                     <g
                                                             transform="translate(50 50)">

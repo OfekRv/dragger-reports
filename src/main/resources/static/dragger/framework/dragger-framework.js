@@ -103,19 +103,19 @@
 								} else {
 									scope.options = [ {
                                         label : "לוח",
-                                        href : "#/dashboard"
+                                        href : "#!/dashboard"
                                     },{
 										label : "הרצת דוח",
-										href : "#/generateReport"
+										href : "#!/generateReport"
 									},  {
 										label : "בניית דוח",
-										href : "#/buildReport"
+										href : "#!/buildReport"
 									}  ,{
                                         label : "ניהול דוחות",
-                                        href : "#/manageReports"
+                                        href : "#!/manageReports"
                                     }, {
                                         label : "תרשים כמותי",
-                                        href : "#/chartPresentation"
+                                        href : "#!/chartPresentation"
                                     }];
 								}
 							});

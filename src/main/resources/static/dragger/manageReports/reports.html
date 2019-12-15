@@ -7,12 +7,12 @@
         dnd-horizontal-list="true">
         <div class="row draggable-rtl-row">
             <div class="col-md-10">
-                {{report.name}}
+                <h4>{{report.name}}</h4>
             </div>
             <div class="col-md-2">
-                <button type="button" class="remove-column-button" ng-click="dropCallback($index, report)">
-                    <img class="remove-report-icon" src="dragger/buildReport/trash_icon.png">
-                </button>
+                <md-button class="md-fab md-mini"  style="background-color: rgb(255,82,82);" ng-click="removeReport($event,report)">
+                    <md-icon md-svg-icon="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר דוח</md-tooltip>
+                </md-button>
             </div>
         </div>
     </li>
