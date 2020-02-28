@@ -6,12 +6,12 @@ angular
 					$scope.removeReport = function(ev, item) {
 
 					var confirm = $mdDialog.confirm()
-                              .title('את/ה בטוח/ה שברצונך להסיר את הדוח?')
+                              .title('Are you sure you want to remove this report?')
                               .textContent('')
                               .ariaLabel('Lucky day')
                               .targetEvent(ev)
-                              .ok('הסר')
-                              .cancel('בטל');
+                              .ok('Remove')
+                              .cancel('Cancel');
 
                         $mdDialog.show(confirm).then(function() {
                           $http({method : 'DELETE',

@@ -7,7 +7,7 @@
                         <input type="text" ng-model="searchSources"
                                class="build-report-name" required> <span
                             class="highlight"></span> <span class="bar"></span> <label
-                            class="build-report-name-label select-label">חפש מקור</label>
+                            class="build-report-name-label select-label">Search source</label>
                     </div>
                 </div>
             </div>
@@ -15,11 +15,11 @@
                 <div class="panel panel-info-sources-only">
                     <div class="panel-heading panel-heading-sources-only">
                         <div class="panel-heading-sources-only">
-                            <h3 class="panel-title">מקורות</h3>
+                            <h3 class="panel-title">Sources</h3>
                         </div>
                     </div>
                     <ul dnd-list="models.lists['Sources']"
-                        dnd-external-sources="true" style="direction:rtl"
+                        dnd-external-sources="true" style="direction:ltr"
                         ng-mouseover="selectedSource.hovered = true"
                         ng-mouseleave="selectedSource.hovered = false">
                         <li class="chart-page"
@@ -41,10 +41,10 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <h2 class="chart-title">
-                        <span ng-if="!selectedSource.selected || !selectedColumn.selected">בחר ייצוג</span>
-                        <span>כמות ה</span><span class="selectedSource"
+                        <span ng-if="!selectedSource.selected || !selectedColumn.selected">Select</span>
+                        <span>count of</span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
-                        עבור <span class="selectedColumn"
+                        per <span class="selectedColumn"
                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
                         <span class="filter-description-name">{{generatedFiltersDescriptionForChartName}}</span>
                     </h2>
@@ -89,7 +89,7 @@
                                                     required>
                                             </select> <span class="select-highlight"></span> <span
                                                 class="select-bar"></span>
-                                            <label class="select-label" ng-if="$index == 0">עמודה</label>
+                                            <label class="select-label" ng-if="$index == 0">Column</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -99,7 +99,7 @@
                                                     ng-model="filter.filter" required>
                                             </select> <span class="select-highlight"></span> <span
                                                 class="select-bar"></span>
-                                            <label class="select-label" ng-if="$index == 0">יחס לוגי</label>
+                                            <label class="select-label" ng-if="$index == 0">Logical relation</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -107,8 +107,8 @@
                                             <input data-list="" ng-model="filter.selectValue" class="dropdown-input"
                                                    id="columnValueDropDown{{$index}}"/>
                                             <label
-                                                    class="build-report-name-label" dir="rtl"
-                                                    ng-if="$index == 0">ערך</label>
+                                                    class="build-report-name-label" dir="ltr"
+                                                    ng-if="$index == 0">Value</label>
                                             <span class="input-group-btn">
                                                 <button class="dropdown-btn dropdown-button-suggestions"
                                                         id="dropdown-btn{{$index}}"
@@ -122,12 +122,12 @@
                                                    type="{{dataTypes[filter.column.dataType].name}}"
                                                    ng-model="filter.valueObj" required> <span
                                                 class="highlight"></span> <span class="bar"></span><label
-                                                class="select-label" dir="rtl" ng-if="$index == 0">ערך</label>
+                                                class="select-label" dir="ltr" ng-if="$index == 0">value</label>
                                         </div>
                                     </div>
                                     <div class="col-md-1">
                                         <md-button class="md-fab md-mini" style="background-color: rgb(255,82,82);" ng-click="removeFilter($index)">
-                                            <md-icon md-svg-src="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
+                                            <md-icon md-svg-src="img/icons/trash.svg"></md-icon><md-tooltip style="font-size:13px;">Remove filter</md-tooltip>
                                         </md-button>
                                     </div>
                                 </div>
@@ -143,17 +143,17 @@
                     <div class="row">
                         <div class="col-md-4 center-button">
                             <button ng-disabled="form-build-report.$invalid" type="button"
-                                    ng-click="createChart($event)" class="btn done build-chart-button">בנה תרשים
+                                    ng-click="createChart($event)" class="btn done build-chart-button">Build chart
                             </button>
                         </div>
                         <div class="col-md-4 center-button">
                             <button ng-disabled="(!lastBuild.allowAddition)" type="button"
-                                    ng-click="addChartToDashboard($event)" class="btn done build-chart-button">הוסף למועדפים
+                                    ng-click="addChartToDashboard($event)" class="btn done build-chart-button">Add to favorite
                             </button>
                         </div>
                         <div class="col-md-4 center-button">
                             <button class="waves-effect waves-light add-filter filter-button"
-                                    ng-click="addFilter()">הוסף סינון
+                                    ng-click="addFilter()">Add filter
                             </button>
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                         <input type="text" ng-model="searchSourcesAndColumns"
                                class="build-report-name" required> <span
                             class="highlight"></span> <span class="bar"></span> <label
-                            class="build-report-name-label select-label">חפש מקור/עמודה</label>
+                            class="build-report-name-label select-label">Search source/column</label>
                     </div>
                 </div>
             </div>
@@ -182,7 +182,7 @@
                             </div>
                         </div>
                         <ul dnd-list="list.columns" dnd-allowed-types="list.allowedTypes"
-                            dnd-external-sources="true" style="direction:rtl"
+                            dnd-external-sources="true" style="direction:ltr"
                             ng-mouseover="selectedColumn.hovered = true"
                             ng-mouseleave="selectedColumn.hovered = false">
                             <li class="chart-page"

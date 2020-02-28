@@ -19,7 +19,7 @@
                     </canvas>
                     <md-icon ng-if="!availableResults" md-svg-icon="img/icons/info.svg" style="width:50vh;height:50vh;">
                     </md-icon>
-                    <h2 ng-if="!availableResults" class="md-title" style="margin: 0px;">אין תוצאות עבור תאריך זה</h2>
+                    <h2 ng-if="!availableResults" class="md-title" style="margin: 0px;">No results for this date</h2>
                 </div>
                 <md-slider flex class="md-primary" md-discrete ng-model="timeLineChart.historyLineValue"
                            ng-change="handleTimeLinePick()" step="1" min="1" max="7" week-counter="{{weekCounter}}"
@@ -32,13 +32,13 @@
                 <div layout-gt-xs="row">
                     <div style="text-align:center;" flex-gt-xs>
                         <md-button class="md-icon-button" aria-label="More" ng-mouseup="nextPage()">
-                            <md-tooltip style="font-size:13px;">שבוע הבא</md-tooltip>
+                            <md-tooltip style="font-size:13px;">Next week</md-tooltip>
                             <md-icon md-svg-icon="img/icons/navigate_next.svg"></md-icon>
                         </md-button>
-                        <md-datepicker ng-model="pickedDate" md-placeholder="בחר תאריך" ng-change="console.log('changed')" md-max-date="maxDate" md-is-open="pickedDateOpen"></md-datepicker>
+                        <md-datepicker ng-model="pickedDate" md-placeholder="Choose date" ng-change="console.log('changed')" md-max-date="maxDate" md-is-open="pickedDateOpen"></md-datepicker>
                         <md-button ng-disabled="weekCounter === 0" class="md-icon-button" aria-label="More"
                                    ng-mouseup="previousPage()">
-                            <md-tooltip style="font-size:13px;">שבוע הקודם</md-tooltip>
+                            <md-tooltip style="font-size:13px;">Previous week</md-tooltip>
                             <md-icon md-svg-icon="img/icons/navigate_before.svg"></md-icon>
                         </md-button>
                     </div>

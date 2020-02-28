@@ -27,7 +27,7 @@
                         </md-content>
                     </div>
                 <md-input-container style="width:100%;">
-                    <label>בחר דוח</label>
+                    <label>Choose report</label>
                     <!--<md-select ng-model="selectedReport" ng-change="changeReport()">-->
                         <!--<md-option disabled><em>...</em></md-option>-->
                         <!--<md-option ng-repeat="report in reports" ng-value="report">-->
@@ -46,7 +46,7 @@
                     <div class="row filter-row-padding" ng-repeat="filter in filters">
                         <div class="col-md-3">
                             <md-input-container style="width:100%;">
-                                <label>עמודה</label>
+                                <label>Column</label>
                                 <md-select ng-model="filter.column" ng-change="changeColumn($event, $index)">
                                     <md-option ng-repeat="column in selectedReport.columns" ng-value="column">
                                         {{selectedReport.columns[$index].name}}
@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-md-3">
                             <md-input-container style="width:100%;">
-                                <label>יחס לוגי</label>
+                                <label>Logical relation</label>
                                 <md-select ng-model="filter.filter">
                                     <md-option ng-repeat="operator in operators" ng-value="operator">
                                         {{operators[$index].name}}
@@ -81,14 +81,14 @@
                                             <span md-highlight-text="filter.searchTerm.toLowerCase()" md-highlight-flags="g">{{value}}</span>
                                         </md-item-template>
                                         <md-not-found>
-                                            לא נמצאו תוצאות עבור "{{filter.searchTerm}}"
+                                            No results for "{{filter.searchTerm}}"
                                         </md-not-found>
                                     </md-autocomplete>
                                 </md-content>
                             </div>
                             <div ng-if="!(dataTypes[filter.column.dataType].multivalue)">
                                 <md-input-container class="md-block" flex-gt-sm>
-                                    <label>ערך</label>
+                                    <label>Value</label>
                                     <input ng-model="filter.rawValue" type="{{dataTypes[filter.column.dataType].name}}">
                                 </md-input-container>
                             </div>
@@ -97,7 +97,7 @@
                             <md-button class="md-fab md-mini" style="background-color: rgb(255,82,82);"
                                        ng-click="removeFilter($index, column)">
                                 <md-icon md-svg-icon="img/icons/trash.svg"></md-icon>
-                                <md-tooltip style="font-size:13px;">הסר סינון</md-tooltip>
+                                <md-tooltip style="font-size:13px;">Remove filter</md-tooltip>
                             </md-button>
                         </div>
                     </div>
@@ -106,13 +106,13 @@
                         <div class="col-md-4">
                             <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink"
                                        ng-model="duplicates.showDuplicates">
-                                הצג כפילויות
+                                Show duplicates
                             </md-switch>
                         </div>
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             <button class="waves-effect waves-light add-filter"
-                                    ng-click="addFilter()">הוסף סינון
+                                    ng-click="addFilter()">Add filter
                             </button>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                             ng-disabled="form-generate-report.$invalid || selectedReport === null || loading"
                             ng-click="downloadUrl($event)"
                             class="waves-effect waves-light btn generate-report">
-                        <div ng-if="!loading">הרץ</div>
+                        <div ng-if="!loading">Generate</div>
 
                         <div ng-if="loading" class='loading-icon' id="stock-preview"
                              ng-class="{'tip-on':config.size>50}" class="has-tips">

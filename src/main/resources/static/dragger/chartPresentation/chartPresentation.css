@@ -334,7 +334,7 @@ label {
     width: 100%;
     background-color: white;
     color:black;
-    direction:rtl;
+    direction:ltr;
 }
 
 .padding-sources-name
@@ -358,7 +358,7 @@ label {
     margin: 0;
     overflow: auto;
     overflow-x: hidden;
-    direction:rtl;
+    direction:ltr;
 }
 
 .scrollable-sources-area
@@ -442,7 +442,7 @@ margin-top: 50px;
     margin: 0;
     overflow: auto;
     overflow-x: hidden;
-    direction:rtl;
+    direction:ltr;
 }
 
 .count-area
@@ -453,7 +453,7 @@ margin-top: 50px;
     margin: 0;
     overflow: auto;
     overflow-x: hidden;
-    direction:rtl;
+    direction:ltr;
 }
 
 .sources-padding
@@ -491,7 +491,7 @@ margin-top: 50px;
 {
     text-align:center;
     text-decoration:bold;
-    direction:rtl;
+    direction:ltr;
 }
 
 .glowSource {
@@ -533,7 +533,7 @@ margin-top: 50px;
         overflow-y:scroll;
         overflow-x:hidden;
         scroll-behavior: smooth;
-        direction:rtl;
+        direction:ltr;
     }
 
    .chart-legend::-webkit-scrollbar
@@ -560,7 +560,7 @@ margin-top: 50px;
 
     .chart-legend-label
     {
-        direction:rtl;
+        direction:ltr;
         left: -10px;
     }
 
@@ -583,7 +583,7 @@ margin-top: 50px;
 
     .is-current-date-label
     {
-        direction: rtl;
+        direction: ltr;
         margin-top: -10px;
     }
 

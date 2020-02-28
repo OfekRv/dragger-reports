@@ -147,7 +147,7 @@ option {
 }
 
 .select-text {
-	direction: rtl;
+	direction: ltr;
 	position: relative;
 	font-family: inherit;
 	width: 150px;
@@ -172,7 +172,7 @@ option {
 }
 
 .checkbox-text {
-	direction: rtl;
+	direction: ltr;
 	position: relative;
 	font-family: inherit;
 	width: 15px;
@@ -212,7 +212,7 @@ option {
 
 /* active state */
 .select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
-	direction: rtl;
+	direction: ltr;
 	color: #2F80ED;
 	top: -20px;
 	transition: 0.2s ease all;
@@ -253,7 +253,7 @@ option {
 
 /* HIGHLIGHTER ================================== */
 .select-highlight {
-	direction: rtl;
+	direction: ltr;
 	position: absolute;
 	height: 60%;
 	width: 100px;

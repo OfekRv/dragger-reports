@@ -46,9 +46,9 @@ angular
                                $mdDialog.alert()
                                  .clickOutsideToClose(true)
                                  .textContent('')
-                                 .title("אנא מלא שם דוח")
+                                 .title("Please name the report")
                                  .ariaLabel('Alert Dialog Demo')
-                                 .ok('סבבה')
+                                 .ok('Ok')
                                  .targetEvent(ev)
                                  );
 						    return;
@@ -70,9 +70,9 @@ angular
                                $mdDialog.alert()
                                  .clickOutsideToClose(true)
                                  .textContent('')
-                                 .title("דוח נבנה בהצלחה")
+                                 .title("Successfully built")
                                  .ariaLabel('Alert Dialog Demo')
-                                 .ok('סבבה')
+                                 .ok('Ok')
                                  .targetEvent(ev)
                                  );
 						}, function errorCallback(response) {
@@ -80,9 +80,9 @@ angular
                                $mdDialog.alert()
                                  .clickOutsideToClose(true)
                                  .textContent('')
-                                 .title("נכשל בבניית הדוח")
+                                 .title("Failed building the report")
                                  .ariaLabel('Alert Dialog Demo')
-                                 .ok('סבבה')
+                                 .ok('Ok')
                                  .targetEvent(ev)
                                  );
 						});
@@ -121,7 +121,7 @@ angular
 																	response) {
 																var isLinked = response.data;
 																if (isLinked == "false") {
-																	alert("העמודה שאת/ה מנסה להוסיף לא יכולה להיות מקושרת לדוח");
+																	alert("This column cannot be linked to this report");
 																}
 															});
 										}

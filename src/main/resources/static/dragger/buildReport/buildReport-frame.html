@@ -6,7 +6,7 @@
                     <input type="text" ng-model="searchSources"
                            class="build-report-name" required> <span
                         class="highlight"></span> <span class="bar"></span> <label
-                        class="build-report-name-label select-label">חפש מקור/עמודה</label>
+                        class="build-report-name-label select-label">Search source/column</label>
                 </div>
             </div>
             <div class="row scrollable-sources-area-build-report">
@@ -30,7 +30,7 @@
                 <div class="blabla">
                     <div class="panel panel-info">
                         <div id="reportTitle" class="panel-heading">
-                            <h3 class="panel-title report-title">דוח</h3>
+                            <h3 class="panel-title report-title">Report</h3>
                         </div>
                         <div class="panel-body"
                              ng-include="'dragger/buildReport/report.html'"></div>
@@ -44,14 +44,14 @@
                             <input type="text" ng-model="report.name"
                                    class="build-report-name" required> <span
                                 class="highlight"></span> <span class="bar"></span> <label
-                                class="build-report-name-label select-label">שם דוח</label>
+                                class="build-report-name-label select-label">Report name</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-5"></div>
                 <div class="col-md-2 column-padding-removal">
                     <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createReport($event)" class="btn done build-button">בנה דוח
+                            ng-click="createReport($event)" class="btn done build-button">Build report
                     </button>
                 </div>
             </div>

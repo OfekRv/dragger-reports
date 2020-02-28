@@ -184,9 +184,9 @@ angular
                                               $mdDialog.alert()
                                                 .clickOutsideToClose(true)
                                                 .title('')
-                                                .textContent('אין ערכים להצעה עבור עמודה זו')
+                                                .textContent('No values for this column')
                                                 .ariaLabel('Alert Dialog Demo')
-                                                .ok('סבבה')
+                                                .ok('Ok')
                                                 .targetEvent(ev));
                                         });
 					}
@@ -264,11 +264,11 @@ angular
                                                       $mdDialog.alert()
                                                         .clickOutsideToClose(true)
                                                         .title('')
-                                                        .textContent(" האופרטור בשורה "
+                                                        .textContent(" The logical relation in row "
 														+ (index + 1)
-														+ " לא אמור להיות ריק ")
+														+ " Must Not be empty ")
                                                         .ariaLabel('Alert Dialog Demo')
-                                                        .ok('סבבה')
+                                                        .ok('Ok')
                                                         .targetEvent(ev)
                                             );
 												return;
@@ -278,11 +278,11 @@ angular
                                                       $mdDialog.alert()
                                                         .clickOutsideToClose(true)
                                                         .title('')
-                                                        .textContent(" העמודה בשורה "
+                                                        .textContent(" The column in row "
 														+ (index + 1)
-														+ " לא אמורה להיות ריקה ")
+														+ " Must Not be empty ")
                                                         .ariaLabel('Alert Dialog Demo')
-                                                        .ok('סבבה')
+                                                        .ok('Ok')
                                                         .targetEvent(ev)
                                             );
 												return;
@@ -292,9 +292,9 @@ angular
                                                       $mdDialog.alert()
                                                         .clickOutsideToClose(true)
                                                         .title('')
-                                                        .textContent(" הערך בשורה"
+                                                        .textContent(" The value in row "
 														+ (index + 1)
-														+ " לא אמור להיות ריק ")
+														+ " Must Not be empty ")
                                                         .ariaLabel('Alert Dialog Demo')
                                                         .ok('סבבה')
                                                         .targetEvent(ev)
