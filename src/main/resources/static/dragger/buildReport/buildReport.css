@@ -83,7 +83,7 @@
     text-decoration-style: solid;
     font-size: medium;
     background-image: linear-gradient(to bottom, #086df5 0, #086df5 100%);
-    direction:rtl;
+    direction:ltr;
 }
 
 .text-center{
@@ -313,7 +313,7 @@ label {
     width: 100%;
     background-color: white;
     color:black;
-    direction:rtl;
+    direction:ltr;
 }
 
 .padding-report-name
@@ -337,7 +337,7 @@ label {
     margin: 0;
     overflow: auto;
     overflow-x: hidden;
-    direction:rtl;
+    direction:ltr;
 }
 
 .scrollable-sources-area-build-report
