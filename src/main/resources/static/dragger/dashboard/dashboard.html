@@ -25,13 +25,13 @@
                     </canvas>
                 </div>
                 <md-button class="md-icon-button legend-button" id="legend-button{{$index}}" aria-label="More" ng-mouseup="openLegendDialog($event, chart, $index)">
-                    <md-icon md-svg-icon="img/icons/list.svg"></md-icon><md-tooltip style="font-size:13px;">מקרא</md-tooltip>
+                    <md-icon md-svg-icon="img/icons/list.svg"></md-icon><md-tooltip style="font-size:13px;">Legend</md-tooltip>
                 </md-button>
                 <md-button class="md-icon-button" aria-label="More" ng-mouseup="openChartDialog($event, chart)">
-                    <md-icon md-svg-icon="img/icons/timeline.svg"></md-icon><md-tooltip style="font-size:13px;">ציר זמן</md-tooltip>
+                    <md-icon md-svg-icon="img/icons/timeline.svg"></md-icon><md-tooltip style="font-size:13px;">Timeline</md-tooltip>
                 </md-button>
                 <md-button ng-if="chart.hasFilterData" class="md-icon-button" aria-label="More" ng-mouseup="openFilterDetailsDialog($event, chart)">
-                    <md-icon md-svg-icon="img/icons/filter.svg"></md-icon><md-tooltip style="font-size:13px;">רשימת סינוני התרשים</md-tooltip>
+                    <md-icon md-svg-icon="img/icons/filter.svg"></md-icon><md-tooltip style="font-size:13px;">Chart filters</md-tooltip>
                 </md-button>
             </form>
         </div>
