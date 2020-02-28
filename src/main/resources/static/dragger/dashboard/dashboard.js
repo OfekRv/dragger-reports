@@ -7,12 +7,12 @@ angular
 					$scope.removeChart = function(ev,indexOfChart, chart) {
 
                     var confirm = $mdDialog.confirm()
-                          .title('את/ה בטוח/ה שברצונך להסיר את התרשים מהלוח?')
+                          .title('Are you sure you want to delete this chart from dashboard?')
                           .textContent('')
                           .ariaLabel('Lucky day')
                           .targetEvent(ev)
-                          .ok('הסר')
-                          .cancel('בטל');
+                          .ok('Remove')
+                          .cancel('Cancel');
 
                     $mdDialog.show(confirm).then(function() {
                       $http({method : 'DELETE',
