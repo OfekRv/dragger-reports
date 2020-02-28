@@ -76,19 +76,19 @@
 
 								if (isDevMode != false) {
 									scope.options = [{
-                                        label : "לוח",
+                                        label : "Dashboard",
                                         href : "#!/dashboard"
                                     }, {
-                                        label : "הרצת דוח",
+                                        label : "Generate report",
                                         href : "#!/generateReport"
                                     }, {
-										label : "בניית דוח",
+										label : "Build report",
 										href : "#!/buildReport"
 									}, {
-										label : "ניהול דוחות",
+										label : "Manage reports",
 										href : "#!/manageReports"
 									}, {
-                                       label : "תרשים כמותי",
+                                       label : "Chart",
                                        href : "#!/chartPresentation"
                                     }, {
 										label : "Create Source",
@@ -102,19 +102,19 @@
 									} ];
 								} else {
 									scope.options = [ {
-                                        label : "לוח",
+                                        label : "Dashboard",
                                         href : "#!/dashboard"
                                     },{
-										label : "הרצת דוח",
+										label : "Generate report",
 										href : "#!/generateReport"
 									},  {
-										label : "בניית דוח",
+										label : "Build report",
 										href : "#!/buildReport"
 									}  ,{
-                                        label : "ניהול דוחות",
+                                        label : "Manage reports",
                                         href : "#!/manageReports"
                                     }, {
-                                        label : "תרשים כמותי",
+                                        label : "Chart",
                                         href : "#!/chartPresentation"
                                     }];
 								}
