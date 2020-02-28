@@ -1,14 +1,14 @@
 <form class="form-build-report" method="post" name="register" novalidate>
     <div class="simpleDemo row">
-                 <div id="signup">
+        <div class="col-md-3">
+            <div id="signup">
                 <div class="padding-report-name">
                     <input type="text" ng-model="searchSources"
                            class="build-report-name" required> <span
                         class="highlight"></span> <span class="bar"></span> <label
                         class="build-report-name-label select-label">Search source/column</label>
-                </div>
+                 </div>
             </div>
-        <div class="col-md-3">
             <div class="row scrollable-sources-area-build-report">
                 <div ng-repeat="(listName, list) in models.lists" class="row"
                      ng-if="filterSources(listName,list)">
@@ -41,7 +41,7 @@
                 <div class="col-md-5"></div>
                 <div class="col-md-2 column-padding-removal">
                     <button ng-disabled="form-build-report.$invalid" type="button"
-                            ng-click="createReport($event)" class="btn done build-button">Build report
+                            ng-click="createReport($event)" class="btn done build-button">Build
                     </button>
                 </div>
                  <div class="col-md-5 column-padding-removal">
