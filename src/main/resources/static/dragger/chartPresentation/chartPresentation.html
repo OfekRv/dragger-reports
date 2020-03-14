@@ -1,38 +1,42 @@
 <form class="form-build-chart" method="post" name="register" novalidate>
     <div class="simpleDemo row">
+        
         <div class="col-md-2">
             <div class="row">
                 <div id="signup">
                     <div class="padding-sources-name">
-                        <input type="text" ng-model="searchSources"
+                        <input type="text" ng-model="searchSourcesAndColumns"
                                class="build-report-name" required> <span
                             class="highlight"></span> <span class="bar"></span> <label
-                            class="build-report-name-label select-label">Search source</label>
+                            class="build-report-name-label select-label">Search source/column</label>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="panel panel-info-sources-only">
-                    <div class="panel-heading panel-heading-sources-only">
-                        <div class="panel-heading-sources-only">
-                            <h3 class="panel-title">Sources</h3>
+            <div class="row scrollable-sources-area">
+                <div ng-repeat="(listName, list) in models.lists" class="row"
+                     ng-if="filterSourcesList(listName,list)">
+                    <div class="panel panel-info-sources-with-columns">
+                        <div class="panel-heading panel-heading-sources-with-columns">
+                            <div class=" panel-heading-sources-with-columns">
+                                <h3 class="panel-title">{{listName}}</h3>
+                            </div>
                         </div>
+                        <ul dnd-list="list.columns" dnd-allowed-types="list.allowedTypes"
+                            dnd-external-sources="true" style="direction:ltr"
+                            ng-mouseover="selectedColumn.hovered = true"
+                            ng-mouseleave="selectedColumn.hovered = false">
+                            <li class="chart-page"
+                                ng-repeat="column in list.columns"
+                                dnd-draggable="column"
+                                dnd-effect-allowed="move"
+                                dnd-moved="list.columns.splice($index, 1)"
+                                dnd-type="column.type"
+                                dnd-selected="selectedColumnEvent(column)"
+                                ng-class="{'selected': column.selected}" selectedColumn
+                            >{{column.data.name}}
+                            </li>
+                        </ul>
                     </div>
-                    <ul dnd-list="models.lists['Sources']"
-                        dnd-external-sources="true" style="direction:ltr"
-                        ng-mouseover="selectedSource.hovered = true"
-                        ng-mouseleave="selectedSource.hovered = false">
-                        <li class="chart-page"
-                            ng-repeat="source in models.lists['Sources']"
-                            dnd-draggable="source"
-                            ng-if="filterSources(source)"
-                            dnd-effect-allowed="move"
-                            dnd-moved="models.lists['Sources'].splice($index, 1)"
-                            dnd-selected="selectedSourceEvent(source)"
-                            ng-class="{'sourceSelected': source.selected}"
-                            dnd-type="'Sources'">{{source.name}}
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -42,7 +46,7 @@
                 <div class="col-md-6">
                     <h2 class="chart-title">
                         <span ng-if="!selectedSource.selected || !selectedColumn.selected">Select</span>
-                        <span>count of</span><span class="selectedSource"
+                        <span>count of </span><span class="selectedSource"
                                                  ng-class="{'glowSource': selectedSource.hovered && !selectedSource.selected}">{{selectedSource.text}}</span>
                         per <span class="selectedColumn"
                                    ng-class="{'glowColumn': selectedColumn.hovered && !selectedColumn.selected}">{{selectedColumn.text}}</span>
@@ -161,42 +165,39 @@
                 <div class="col-md-2"></div>
             </div>
         </div>
-        <div class="col-md-2">
+         <div class="col-md-2">
             <div class="row">
                 <div id="signup">
                     <div class="padding-sources-name">
-                        <input type="text" ng-model="searchSourcesAndColumns"
+                        <input type="text" ng-model="searchSources"
                                class="build-report-name" required> <span
                             class="highlight"></span> <span class="bar"></span> <label
-                            class="build-report-name-label select-label">Search source/column</label>
+                            class="build-report-name-label select-label">Search source</label>
                     </div>
                 </div>
             </div>
-            <div class="row scrollable-sources-area">
-                <div ng-repeat="(listName, list) in models.lists" class="row"
-                     ng-if="filterSourcesList(listName,list)">
-                    <div class="panel panel-info-sources-with-columns">
-                        <div class="panel-heading panel-heading-sources-with-columns">
-                            <div class=" panel-heading-sources-with-columns">
-                                <h3 class="panel-title">{{listName}}</h3>
-                            </div>
+            <div class="row">
+                <div class="panel panel-info-sources-only">
+                    <div class="panel-heading panel-heading-sources-only">
+                        <div class="panel-heading-sources-only">
+                            <h3 class="panel-title">Sources</h3>
                         </div>
-                        <ul dnd-list="list.columns" dnd-allowed-types="list.allowedTypes"
-                            dnd-external-sources="true" style="direction:ltr"
-                            ng-mouseover="selectedColumn.hovered = true"
-                            ng-mouseleave="selectedColumn.hovered = false">
-                            <li class="chart-page"
-                                ng-repeat="column in list.columns"
-                                dnd-draggable="column"
-                                dnd-effect-allowed="move"
-                                dnd-moved="list.columns.splice($index, 1)"
-                                dnd-type="column.type"
-                                dnd-selected="selectedColumnEvent(column)"
-                                ng-class="{'selected': column.selected}" selectedColumn
-                            >{{column.data.name}}
-                            </li>
-                        </ul>
                     </div>
+                    <ul dnd-list="models.lists['Sources']"
+                        dnd-external-sources="true" style="direction:ltr"
+                        ng-mouseover="selectedSource.hovered = true"
+                        ng-mouseleave="selectedSource.hovered = false">
+                        <li class="chart-page"
+                            ng-repeat="source in models.lists['Sources']"
+                            dnd-draggable="source"
+                            ng-if="filterSources(source)"
+                            dnd-effect-allowed="move"
+                            dnd-moved="models.lists['Sources'].splice($index, 1)"
+                            dnd-selected="selectedSourceEvent(source)"
+                            ng-class="{'sourceSelected': source.selected}"
+                            dnd-type="'Sources'">{{source.name}}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
