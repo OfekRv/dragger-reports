@@ -137,7 +137,7 @@ angular
                         }
 
                         $scope.selectedColumn.data = selectedColumn;
-                        $scope.selectedColumn.text = selectedColumn.type + ' לפי ' + selectedColumn.data.name;
+                        $scope.selectedColumn.text = selectedColumn.type + selectedColumn.data.name;
                         $scope.selectedColumn.selected = true;
 
                         Object.getOwnPropertyNames($scope.models.lists).forEach(function(listName)
@@ -262,15 +262,15 @@ angular
                                 function successCallback(response){
                                 var chartName;
                                 var confirm = $mdDialog.prompt()
-                                      .title("בחר שם לתרשים")
+                                      .title("Choose name")
                                       .textContent('')
-                                      .placeholder('שם תרשים')
+                                      .placeholder('Chart name')
                                       .ariaLabel('Dog name')
                                       .initialValue($scope.chart.name)
                                       .targetEvent(ev)
                                       .required(true)
-                                      .ok('הוסף')
-                                      .cancel('בטל');
+                                      .ok('Add')
+                                      .cancel('Cancel');
 
                                     $mdDialog.show(confirm).then(function(result) {
                                     $scope.chart.name = result;
@@ -318,9 +318,9 @@ angular
                                                $mdDialog.alert()
                                                  .clickOutsideToClose(true)
                                                  .textContent('')
-                                                 .title("התרשים נוסף בהצלחה!")
+                                                 .title("Chart added successfully :)")
                                                  .ariaLabel('Alert Dialog Demo')
-                                                 .ok('סבבה')
+                                                 .ok('ok')
                                                  .targetEvent(ev)
                                                  );
                                            }
@@ -332,9 +332,9 @@ angular
                                              $mdDialog.alert()
                                                .clickOutsideToClose(true)
                                                .textContent('')
-                                               .title("שם התרשים שונה בהצלחה!")
+                                               .title("Chart renamed successfully :)")
                                                .ariaLabel('Alert Dialog Demo')
-                                               .ok('סבבה')
+                                               .ok('ok')
                                                .targetEvent(ev)
                                                );
                                        }
@@ -373,9 +373,9 @@ angular
                                                   $mdDialog.alert()
                                                     .clickOutsideToClose(true)
                                                     .textContent('')
-                                                    .title("המקור והעמודה שבחרת לא מקושרים")
+                                                    .title("Source and column are not connected")
                                                     .ariaLabel('Alert Dialog Demo')
-                                                    .ok('סבבה')
+                                                    .ok('ok')
                                                     .targetEvent(ev)
                                                     );
                                                 }
@@ -400,9 +400,9 @@ angular
                               $mdDialog.alert()
                                 .clickOutsideToClose(true)
                                 .textContent('')
-                                .title("יש לבחור עמודה")
+                                .title("Choose column!")
                                 .ariaLabel('Alert Dialog Demo')
-                                .ok('סבבה')
+                                .ok('ok')
                                 .targetEvent(ev)
                                 );
                             return;
@@ -416,9 +416,9 @@ angular
                               $mdDialog.alert()
                                 .clickOutsideToClose(true)
                                 .textContent('')
-                                .title("יש לבחור מקור")
+                                .title("Choose source!")
                                 .ariaLabel('Alert Dialog Demo')
-                                .ok('סבבה')
+                                .ok('ok')
                                 .targetEvent(ev)
                                 );
 						    return;
@@ -461,9 +461,9 @@ angular
                                   $mdDialog.alert()
                                     .clickOutsideToClose(true)
                                     .textContent('')
-                                    .title("בניית התרשים כשלה")
+                                    .title("Chart building failed")
                                     .ariaLabel('Alert Dialog Demo')
-                                    .ok('סבבה')
+                                    .ok('ok')
                                     .targetEvent(ev)
                                     );
                                  return;
@@ -499,9 +499,9 @@ angular
                                   $mdDialog.alert()
                                     .clickOutsideToClose(true)
                                     .textContent('')
-                                    .title("בניית התרשים כשלה")
+                                    .title("Chart building failed")
                                     .ariaLabel('Alert Dialog Demo')
-                                    .ok('סבבה')
+                                    .ok('ok')
                                     .targetEvent(ev)
                                     );
 						});
@@ -510,7 +510,7 @@ angular
 
                     $scope.generateNameForChart = function()
                     {
-                        var chartName = "כמות ה" + $scope.selectedSource.text + " עבור " + $scope.selectedColumn.text;
+                        var chartName = "Count of " + $scope.selectedSource.text + " per " + $scope.selectedColumn.text;
 
                         chartName += $scope.generatedFiltersDescriptionForChartName;
 
@@ -532,11 +532,11 @@ angular
                                       $mdDialog.alert()
                                         .clickOutsideToClose(true)
                                         .textContent('')
-                                        .title(" האופרטור בשורה "
+                                        .title(" Operator in line "
                                         + (index + 1)
-                                        + " לא אמור להיות ריק ")
+                                        + "shouldn't be empty! ")
                                         .ariaLabel('Alert Dialog Demo')
-                                        .ok('סבבה')
+                                        .ok('ok')
                                         .targetEvent(ev)
                             );
                                 return;
@@ -546,11 +546,11 @@ angular
                                       $mdDialog.alert()
                                         .clickOutsideToClose(true)
                                         .textContent('')
-                                        .title(" העמודה בשורה "
+                                        .title(" Column in line "
                                         + (index + 1)
-                                        + " לא אמורה להיות ריקה ")
+                                        + " shouldn't be empty! ")
                                         .ariaLabel('Alert Dialog Demo')
-                                        .ok('סבבה')
+                                        .ok('ok')
                                         .targetEvent(ev)
                             );
                                 return;
@@ -560,11 +560,11 @@ angular
                                       $mdDialog.alert()
                                         .clickOutsideToClose(true)
                                         .textContent('')
-                                        .title(" הערך בשורה"
+                                        .title(" Value in line "
                                         + (index + 1)
-                                        + " לא אמור להיות ריק ")
+                                        + " shouldn't be empty! ")
                                         .ariaLabel('Alert Dialog Demo')
-                                        .ok('סבבה')
+                                        .ok('ok')
                                         .targetEvent(ev)
                             );
                                 return;
@@ -739,7 +739,7 @@ angular
                                             }
                                         },
                                         function successCallback(response) {
-                                            alert("אין ערכים להצעה עבור עמודה זו");
+                                            alert("No values for this column!");
                                         });
                             }
 
